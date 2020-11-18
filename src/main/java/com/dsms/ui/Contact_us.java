@@ -1,4 +1,4 @@
-package com.dsms;
+package com.dsms.ui;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

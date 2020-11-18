@@ -1,4 +1,4 @@
-package com.dsms;
+package com.dsms.ui;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -562,7 +562,7 @@ public class Home1 extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addComponent(jLabel30)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(75, 75, 75))
         );
         jPanel14Layout.setVerticalGroup(
@@ -626,7 +626,7 @@ public class Home1 extends javax.swing.JFrame {
                             .addGroup(sidepane1Layout.createSequentialGroup()
                                 .addGap(41, 41, 41)
                                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 2, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidepane1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -647,7 +647,7 @@ public class Home1 extends javax.swing.JFrame {
             sidepane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidepane1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 98, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(73, 73, 73)
