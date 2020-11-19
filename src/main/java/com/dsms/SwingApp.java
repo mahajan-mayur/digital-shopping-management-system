@@ -1,6 +1,6 @@
 package com.dsms;
 
-import com.dsms.ui.MainFrame;
+import com.dsms.ui.MainFrame1;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,7 +13,7 @@ public class SwingApp {
         ConfigurableApplicationContext ctx = new SpringApplicationBuilder(SwingApp.class)
                 .headless(false).run(args);
         EventQueue.invokeLater(() -> {
-            MainFrame mainFrame = ctx.getBean(MainFrame.class);
+            MainFrame1 mainFrame = ctx.getBean(MainFrame1.class);
             mainFrame.setVisible(true);
         });
     }
