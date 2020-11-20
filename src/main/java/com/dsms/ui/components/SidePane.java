@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.dsms.ui.event.EventPublisher;
 import java.awt.Color;
+import org.kordamp.ikonli.swing.FontIcon;
+import org.kordamp.ikonli.materialdesign.MaterialDesign;
 
 /**
  *
@@ -24,7 +26,7 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
     public SidePane() {
         this.sidePaneEventListners = new ArrayList<>();
         initComponents();
-          }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,13 +39,13 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
 
         imagePanel1 = new com.dsms.ui.components.ImagePanel();
         jSeparator1 = new javax.swing.JSeparator();
-        homeBtn = new javax.swing.JButton();
-        Login = new javax.swing.JButton();
-        myAccountBtn = new javax.swing.JButton();
-        wishlistBtn = new javax.swing.JButton();
-        ordersBtn = new javax.swing.JButton();
-        contactUsBtn = new javax.swing.JButton();
-        aboutUsBtn = new javax.swing.JButton();
+        homeBtn = new com.dsms.ui.components.SidePaneJbutton();
+        Login = new com.dsms.ui.components.SidePaneJbutton();
+        myAccountBtn = new com.dsms.ui.components.SidePaneJbutton();
+        wishlistBtn = new com.dsms.ui.components.SidePaneJbutton();
+        ordersBtn = new com.dsms.ui.components.SidePaneJbutton();
+        contactUsBtn = new com.dsms.ui.components.SidePaneJbutton();
+        aboutUsBtn = new com.dsms.ui.components.SidePaneJbutton();
 
         setBackground(new java.awt.Color(54, 33, 89));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -62,9 +64,12 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         add(imagePanel1);
         add(jSeparator1);
 
-        homeBtn.setBackground(new java.awt.Color(255, 51, 0));
-        homeBtn.setIcon(new ColorBackgroundIcon("/images/icons8-home-26.png", Color.decode("#FFFFFF")  ));
         homeBtn.setText("Home");
+        homeBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        homeBtn.setIconBackgroundColor(new java.awt.Color(0, 204, 102));
+        homeBtn.setIconColor(new java.awt.Color(255, 255, 255));
+        homeBtn.setIconTextGap(5);
+        homeBtn.setIkon(MaterialDesign.MDI_HOME);
         homeBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         homeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -78,8 +83,12 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(homeBtn);
 
-        Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-login-30.png"))); // NOI18N
         Login.setText("Login");
+        Login.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        Login.setIconBackgroundColor(new java.awt.Color(0, 204, 102));
+        Login.setIconColor(new java.awt.Color(255, 255, 255));
+        Login.setIconTextGap(5);
+        Login.setIkon(MaterialDesign.MDI_LOGIN);
         Login.setPreferredSize(new java.awt.Dimension(150, 30));
         Login.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -88,8 +97,12 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(Login);
 
-        myAccountBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-account-24.png"))); // NOI18N
         myAccountBtn.setText("My Account");
+        myAccountBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        myAccountBtn.setIconBackgroundColor(new java.awt.Color(0, 204, 102));
+        myAccountBtn.setIconColor(new java.awt.Color(255, 255, 255));
+        myAccountBtn.setIconTextGap(5);
+        myAccountBtn.setIkon(MaterialDesign.MDI_ACCOUNT);
         myAccountBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         myAccountBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -98,8 +111,12 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(myAccountBtn);
 
-        wishlistBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-bookmark-26.png"))); // NOI18N
         wishlistBtn.setText("Wishlist");
+        wishlistBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        wishlistBtn.setIconBackgroundColor(new java.awt.Color(0, 204, 102));
+        wishlistBtn.setIconColor(new java.awt.Color(255, 255, 255));
+        wishlistBtn.setIconTextGap(5);
+        wishlistBtn.setIkon(MaterialDesign.MDI_BOOKMARK_PLUS);
         wishlistBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         wishlistBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -108,8 +125,12 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(wishlistBtn);
 
-        ordersBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-order-history-26.png"))); // NOI18N
         ordersBtn.setText("Orders");
+        ordersBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ordersBtn.setIconBackgroundColor(new java.awt.Color(0, 204, 102));
+        ordersBtn.setIconColor(new java.awt.Color(255, 255, 255));
+        ordersBtn.setIconTextGap(5);
+        ordersBtn.setIkon(MaterialDesign.MDI_RECEIPT);
         ordersBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         ordersBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -118,8 +139,12 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(ordersBtn);
 
-        contactUsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-communication-26.png"))); // NOI18N
         contactUsBtn.setText("Contact US");
+        contactUsBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        contactUsBtn.setIconBackgroundColor(new java.awt.Color(0, 204, 102));
+        contactUsBtn.setIconColor(new java.awt.Color(255, 255, 255));
+        contactUsBtn.setIconTextGap(5);
+        contactUsBtn.setIkon(MaterialDesign.MDI_PHONE);
         contactUsBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         contactUsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -128,8 +153,12 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(contactUsBtn);
 
-        aboutUsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-info-26.png"))); // NOI18N
         aboutUsBtn.setText("About Us");
+        aboutUsBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        aboutUsBtn.setIconBackgroundColor(new java.awt.Color(0, 204, 102));
+        aboutUsBtn.setIconColor(new java.awt.Color(255, 255, 255));
+        aboutUsBtn.setIconTextGap(5);
+        aboutUsBtn.setIkon(MaterialDesign.MDI_INFORMATION_VARIANT);
         aboutUsBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         aboutUsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -176,15 +205,15 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Login;
-    private javax.swing.JButton aboutUsBtn;
-    private javax.swing.JButton contactUsBtn;
-    private javax.swing.JButton homeBtn;
+    private com.dsms.ui.components.SidePaneJbutton Login;
+    private com.dsms.ui.components.SidePaneJbutton aboutUsBtn;
+    private com.dsms.ui.components.SidePaneJbutton contactUsBtn;
+    private com.dsms.ui.components.SidePaneJbutton homeBtn;
     private com.dsms.ui.components.ImagePanel imagePanel1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JButton myAccountBtn;
-    private javax.swing.JButton ordersBtn;
-    private javax.swing.JButton wishlistBtn;
+    private com.dsms.ui.components.SidePaneJbutton myAccountBtn;
+    private com.dsms.ui.components.SidePaneJbutton ordersBtn;
+    private com.dsms.ui.components.SidePaneJbutton wishlistBtn;
     // End of variables declaration//GEN-END:variables
 
     private final List<SidePaneEventListner> sidePaneEventListners;

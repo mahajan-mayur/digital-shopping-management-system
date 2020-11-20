@@ -23,20 +23,13 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "user")
-//@Getter 
-//@Setter 
-//@Builder
-//@NoArgsConstructor 
-//@AllArgsConstructor
+@Getter 
+@Setter 
+@Builder
+@NoArgsConstructor 
+@AllArgsConstructor
 public class User extends TimestampedEntity implements Serializable {
 
-    @Id
-    @Column(name = "id", nullable = false, updatable = false, unique = true)
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
     private String id;
 
     @Column(name = "firstName", length = 50, nullable = false)

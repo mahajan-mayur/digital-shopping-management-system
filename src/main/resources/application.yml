@@ -11,6 +11,11 @@ spring:
         hibernate:
             ddl-auto: update
             naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
-        
+logging:
+    level:
+        org:
+            hibernate: DEBUG 
+#        springframework:
+#            web: DEBUG
         
 ---

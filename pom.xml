@@ -38,7 +38,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-       </dependency>
+        </dependency>
         
         <!--database-->
         <dependency>
@@ -64,6 +64,20 @@
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator-annotation-processor</artifactId>           
         </dependency>
+        
+        <!--IconPackage-->
+        <!-- https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-swing -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-swing</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-materialdesign-pack</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+
 
     </dependencies>
 
