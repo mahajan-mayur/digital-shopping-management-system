@@ -5,8 +5,10 @@
  */
 package com.dsms.db.entity;
 
+import com.dsms.enums.OrderState;
 import java.io.Serializable;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -35,11 +37,18 @@ public class OrderEntity extends TimestampedEntity implements Serializable {
     
     @ManyToOne(optional = false)
     @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_order_user_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
-    private User user;
+    private UserEntity userEntity;
     
     @OneToMany(mappedBy = "orderEntity")
-    private Set<OrderItem> orderItem;
+    private Set<OrderItem> orderItemSet;
     
+    @Column(name = "price", nullable = false)
+    private Double price;
     
+    @Column(name = "orderState", nullable = false)
+    private OrderState orderState;
+    
+    @Column(name = "shippingAddress", nullable = false, columnDefinition = "TEXT")
+    private String shippingAddress;
     
 }

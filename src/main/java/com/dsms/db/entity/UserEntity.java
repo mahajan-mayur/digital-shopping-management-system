@@ -1,10 +1,12 @@
 package com.dsms.db.entity;
 
 import com.dsms.enums.UserType;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -18,13 +20,13 @@ import lombok.Setter;
  * @author Mahaj
  */
 @Entity
-@Table(name = "user")
+@Table(name = "userEntity")
 @Getter 
 @Setter 
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor
-public class User extends TimestampedEntity {
+public class UserEntity extends TimestampedEntity {
 
     private String id;
 
@@ -41,8 +43,19 @@ public class User extends TimestampedEntity {
     @Email
     @Column(name = "email", unique = true, nullable = false)
     private String email;
+    
+    @Column(name = "password", unique = true, nullable = false)
+    private String password;
 
     @Column(name = "address", nullable = false, columnDefinition = "TEXT")
     private String address;
+    
+    @OneToMany(mappedBy = "userEntity")
+    private Set<OrderEntity> orders;
 
+    @OneToMany(mappedBy = "userEntity")
+    private Set<WishlistItem> wishlistItems;
+    
+    @OneToMany(mappedBy = "userEntity")
+    private Set<CartItem> cartItems;
 }
