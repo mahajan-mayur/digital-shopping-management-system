@@ -5,16 +5,23 @@
  */
 package com.dsms.ui.components;
 
+import com.dsms.ui.event.model.SidePaneEvent;
+import com.dsms.ui.event.SidePaneEventListner;
+import java.util.ArrayList;
+import java.util.List;
+import com.dsms.ui.event.EventPublisher;
+
 /**
  *
  * @author Mahaj
  */
-public class SidePane extends javax.swing.JPanel {
+public class SidePane extends javax.swing.JPanel implements EventPublisher<SidePaneEventListner, SidePaneEvent> {
 
     /**
      * Creates new form SidePane
      */
     public SidePane() {
+        this.sidePaneEventListners = new ArrayList<>();
         initComponents();
     }
 
@@ -33,7 +40,7 @@ public class SidePane extends javax.swing.JPanel {
         Login = new javax.swing.JButton();
         myAccountBtn = new javax.swing.JButton();
         wishlistBtn = new javax.swing.JButton();
-        orderBtn = new javax.swing.JButton();
+        ordersBtn = new javax.swing.JButton();
         contactUsBtn = new javax.swing.JButton();
         aboutUsBtn = new javax.swing.JButton();
 
@@ -56,95 +63,98 @@ public class SidePane extends javax.swing.JPanel {
 
         homeBtn.setText("Home");
         homeBtn.setPreferredSize(new java.awt.Dimension(150, 30));
-        homeBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                homeBtnActionPerformed(evt);
+        homeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homeBtnMouseClicked(evt);
             }
         });
         add(homeBtn);
 
         Login.setText("Login");
         Login.setPreferredSize(new java.awt.Dimension(150, 30));
-        Login.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoginActionPerformed(evt);
+        Login.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LoginMouseClicked(evt);
             }
         });
         add(Login);
 
         myAccountBtn.setText("My Account");
         myAccountBtn.setPreferredSize(new java.awt.Dimension(150, 30));
-        myAccountBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myAccountBtnActionPerformed(evt);
+        myAccountBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                myAccountBtnMouseClicked(evt);
             }
         });
         add(myAccountBtn);
 
         wishlistBtn.setText("Wishlist");
         wishlistBtn.setPreferredSize(new java.awt.Dimension(150, 30));
-        wishlistBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                wishlistBtnActionPerformed(evt);
+        wishlistBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                wishlistBtnMouseClicked(evt);
             }
         });
         add(wishlistBtn);
 
-        orderBtn.setText("Orders");
-        orderBtn.setPreferredSize(new java.awt.Dimension(150, 30));
-        orderBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                orderBtnActionPerformed(evt);
+        ordersBtn.setText("Orders");
+        ordersBtn.setPreferredSize(new java.awt.Dimension(150, 30));
+        ordersBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ordersBtnMouseClicked(evt);
             }
         });
-        add(orderBtn);
+        add(ordersBtn);
 
         contactUsBtn.setText("Contact US");
         contactUsBtn.setPreferredSize(new java.awt.Dimension(150, 30));
-        contactUsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contactUsBtnActionPerformed(evt);
+        contactUsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                contactUsBtnMouseClicked(evt);
             }
         });
         add(contactUsBtn);
 
         aboutUsBtn.setText("About Us");
         aboutUsBtn.setPreferredSize(new java.awt.Dimension(150, 30));
-        aboutUsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aboutUsBtnActionPerformed(evt);
+        aboutUsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                aboutUsBtnMouseClicked(evt);
             }
         });
         add(aboutUsBtn);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void homeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeBtnActionPerformed
+    private void homeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_homeBtnActionPerformed
+        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.HOME_BUTTON_CLICK));
+    }//GEN-LAST:event_homeBtnMouseClicked
 
-    private void myAccountBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myAccountBtnActionPerformed
+    private void LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_myAccountBtnActionPerformed
+        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.LOGIN_BUTTON_CLICK));
+    }//GEN-LAST:event_LoginMouseClicked
 
-    private void wishlistBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wishlistBtnActionPerformed
+    private void myAccountBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myAccountBtnMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_wishlistBtnActionPerformed
+        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.MY_ACCOUNT_BUTTON_CLICK));
+    }//GEN-LAST:event_myAccountBtnMouseClicked
 
-    private void orderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_orderBtnActionPerformed
+    private void wishlistBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wishlistBtnMouseClicked
+        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.WISHLIST_BUTTON_CLICK));
+    }//GEN-LAST:event_wishlistBtnMouseClicked
 
-    private void contactUsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactUsBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_contactUsBtnActionPerformed
+    private void ordersBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersBtnMouseClicked
+        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.ORDERS_BUTTON_CLICK));
+    }//GEN-LAST:event_ordersBtnMouseClicked
 
-    private void aboutUsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutUsBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_aboutUsBtnActionPerformed
+    private void contactUsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactUsBtnMouseClicked
+        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.CONTACT_US_BUTTON_CLICK));
+    }//GEN-LAST:event_contactUsBtnMouseClicked
 
-    private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LoginActionPerformed
+    private void aboutUsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutUsBtnMouseClicked
+        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.ABOUT_US_BUTTON_CLICK));
+    }//GEN-LAST:event_aboutUsBtnMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -155,7 +165,19 @@ public class SidePane extends javax.swing.JPanel {
     private com.dsms.ui.components.ImagePanel imagePanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton myAccountBtn;
-    private javax.swing.JButton orderBtn;
+    private javax.swing.JButton ordersBtn;
     private javax.swing.JButton wishlistBtn;
     // End of variables declaration//GEN-END:variables
+
+    private final List<SidePaneEventListner> sidePaneEventListners;
+
+    @Override
+    public void addEventListner(SidePaneEventListner eventListner) {
+        sidePaneEventListners.add(eventListner);
+    }
+
+    @Override
+    public void publishEvent(SidePaneEvent eventObject) {
+        sidePaneEventListners.forEach(eventListner -> eventListner.sidePaneEventOccured(eventObject));
+    }
 }

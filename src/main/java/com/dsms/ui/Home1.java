@@ -15,9 +15,12 @@ public class Home1 extends javax.swing.JFrame {
     /**
      * Creates new form Home1
      */
-    public Home1() {
+    public  Home1() {
         initComponents();
+       
+        
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -779,4 +782,9 @@ public class Home1 extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel sidepane1;
     // End of variables declaration//GEN-END:variables
-}
+
+    
+
+    
+
+  }
