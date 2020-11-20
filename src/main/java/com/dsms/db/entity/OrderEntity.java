@@ -6,12 +6,13 @@
 package com.dsms.db.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,17 +25,21 @@ import lombok.Setter;
  * @author Mahaj
  */
 @Entity
-@Table(name = "orders")
+@Table(name = "orderEntity")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Orders extends TimestampedEntity implements Serializable {
+public class OrderEntity extends TimestampedEntity implements Serializable {
     
     @ManyToOne(optional = false)
     @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_order_user_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
     private User user;
+    
+    @OneToMany(mappedBy = "orderEntity")
+    private Set<OrderItem> orderItem;
+    
     
     
 }

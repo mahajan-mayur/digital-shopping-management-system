@@ -5,6 +5,7 @@
  */
 package com.dsms.db.entity;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -25,7 +26,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class TimestampedEntity {
+public abstract class TimestampedEntity implements Serializable {
 
     @Id
     @Column(name = "id", nullable = false, updatable = false, unique = true)

@@ -5,25 +5,31 @@
  */
 package com.dsms.db.entity;
 
-import java.io.Serializable;
 import javax.persistence.ConstraintMode;
+import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
  *
  * @author Mahaj
  */
+@Entity
+@Table(name = "wishlistItem")
 @Getter
 @Setter
-@MappedSuperclass
-public abstract class AbstractListItem extends TimestampedEntity implements Serializable {
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class WishlistItem extends TimestampedEntity{
+    
     @ManyToOne(optional = false)
     @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_wishlist_user_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
     private User user;
@@ -31,5 +37,4 @@ public abstract class AbstractListItem extends TimestampedEntity implements Seri
     @ManyToOne(optional = false)
     @JoinColumn(name = "itemId", foreignKey = @ForeignKey(name = "fk_wishlist_item_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
     private Item item;
-
 }

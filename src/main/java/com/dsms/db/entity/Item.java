@@ -6,20 +6,16 @@
 package com.dsms.db.entity;
 
 import com.dsms.enums.ItemCategory;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -32,7 +28,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item extends TimestampedEntity implements Serializable {
+public class Item extends TimestampedEntity  {
 
     @Column(name = "name", nullable = false)
     private String name;
