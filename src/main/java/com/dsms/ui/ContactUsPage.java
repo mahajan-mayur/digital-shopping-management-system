@@ -9,12 +9,12 @@ package com.dsms.ui;
  *
  * @author Mahaj
  */
-public class HomePage extends javax.swing.JPanel {
+public class ContactUsPage extends javax.swing.JPanel {
 
     /**
-     * Creates new form HomePage
+     * Creates new form CONTACTUS
      */
-    public HomePage() {
+    public ContactUsPage() {
         initComponents();
     }
 
@@ -29,7 +29,9 @@ public class HomePage extends javax.swing.JPanel {
 
         jTextField1 = new javax.swing.JTextField();
 
-        jTextField1.setText("homepage");
+        setBackground(new java.awt.Color(255, 102, 0));
+
+        jTextField1.setText("contact us");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);

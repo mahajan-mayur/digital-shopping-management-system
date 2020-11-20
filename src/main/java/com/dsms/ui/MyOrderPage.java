@@ -9,12 +9,12 @@ package com.dsms.ui;
  *
  * @author Mahaj
  */
-public class HomePage extends javax.swing.JPanel {
+public class MyOrderPage extends javax.swing.JPanel {
 
     /**
-     * Creates new form HomePage
+     * Creates new form FORGOTPASS
      */
-    public HomePage() {
+    public MyOrderPage() {
         initComponents();
     }
 
@@ -29,7 +29,7 @@ public class HomePage extends javax.swing.JPanel {
 
         jTextField1 = new javax.swing.JTextField();
 
-        jTextField1.setText("homepage");
+        jTextField1.setText("myorder page");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);

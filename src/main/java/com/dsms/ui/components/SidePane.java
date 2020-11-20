@@ -10,6 +10,7 @@ import com.dsms.ui.event.SidePaneEventListner;
 import java.util.ArrayList;
 import java.util.List;
 import com.dsms.ui.event.EventPublisher;
+import java.awt.Color;
 
 /**
  *
@@ -23,7 +24,7 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
     public SidePane() {
         this.sidePaneEventListners = new ArrayList<>();
         initComponents();
-    }
+          }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,7 +45,7 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         contactUsBtn = new javax.swing.JButton();
         aboutUsBtn = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(102, 102, 255));
+        setBackground(new java.awt.Color(54, 33, 89));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout imagePanel1Layout = new javax.swing.GroupLayout(imagePanel1);
@@ -61,6 +62,8 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         add(imagePanel1);
         add(jSeparator1);
 
+        homeBtn.setBackground(new java.awt.Color(255, 51, 0));
+        homeBtn.setIcon(new ColorBackgroundIcon("/images/icons8-home-26.png", Color.decode("#FFFFFF")  ));
         homeBtn.setText("Home");
         homeBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         homeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -68,8 +71,14 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
                 homeBtnMouseClicked(evt);
             }
         });
+        homeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homeBtnActionPerformed(evt);
+            }
+        });
         add(homeBtn);
 
+        Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-login-30.png"))); // NOI18N
         Login.setText("Login");
         Login.setPreferredSize(new java.awt.Dimension(150, 30));
         Login.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -79,6 +88,7 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(Login);
 
+        myAccountBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-account-24.png"))); // NOI18N
         myAccountBtn.setText("My Account");
         myAccountBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         myAccountBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -88,6 +98,7 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(myAccountBtn);
 
+        wishlistBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-bookmark-26.png"))); // NOI18N
         wishlistBtn.setText("Wishlist");
         wishlistBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         wishlistBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -97,6 +108,7 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(wishlistBtn);
 
+        ordersBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-order-history-26.png"))); // NOI18N
         ordersBtn.setText("Orders");
         ordersBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         ordersBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -106,6 +118,7 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(ordersBtn);
 
+        contactUsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-communication-26.png"))); // NOI18N
         contactUsBtn.setText("Contact US");
         contactUsBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         contactUsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -115,6 +128,7 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
         });
         add(contactUsBtn);
 
+        aboutUsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-info-26.png"))); // NOI18N
         aboutUsBtn.setText("About Us");
         aboutUsBtn.setPreferredSize(new java.awt.Dimension(150, 30));
         aboutUsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -155,6 +169,10 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
     private void aboutUsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutUsBtnMouseClicked
         publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.ABOUT_US_BUTTON_CLICK));
     }//GEN-LAST:event_aboutUsBtnMouseClicked
+
+    private void homeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_homeBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

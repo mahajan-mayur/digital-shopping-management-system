@@ -6,7 +6,6 @@
 package com.dsms.ui;
 
 import com.dsms.ui.event.model.SidePaneEvent;
-import com.dsms.ui.event.SidePaneEventListner;
 import java.awt.Image;
 import java.io.IOException;
 import javax.annotation.PostConstruct;
@@ -81,36 +80,6 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            log.error("error while Setting look and feel, {}", ex);
-        }
-        //</editor-fold>
-
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.dsms.ui.components.MainPane mainPane1;
@@ -132,12 +101,32 @@ public class MainFrame extends javax.swing.JFrame {
             log.info("SidePaneEvent : {}", sidePaneEvent.getEventType());
             switch (sidePaneEvent.getEventType()) {
                 case CONTACT_US_BUTTON_CLICK:
-                    CONTACTUS contactUs = new CONTACTUS();
+                    ContactUsPage contactUs = new ContactUsPage();
                     mainPane1.switchPanel(contactUs);
                     break;
-                case ABOUT_US_BUTTON_CLICK:
-                    ACCOUNTN accountn = new ACCOUNTN();
+                case MY_ACCOUNT_BUTTON_CLICK:
+                    MyAccountPage accountn = new MyAccountPage();
                     mainPane1.switchPanel(accountn);
+                    break;
+                case ABOUT_US_BUTTON_CLICK:
+                    AboutUsPage aboutUs = new AboutUsPage();
+                    mainPane1.switchPanel(aboutUs);
+                    break;
+                case HOME_BUTTON_CLICK:
+                    HomePage homePage = new HomePage();
+                    mainPane1.switchPanel(homePage);
+                    break;
+                case LOGIN_BUTTON_CLICK:
+                    LoginPage loginPage = new LoginPage();
+                    mainPane1.switchPanel(loginPage);
+                    break;
+                case ORDERS_BUTTON_CLICK:
+                    MyOrderPage myOrderPage = new MyOrderPage();
+                    mainPane1.switchPanel(myOrderPage);
+                    break;
+                case WISHLIST_BUTTON_CLICK:
+                    WishListPage wishListPage = new WishListPage();
+                    mainPane1.switchPanel(wishListPage);
                     break;
 
             }

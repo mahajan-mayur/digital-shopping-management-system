@@ -9,12 +9,12 @@ package com.dsms.ui;
  *
  * @author Mahaj
  */
-public class ACCOUNTN extends javax.swing.JPanel {
+public class MyAccountPage extends javax.swing.JPanel {
 
     /**
      * Creates new form ACCOUNTN
      */
-    public ACCOUNTN() {
+    public MyAccountPage() {
         initComponents();
     }
 
@@ -41,7 +41,7 @@ public class ACCOUNTN extends javax.swing.JPanel {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        jLabel1.setText("Account");
+        jLabel1.setText("my account");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -54,7 +54,7 @@ public class ACCOUNTN extends javax.swing.JPanel {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(180, 180, 180)
                     .addComponent(jLabel1)
-                    .addContainerGap(181, Short.MAX_VALUE)))
+                    .addContainerGap(165, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
