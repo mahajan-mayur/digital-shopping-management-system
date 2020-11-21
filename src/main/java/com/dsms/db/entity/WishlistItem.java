@@ -36,5 +36,5 @@ public class WishlistItem extends TimestampedEntity{
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "itemId", foreignKey = @ForeignKey(name = "fk_wishlist_item_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
-    private Item item;
+    private ItemEntity itemEntity;
 }

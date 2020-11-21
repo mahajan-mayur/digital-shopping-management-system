@@ -44,7 +44,7 @@ public class UserEntity extends TimestampedEntity {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
     
-    @Column(name = "password", unique = true, nullable = false)
+    @Column(name = "password",  nullable = false)
     private String password;
 
     @Column(name = "address", nullable = false, columnDefinition = "TEXT")

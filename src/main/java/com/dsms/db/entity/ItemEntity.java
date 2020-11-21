@@ -22,13 +22,13 @@ import lombok.Setter;
  * @author Mahaj
  */
 @Entity
-@Table(name = "item")
+@Table(name = "itemEntity")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item extends TimestampedEntity  {
+public class ItemEntity extends TimestampedEntity  {
 
     @Column(name = "name", nullable = false)
     private String name;

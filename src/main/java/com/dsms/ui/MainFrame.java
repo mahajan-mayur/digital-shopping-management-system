@@ -5,7 +5,8 @@
  */
 package com.dsms.ui;
 
-import com.dsms.ui.event.model.SidePaneEvent;
+import com.dsms.ui.event.NavigateEventListner;
+import com.dsms.ui.event.model.NavigateEvent;
 import java.awt.Image;
 import java.io.IOException;
 import javax.annotation.PostConstruct;
@@ -97,41 +98,49 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void addSidePaneEventListner() {
-        this.sidePane.addEventListner((SidePaneEvent sidePaneEvent) -> {
-            log.info("SidePaneEvent : {}", sidePaneEvent.getEventType());
-            switch (sidePaneEvent.getEventType()) {
-                case CONTACT_US_BUTTON_CLICK:
-                    ContactUsPage contactUs = new ContactUsPage();
-                    mainPane1.switchPanel(contactUs);
-                    break;
-                case MY_ACCOUNT_BUTTON_CLICK:
-                    MyAccountPage accountn = new MyAccountPage();
-                    mainPane1.switchPanel(accountn);
-                    break;
-                case ABOUT_US_BUTTON_CLICK:
-                    AboutUsPage aboutUs = new AboutUsPage();
-                    mainPane1.switchPanel(aboutUs);
-                    break;
-                case HOME_BUTTON_CLICK:
-                    HomePage homePage = new HomePage();
-                    mainPane1.switchPanel(homePage);
-                    break;
-                case LOGIN_BUTTON_CLICK:
-                    LoginPage loginPage = new LoginPage();
-                    mainPane1.switchPanel(loginPage);
-                    break;
-                case ORDERS_BUTTON_CLICK:
-                    MyOrderPage myOrderPage = new MyOrderPage();
-                    mainPane1.switchPanel(myOrderPage);
-                    break;
-                case WISHLIST_BUTTON_CLICK:
-                    WishListPage wishListPage = new WishListPage();
-                    mainPane1.switchPanel(wishListPage);
-                    break;
+        this.sidePane.addEventListner(new NavigateEventListner() {
+            @Override
+            public void navigateTo(NavigateEvent buttonClickEvent) {
+                log.info("buttonClickEvent : {}", buttonClickEvent.getNavigateTo());
+                switch (buttonClickEvent.getNavigateTo()) {
+                    case CONTACT_US_PAGE:
+                        ContactUsPage contactUs = new ContactUsPage();
+                        mainPane1.switchPanel(contactUs);
+                        break;
+                    case MY_ACCOUNT_PAGE:
+                        MyAccountPage accountn = new MyAccountPage();
+                        mainPane1.switchPanel(accountn);
+                        break;
+                    case ABOUT_US_PAGE:
+                        AboutUsPage aboutUs = new AboutUsPage();
+                        mainPane1.switchPanel(aboutUs);
+                        break;
+                    case HOME_PAGE:
+                        HomePage homePage = new HomePage();
+                        mainPane1.switchPanel(homePage);
+                        break;
+                    case LOGIN_PAGE:
+                        LoginPage loginPage = new LoginPage();
+                        loginPage.addEventListner(this);
+                        mainPane1.switchPanel(loginPage);
+                        break;
+                    case MY_ORDERS_PAGE:
+                        MyOrderPage myOrderPage = new MyOrderPage();
+                        mainPane1.switchPanel(myOrderPage);
+                        break;
+                    case WISHLIST_PAGE:
+                    
+//  fixme
+                    case SIGN_UP_PAGE:
+                    case FORGOT_PASS_PAGE:
+                        WishListPage wishListPage = new WishListPage();
+                        mainPane1.switchPanel(wishListPage);
+                        break;
 
+                }
+
+                //mainPane.setVisible(true);
             }
-
-            //mainPane.setVisible(true);
         });
     }
 }

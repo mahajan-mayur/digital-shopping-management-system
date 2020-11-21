@@ -31,7 +31,7 @@
               <Component id="sidePane" min="-2" pref="159" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="topPane" pref="891" max="32767" attributes="0"/>
+                  <Component id="topPane" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="mainPane1" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -48,7 +48,7 @@
               <Component id="mainPane1" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="sidePane" alignment="0" pref="529" max="32767" attributes="0"/>
+          <Component id="sidePane" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>

@@ -5,14 +5,14 @@
  */
 package com.dsms.ui.event;
 
-import com.dsms.ui.event.model.SidePaneEvent;
+import com.dsms.ui.event.model.NavigateEvent;
 import java.util.EventListener;
 
 /**
  *
  * @author Mahaj
  */
-public interface SidePaneEventListner extends EventListener {
+public interface NavigateEventListner extends EventListener {
 
-    void sidePaneEventOccured(SidePaneEvent sidePaneEvent);
+    void navigateTo(NavigateEvent sidePaneEvent);
 }

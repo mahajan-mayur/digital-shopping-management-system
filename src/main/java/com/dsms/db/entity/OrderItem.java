@@ -37,7 +37,7 @@ public class OrderItem extends TimestampedEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "itemId", foreignKey = @ForeignKey(name = "fk_orderItem_item_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
-    private Item item;
+    private ItemEntity item;
 
     @Column(name = "itemCount", nullable = false)
     private Integer itemCount;

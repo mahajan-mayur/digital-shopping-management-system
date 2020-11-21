@@ -5,26 +5,23 @@
  */
 package com.dsms.ui.components;
 
-import com.dsms.ui.event.model.SidePaneEvent;
-import com.dsms.ui.event.SidePaneEventListner;
+import com.dsms.ui.event.model.NavigateEvent;
 import java.util.ArrayList;
 import java.util.List;
 import com.dsms.ui.event.EventPublisher;
-import java.awt.Color;
-import org.kordamp.ikonli.swing.FontIcon;
 import org.kordamp.ikonli.materialdesign.MaterialDesign;
+import com.dsms.ui.event.NavigateEventListner;
 
 /**
  *
  * @author Mahaj
  */
-public class SidePane extends javax.swing.JPanel implements EventPublisher<SidePaneEventListner, SidePaneEvent> {
+public class SidePane extends javax.swing.JPanel implements EventPublisher<NavigateEventListner, NavigateEvent> {
 
     /**
      * Creates new form SidePane
      */
     public SidePane() {
-        this.sidePaneEventListners = new ArrayList<>();
         initComponents();
     }
 
@@ -170,33 +167,33 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
 
     private void homeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseClicked
         // TODO add your handling code here:
-        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.HOME_BUTTON_CLICK));
+        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.HOME_PAGE));
     }//GEN-LAST:event_homeBtnMouseClicked
 
     private void LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginMouseClicked
         // TODO add your handling code here:
-        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.LOGIN_BUTTON_CLICK));
+        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE));
     }//GEN-LAST:event_LoginMouseClicked
 
     private void myAccountBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myAccountBtnMouseClicked
         // TODO add your handling code here:
-        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.MY_ACCOUNT_BUTTON_CLICK));
+        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.MY_ACCOUNT_PAGE));
     }//GEN-LAST:event_myAccountBtnMouseClicked
 
     private void wishlistBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wishlistBtnMouseClicked
-        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.WISHLIST_BUTTON_CLICK));
+        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.WISHLIST_PAGE));
     }//GEN-LAST:event_wishlistBtnMouseClicked
 
     private void ordersBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersBtnMouseClicked
-        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.ORDERS_BUTTON_CLICK));
+        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.MY_ORDERS_PAGE));
     }//GEN-LAST:event_ordersBtnMouseClicked
 
     private void contactUsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactUsBtnMouseClicked
-        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.CONTACT_US_BUTTON_CLICK));
+        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.CONTACT_US_PAGE));
     }//GEN-LAST:event_contactUsBtnMouseClicked
 
     private void aboutUsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutUsBtnMouseClicked
-        publishEvent(new SidePaneEvent(evt.getSource(), SidePaneEvent.Type.ABOUT_US_BUTTON_CLICK));
+        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.ABOUT_US_PAGE));
     }//GEN-LAST:event_aboutUsBtnMouseClicked
 
     private void homeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeBtnActionPerformed
@@ -216,15 +213,15 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<SideP
     private com.dsms.ui.components.SidePaneJbutton wishlistBtn;
     // End of variables declaration//GEN-END:variables
 
-    private final List<SidePaneEventListner> sidePaneEventListners;
+    private final List<NavigateEventListner> navigateEventListners = new ArrayList<>();
 
     @Override
-    public void addEventListner(SidePaneEventListner eventListner) {
-        sidePaneEventListners.add(eventListner);
+    public void addEventListner(NavigateEventListner eventListner) {
+        navigateEventListners.add(eventListner);
     }
 
     @Override
-    public void publishEvent(SidePaneEvent eventObject) {
-        sidePaneEventListners.forEach(eventListner -> eventListner.sidePaneEventOccured(eventObject));
+    public void publishEvent(NavigateEvent eventObject) {
+        navigateEventListners.forEach(eventListner -> eventListner.navigateTo(eventObject));
     }
 }

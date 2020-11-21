@@ -33,7 +33,7 @@ public class CartItem extends TimestampedEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "itemId", foreignKey = @ForeignKey(name = "fk_cartItem_item_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
-    private Item item;
+    private ItemEntity itemEntity;
 
     @Column(name = "itemCount", nullable = false)
     private Integer itemCount;
