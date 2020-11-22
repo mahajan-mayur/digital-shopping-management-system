@@ -5,11 +5,17 @@
  */
 package com.dsms.ui.components;
 
+import com.dsms.ui.event.EventPublisher;
+import com.dsms.ui.event.NavigateEventListner;
+import com.dsms.ui.event.model.NavigateEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Mahaj
  */
-public class TopPane extends javax.swing.JPanel {
+public class TopPane extends javax.swing.JPanel  implements EventPublisher<NavigateEventListner, NavigateEvent> {
 
     /**
      * Creates new form TopPane
@@ -93,6 +99,11 @@ public class TopPane extends javax.swing.JPanel {
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-30.png"))); // NOI18N
 
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-bookmark-30.png"))); // NOI18N
+        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel20MouseClicked(evt);
+            }
+        });
 
         jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-add-shopping-cart-30.png"))); // NOI18N
 
@@ -116,16 +127,11 @@ public class TopPane extends javax.swing.JPanel {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel29)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel24)))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel29)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel24)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         add(jPanel9);
@@ -134,6 +140,11 @@ public class TopPane extends javax.swing.JPanel {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+        // TODO add your handling code here:
+          publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.WISHLIST_PAGE));
+    }//GEN-LAST:event_jLabel20MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -147,4 +158,16 @@ public class TopPane extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+ private final List<NavigateEventListner> navigateEventListners = new ArrayList<>();
+
+    @Override
+    public void addEventListner(NavigateEventListner eventListner) {
+        navigateEventListners.add(eventListner);
+    }
+
+    @Override
+    public void publishEvent(NavigateEvent eventObject) {
+        navigateEventListners.forEach(eventListner -> eventListner.navigateTo(eventObject));
+    }
 }

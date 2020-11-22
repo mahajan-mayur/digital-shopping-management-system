@@ -28,8 +28,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserEntity extends TimestampedEntity {
 
-    private String id;
-
     @Column(name = "firstName", length = 50, nullable = false)
     private String firstName;
 

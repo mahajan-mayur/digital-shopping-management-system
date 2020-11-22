@@ -11,6 +11,8 @@ package com.dsms.enums;
  */
 public enum UserType {
     CUSTOMER,
-    ADMIN
+    ADMIN;
     
+    private UserType() {
+    }
 }

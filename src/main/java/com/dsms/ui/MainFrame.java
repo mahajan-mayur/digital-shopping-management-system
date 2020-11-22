@@ -25,6 +25,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
 
+    
     /**
      * Creates new form MainFrame
      */
@@ -35,7 +36,9 @@ public class MainFrame extends javax.swing.JFrame {
     @PostConstruct
     public void init() {
         initComponents();
-        addSidePaneEventListner();
+        NavigateEventListner navigateEventListner = new NavigateEventListnerImpl();
+        this.sidePane.addEventListner(navigateEventListner);
+        this.topPane.addEventListner(navigateEventListner);
     }
 
     /**
@@ -97,50 +100,59 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    private void addSidePaneEventListner() {
-        this.sidePane.addEventListner(new NavigateEventListner() {
-            @Override
-            public void navigateTo(NavigateEvent buttonClickEvent) {
-                log.info("buttonClickEvent : {}", buttonClickEvent.getNavigateTo());
-                switch (buttonClickEvent.getNavigateTo()) {
-                    case CONTACT_US_PAGE:
-                        ContactUsPage contactUs = new ContactUsPage();
-                        mainPane1.switchPanel(contactUs);
-                        break;
-                    case MY_ACCOUNT_PAGE:
-                        MyAccountPage accountn = new MyAccountPage();
-                        mainPane1.switchPanel(accountn);
-                        break;
-                    case ABOUT_US_PAGE:
-                        AboutUsPage aboutUs = new AboutUsPage();
-                        mainPane1.switchPanel(aboutUs);
-                        break;
-                    case HOME_PAGE:
-                        HomePage homePage = new HomePage();
-                        mainPane1.switchPanel(homePage);
-                        break;
-                    case LOGIN_PAGE:
-                        LoginPage loginPage = new LoginPage();
-                        loginPage.addEventListner(this);
-                        mainPane1.switchPanel(loginPage);
-                        break;
-                    case MY_ORDERS_PAGE:
-                        MyOrderPage myOrderPage = new MyOrderPage();
-                        mainPane1.switchPanel(myOrderPage);
-                        break;
-                    case WISHLIST_PAGE:
-                    
+
+    private class NavigateEventListnerImpl implements NavigateEventListner {
+
+        @Override
+        public void navigateTo(NavigateEvent buttonClickEvent) {
+            log.info("buttonClickEvent : {}", buttonClickEvent.getNavigateTo());
+            switch (buttonClickEvent.getNavigateTo()) {
+                case CONTACT_US_PAGE:
+                    ContactUsPage contactUs = new ContactUsPage();
+                    mainPane1.switchPanel(contactUs);
+                    break;
+                case MY_ACCOUNT_PAGE:
+                    MyAccountPage accountn = new MyAccountPage();
+                    mainPane1.switchPanel(accountn);
+                    break;
+                case ABOUT_US_PAGE:
+                    AboutUsPage aboutUs = new AboutUsPage();
+                    mainPane1.switchPanel(aboutUs);
+                    break;
+                case HOME_PAGE:
+                    HomePage homePage = new HomePage();
+                    mainPane1.switchPanel(homePage);
+                    break;
+                case LOGIN_PAGE:
+                    LoginPage loginPage = new LoginPage();
+                    loginPage.addEventListner(this);
+                    mainPane1.switchPanel(loginPage);
+                    break;
+                case MY_ORDERS_PAGE:
+                    MyOrderPage myOrderPage = new MyOrderPage();
+                    mainPane1.switchPanel(myOrderPage);
+                    break;
+                case WISHLIST_PAGE:
+                    WishListPage wishListPage = new WishListPage();
+                    mainPane1.switchPanel(wishListPage);
+
+                    break;
+
 //  fixme
-                    case SIGN_UP_PAGE:
-                    case FORGOT_PASS_PAGE:
-                        WishListPage wishListPage = new WishListPage();
-                        mainPane1.switchPanel(wishListPage);
-                        break;
+                case SIGN_UP_PAGE:
+                    SignUpPage signUpPage = new SignUpPage();
+                    signUpPage.addEventListner(this);
+                    mainPane1.switchPanel(signUpPage);
+                    break;
 
-                }
+                case FORGOT_PASS_PAGE:
+                    ForgotPass forgotPass = new ForgotPass();
+                    mainPane1.switchPanel(forgotPass);
+                    break;
 
-                //mainPane.setVisible(true);
             }
-        });
+
+            //mainPane.setVisible(true);
+        }
     }
 }
