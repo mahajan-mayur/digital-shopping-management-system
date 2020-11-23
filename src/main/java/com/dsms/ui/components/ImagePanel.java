@@ -10,7 +10,7 @@ public class ImagePanel extends JPanel{
 
     private BufferedImage image;
     
-    
+
 
     public ImagePanel(){
        try {                

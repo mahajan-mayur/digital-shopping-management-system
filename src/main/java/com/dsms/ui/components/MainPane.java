@@ -5,9 +5,9 @@
  */
 package com.dsms.ui.components;
 
-import com.dsms.ui.MyAccountPage;
-import java.awt.BorderLayout;
 import javax.swing.JPanel;
+
+import com.dsms.ui.LoginPage;
 
 /**
  *
@@ -20,7 +20,7 @@ public class MainPane extends javax.swing.JPanel {
      */
     public MainPane() {
         initComponents();
-        switchPanel(new MyAccountPage());
+        switchPanel(new LoginPage());
     }
 
     /**

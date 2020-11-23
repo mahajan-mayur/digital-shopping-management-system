@@ -5,6 +5,8 @@
  */
 package com.dsms.ui;
 
+import com.dsms.dto.ControllerResponse;
+import com.dsms.controller.UserController;
 import com.dsms.enums.UserType;
 import com.dsms.ui.event.EventPublisher;
 import com.dsms.ui.event.NavigateEventListner;
@@ -12,11 +14,13 @@ import com.dsms.ui.event.model.NavigateEvent;
 import com.dsms.ui.event.model.LoginEvent;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author Mahaj
  */
+@Slf4j
 public class LoginPage extends javax.swing.JPanel implements EventPublisher<NavigateEventListner, NavigateEvent> {
 
     /**
@@ -274,7 +278,11 @@ public class LoginPage extends javax.swing.JPanel implements EventPublisher<Navi
                 ? UserType.ADMIN : null;
         String userName = this.userNameField.getText().trim();
         String password = new String(this.passwordField.getPassword());
-        LoginEvent loginEvent = LoginEvent.builder().userName(userName).password(password).userType(userType).build();
+        LoginEvent loginEvent = LoginEvent.builder().userName(userName).password(password).userType(userType).source(evt.getSource()).build();
+        
+        UserController userController = new UserController();
+        ControllerResponse response = userController.login(loginEvent);
+        log.info(response.getMessage());
 
 
     }//GEN-LAST:event_loginBtnMouseClicked

@@ -5,11 +5,12 @@
  */
 package com.dsms.ui.event.model;
 
+import java.util.EventObject;
+
 import com.dsms.enums.UserType;
-import lombok.AllArgsConstructor;
+
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -18,12 +19,24 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class LoginEvent {
-    
-    private String userName;
-    private String password;
-    private UserType userType;
+public class LoginEvent extends EventObject {
+
+	private static final long serialVersionUID = -1155144208841928378L;
+	public LoginEvent(Object source) {
+		super(source);
+
+	}
+
+	@Builder
+	public LoginEvent(Object source, String userName, String password, UserType userType) {
+		super(source);
+		this.userName = userName;
+		this.password = password;
+		this.userType = userType;
+	}
+
+	private String userName;
+	private String password;
+	private UserType userType;
+
 }

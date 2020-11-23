@@ -5,6 +5,10 @@
  */
 package com.dsms.ui;
 
+import com.dsms.beans.ContextProvider;
+import com.dsms.beans.UserSession;
+import com.dsms.db.entity.UserEntity;
+
 /**
  *
  * @author Mahaj
@@ -16,6 +20,7 @@ public class MyAccountPage extends javax.swing.JPanel {
      */
     public MyAccountPage() {
         initComponents();
+        fillUserData();
     }
 
     /**
@@ -332,4 +337,14 @@ public class MyAccountPage extends javax.swing.JPanel {
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JButton updateProfile;
     // End of variables declaration//GEN-END:variables
+
+    private void fillUserData() {
+        UserSession currentSession = ContextProvider.getBean(UserSession.class);
+        UserEntity user = currentSession.getUserEntity();
+        emailIdField.setText(user.getEmail());
+        addressField.setText(user.getAddress());
+        firstNameField.setText(user.getFirstName());
+        lastNameField.setText(user.getLastName());
+        
+    }
 }

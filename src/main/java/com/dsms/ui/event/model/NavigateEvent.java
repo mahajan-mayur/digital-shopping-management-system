@@ -13,7 +13,8 @@ import java.util.EventObject;
  */
 public class NavigateEvent extends EventObject {
 
-    private NavigateTo navigateTo;
+	private static final long serialVersionUID = -3929122502212114867L;
+	private NavigateTo navigateTo;
 
     public NavigateEvent(Object o) {
         super(o);
