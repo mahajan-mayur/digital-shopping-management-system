@@ -5,15 +5,27 @@
  */
 package com.dsms.ui.components;
 
+import com.dsms.enums.ItemCategory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 /**
  *
  * @author Mahaj
  */
 public class WishlistItem extends javax.swing.JPanel {
 
-    /**
-     * Creates new form WishlistItem
-     */
+
+    
+    public WishlistItem(String imageUrl, ItemCategory itemCategory, String itemName, Double itemPrice) {
+        initComponents();
+        this.imageLbl.setIcon(new ImageIcon(imageUrl));
+        this.itemCategory.setText(itemCategory.toString()); 
+        this.itemName.setText(itemName);
+        this.itemPrice.setText(itemPrice.toString());
+        
+    }
+
     public WishlistItem() {
         initComponents();
     }
@@ -28,7 +40,7 @@ public class WishlistItem extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel11 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
+        imageLbl = new javax.swing.JLabel();
         itemName = new javax.swing.JLabel();
         itemCategory = new javax.swing.JLabel();
         itemlabel = new javax.swing.JLabel();
@@ -37,7 +49,7 @@ public class WishlistItem extends javax.swing.JPanel {
 
         jPanel11.setBackground(new java.awt.Color(233, 219, 232));
 
-        jLabel14.setText(" ");
+        imageLbl.setText(" ");
 
         itemName.setText("ITEM 1");
 
@@ -61,7 +73,7 @@ public class WishlistItem extends javax.swing.JPanel {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                .addComponent(imageLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
@@ -82,7 +94,7 @@ public class WishlistItem extends javax.swing.JPanel {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(imageLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(32, 32, 32))
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
@@ -120,11 +132,11 @@ public class WishlistItem extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToBagBtn;
+    private javax.swing.JLabel imageLbl;
     private javax.swing.JLabel itemCategory;
     private javax.swing.JLabel itemName;
     private javax.swing.JLabel itemPrice;
     private javax.swing.JLabel itemlabel;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JPanel jPanel11;
     // End of variables declaration//GEN-END:variables
 }

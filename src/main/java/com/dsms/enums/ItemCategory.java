@@ -10,5 +10,8 @@ package com.dsms.enums;
  * @author Mahaj
  */
 public enum ItemCategory {
-    
+    GARMENTS,
+    SHOES,
+    GROCERY,
+    ELECTRONICS
 }

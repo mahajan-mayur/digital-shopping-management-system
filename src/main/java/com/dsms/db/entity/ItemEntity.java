@@ -42,4 +42,7 @@ public class ItemEntity extends TimestampedEntity  {
     @Enumerated(EnumType.STRING)
     @Column(name = "itemCategory", nullable = false)
     private ItemCategory itemCategory;
+    
+    @Column(name = "imageUrl", nullable = false, columnDefinition = "TEXT")
+    private String imageUrl;
 }

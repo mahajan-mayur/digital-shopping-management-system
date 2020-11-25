@@ -1,1 +1,0 @@
-# digital-shopping-management-system

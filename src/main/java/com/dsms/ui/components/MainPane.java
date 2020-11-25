@@ -58,7 +58,7 @@ public class MainPane extends javax.swing.JPanel {
 //        this.repaint();
 //        this.revalidate();
 //    }
-    public void switchPanel(JPanel jPanel) {
+    public final void switchPanel(JPanel jPanel) {
 
         removeAll();
         setMinimumSize(new java.awt.Dimension(420, 322));

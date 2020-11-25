@@ -104,9 +104,9 @@ public class MainFrame extends javax.swing.JFrame {
     private class NavigateEventListnerImpl implements NavigateEventListner {
 
         @Override
-        public void navigateTo(NavigateEvent buttonClickEvent) {
-            log.info("buttonClickEvent : {}", buttonClickEvent.getNavigateTo());
-            switch (buttonClickEvent.getNavigateTo()) {
+        public void navigateTo(NavigateEvent navigateEvent) {
+            log.info("navigateEvent : {}", navigateEvent.getNavigateTo());
+            switch (navigateEvent.getNavigateTo()) {
                 case CONTACT_US_PAGE:
                     ContactUsPage contactUs = new ContactUsPage();
                     mainPane1.switchPanel(contactUs);
@@ -135,10 +135,8 @@ public class MainFrame extends javax.swing.JFrame {
                 case WISHLIST_PAGE:
                     WishListPage wishListPage = new WishListPage();
                     mainPane1.switchPanel(wishListPage);
-
                     break;
 
-//  fixme
                 case SIGN_UP_PAGE:
                     SignUpPage signUpPage = new SignUpPage();
                     signUpPage.addEventListner(this);
