@@ -5,8 +5,11 @@
  */
 package com.dsms.ui.event;
 
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
+import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
  *
@@ -14,9 +17,25 @@ import java.util.EventObject;
  * @param <L>
  * @param <E>
  */
-public interface EventPublisher<L extends EventListener, E extends EventObject> {
+public class EventPublisher<L extends CustomEventListner, E extends EventObject> {
 
-    void addEventListner(L eventListner);
+    private final List<L> eventListners;
 
-    void publishEvent(E eventObject);
+    public EventPublisher() {
+        this.eventListners = new ArrayList<>();
+    }
+
+    public EventPublisher(List<L> eventListners) {
+        this.eventListners = new ArrayList<>(eventListners);
+    }
+
+    public void addEventListner(L eventListner) {
+        eventListners.add(eventListner);
+    }
+
+    public void publishEvent(E eventObject) {
+        eventListners.parallelStream().forEach(eventListner -> eventListner.onEvent(eventObject));
+    }
+
+   
 }

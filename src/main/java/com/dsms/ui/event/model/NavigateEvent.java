@@ -13,8 +13,9 @@ import java.util.EventObject;
  */
 public class NavigateEvent extends EventObject {
 
-	private static final long serialVersionUID = -3929122502212114867L;
-	private NavigateTo navigateTo;
+    private static final long serialVersionUID = -3929122502212114867L;
+    private NavigateTo navigateTo;
+    private NavigateTo forwordTo;
 
     public NavigateEvent(Object o) {
         super(o);
@@ -25,12 +26,26 @@ public class NavigateEvent extends EventObject {
         this.navigateTo = navigateTo;
     }
 
+    public NavigateEvent(Object o, NavigateTo navigateTo, NavigateTo forwordTo) {
+        super(o);
+        this.navigateTo = navigateTo;
+        this.forwordTo = forwordTo;
+    }
+
     public NavigateTo getNavigateTo() {
         return navigateTo;
     }
 
     public void setNavigateTo(NavigateTo navigateTo) {
         this.navigateTo = navigateTo;
+    }
+
+    public NavigateTo getForwordTo() {
+        return forwordTo;
+    }
+
+    public void setForwordTo(NavigateTo forwordTo) {
+        this.forwordTo = forwordTo;
     }
 
     public static enum NavigateTo {

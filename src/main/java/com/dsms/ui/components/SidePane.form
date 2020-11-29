@@ -64,7 +64,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homeBtnActionPerformed"/>
       </Events>
     </Component>
-    <Component class="com.dsms.ui.components.SidePaneJbutton" name="Login">
+    <Component class="com.dsms.ui.components.SidePaneJbutton" name="loginBtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Login"/>
         <Property name="horizontalAlignment" type="int" value="2"/>
@@ -83,7 +83,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="LoginMouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="loginBtnMouseClicked"/>
       </Events>
     </Component>
     <Component class="com.dsms.ui.components.SidePaneJbutton" name="myAccountBtn">

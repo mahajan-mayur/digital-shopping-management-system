@@ -5,15 +5,15 @@
  */
 package com.dsms.ui;
 
+import com.dsms.beans.ContextProvider;
+import com.dsms.beans.EventPublisherService;
 import com.dsms.dto.ControllerResponse;
 import com.dsms.controller.UserController;
 import com.dsms.enums.UserType;
-import com.dsms.ui.event.EventPublisher;
-import com.dsms.ui.event.NavigateEventListner;
 import com.dsms.ui.event.model.NavigateEvent;
 import com.dsms.ui.event.model.LoginEvent;
-import java.util.ArrayList;
-import java.util.List;
+import com.dsms.ui.event.model.NavigateEvent.NavigateTo;
+import com.dsms.ui.event.model.UserEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -21,15 +21,26 @@ import lombok.extern.slf4j.Slf4j;
  * @author Mahaj
  */
 @Slf4j
-public class LoginPage extends javax.swing.JPanel implements EventPublisher<NavigateEventListner, NavigateEvent> {
+public class LoginPage extends javax.swing.JPanel {
+
+    private final EventPublisherService eventPublisherService;
+    
+    private NavigateTo navigateTo;
 
     /**
      * Creates new form FORGOTPASS
      */
     public LoginPage() {
-        initComponents();
+        this(NavigateTo.HOME_PAGE);
     }
 
+    public LoginPage(NavigateTo navigateTo) {
+        initComponents();
+        this.eventPublisherService = ContextProvider.getBean(EventPublisherService.class);
+        this.navigateTo = navigateTo == null ? NavigateTo.HOME_PAGE : navigateTo;
+    }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -279,22 +290,25 @@ public class LoginPage extends javax.swing.JPanel implements EventPublisher<Navi
         String userName = this.userNameField.getText().trim();
         String password = new String(this.passwordField.getPassword());
         LoginEvent loginEvent = LoginEvent.builder().userName(userName).password(password).userType(userType).source(evt.getSource()).build();
-        
-        UserController userController = new UserController();
+
+        UserController userController = ContextProvider.getBean(UserController.class);
         ControllerResponse response = userController.login(loginEvent);
         log.info(response.getMessage());
 
-
+        if (response.isSuccess()) {
+            eventPublisherService.publishEvent(new UserEvent(evt.getSource(), UserEvent.EventType.LOGIN));
+            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), navigateTo));
+        }
     }//GEN-LAST:event_loginBtnMouseClicked
 
     private void signUpBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpBtnMouseClicked
         // TODO add your handling code here:
-        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.SIGN_UP_PAGE));
+        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.SIGN_UP_PAGE));
     }//GEN-LAST:event_signUpBtnMouseClicked
 
     private void forgotPassBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPassBtnMouseClicked
         // TODO add your handling code here:
-        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.FORGOT_PASS_PAGE));
+        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.FORGOT_PASS_PAGE));
     }//GEN-LAST:event_forgotPassBtnMouseClicked
 
 
@@ -320,15 +334,4 @@ public class LoginPage extends javax.swing.JPanel implements EventPublisher<Navi
     private javax.swing.ButtonGroup userTypeGrp;
     // End of variables declaration//GEN-END:variables
 
-    private final List<NavigateEventListner> navigateEventListners = new ArrayList<>();
-
-    @Override
-    public void addEventListner(NavigateEventListner eventListner) {
-        navigateEventListners.add(eventListner);
-    }
-
-    @Override
-    public void publishEvent(NavigateEvent eventObject) {
-        navigateEventListners.forEach(eventListner -> eventListner.navigateTo(eventObject));
-    }
 }

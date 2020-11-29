@@ -20,7 +20,6 @@ public class MainPane extends javax.swing.JPanel {
      */
     public MainPane() {
         initComponents();
-        switchPanel(new LoginPage());
     }
 
     /**

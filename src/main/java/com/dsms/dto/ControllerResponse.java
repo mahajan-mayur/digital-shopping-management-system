@@ -20,6 +20,10 @@ public class ControllerResponse {
     private String message;
 
     private StatusCode statusCode;
+    
+    public Boolean isSuccess(){
+        return  this.statusCode != null && statusCode.equals(StatusCode.SUCCESS);
+    }
 
     public static enum StatusCode {
         SUCCESS, ERROR, PASSWORD_MISMATCH, USER_NOT_FOUND

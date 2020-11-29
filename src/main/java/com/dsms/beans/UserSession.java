@@ -7,7 +7,6 @@ import com.dsms.db.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-
 /**
  *
  * @author Mahaj
@@ -16,5 +15,10 @@ import lombok.Setter;
 @Setter
 @Component
 public class UserSession {
+
     private UserEntity userEntity;
+
+    public void clearUserSession() {
+        this.userEntity = null;
+    }
 }

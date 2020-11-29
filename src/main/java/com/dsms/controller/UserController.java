@@ -7,17 +7,25 @@ import com.dsms.db.dao.UserRepository;
 import com.dsms.db.entity.UserEntity;
 import com.dsms.ui.event.model.LoginEvent;
 import com.dsms.ui.event.model.SignUpEvent;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Mahaj
  */
+@Slf4j
+@Service
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserSession userSession;
+    
+    
 
     public UserController() {
-        userRepository = ContextProvider.getBean(UserRepository.class);
+        this.userRepository = ContextProvider.getBean(UserRepository.class);
+        this.userSession = ContextProvider.getBean(UserSession.class);
     }
 
     public Boolean signUp(SignUpEvent signUpEvent) {
@@ -40,8 +48,21 @@ public class UserController {
         if (userEntity.getPassword().compareTo(loginEvent.getPassword()) != 0) {
             return ControllerResponse.builder().message("invalid password").statusCode(ControllerResponse.StatusCode.PASSWORD_MISMATCH).build();
         }
-        UserSession userSession = ContextProvider.getBean(UserSession.class);
-        userSession.setUserEntity(userEntity);
+        
+        this.userSession.setUserEntity(userEntity);
+
+        log.info("Login Success !!");
         return ControllerResponse.builder().message("Login Success !!").statusCode(ControllerResponse.StatusCode.SUCCESS).build();
+    }
+
+    public ControllerResponse logout() {
+        this.userSession.clearUserSession();
+
+        log.info("Logout Success !!");
+        return ControllerResponse.builder().message("Logout Success !!").statusCode(ControllerResponse.StatusCode.SUCCESS).build();
+    }
+    
+    public Boolean isUserLoggedIn(){
+        return userSession.getUserEntity() != null;
     }
 }

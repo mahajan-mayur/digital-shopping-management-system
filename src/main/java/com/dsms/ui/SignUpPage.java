@@ -5,28 +5,29 @@
  */
 package com.dsms.ui;
 
+import com.dsms.beans.ContextProvider;
+import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.UserController;
 import com.dsms.enums.UserType;
-import com.dsms.ui.event.EventPublisher;
+import com.dsms.ui.event.CustomEventListner;
 import com.dsms.ui.event.NavigateEventListner;
 import com.dsms.ui.event.model.NavigateEvent;
 import com.dsms.ui.event.model.SignUpEvent;
-import com.dsms.ui.event.model.LoginEvent;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.util.StringUtils;
 
 /**
  *
  * @author Mahaj
  */
-public class SignUpPage extends javax.swing.JPanel implements EventPublisher<NavigateEventListner, NavigateEvent> {
+public class SignUpPage extends javax.swing.JPanel {
+
+    private final EventPublisherService eventPublisherService;
 
     /**
      * Creates new form FORGOTPASS
      */
     public SignUpPage() {
         initComponents();
+        this.eventPublisherService = ContextProvider.getBean(EventPublisherService.class);
     }
 
     /**
@@ -358,14 +359,14 @@ public class SignUpPage extends javax.swing.JPanel implements EventPublisher<Nav
                 .userType(userType)
                 .source(evt.getSource()).build();
         
-        UserController userController = new UserController();
+        UserController userController = ContextProvider.getBean(UserController.class);
         userController.signUp(signUpEvent);
 
     }// GEN-LAST:event_signUpBtnMouseClicked
 
     private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_loginBtnMouseClicked
         // TODO add your handling code here:
-        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE));
+        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE));
     }// GEN-LAST:event_loginBtnMouseClicked
 
     private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_emailFieldActionPerformed
@@ -414,15 +415,10 @@ public class SignUpPage extends javax.swing.JPanel implements EventPublisher<Nav
     private javax.swing.ButtonGroup userTypeGrp;
     // End of variables declaration//GEN-END:variables
 
-    private final List<NavigateEventListner> navigateEventListners = new ArrayList<>();
-
-    @Override
-    public void addEventListner(NavigateEventListner eventListner) {
-        navigateEventListners.add(eventListner);
+     public void addEventListner(CustomEventListner eventListner) {
+        if(eventListner instanceof NavigateEventListner) {
+            eventPublisherService.addEventListner((NavigateEventListner) eventListner);
+        }
     }
 
-    @Override
-    public void publishEvent(NavigateEvent eventObject) {
-        navigateEventListners.forEach(eventListner -> eventListner.navigateTo(eventObject));
-    }
 }

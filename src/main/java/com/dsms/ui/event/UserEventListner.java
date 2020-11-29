@@ -5,11 +5,14 @@
  */
 package com.dsms.ui.event;
 
+import com.dsms.ui.event.model.UserEvent;
+import java.util.EventListener;
+
 /**
  *
  * @author Mahaj
  */
-public interface NavigateEventListner extends CustomEventListner {
-
-    //void navigateTo(NavigateEvent sidePaneEvent);
+public interface UserEventListner extends CustomEventListner {
+    //void userEventOccoured(UserEvent userEvent);
+    
 }

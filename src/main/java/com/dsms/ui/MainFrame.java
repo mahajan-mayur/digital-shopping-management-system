@@ -5,14 +5,18 @@
  */
 package com.dsms.ui;
 
+import com.dsms.beans.ContextProvider;
+import com.dsms.beans.EventPublisherService;
 import com.dsms.ui.event.NavigateEventListner;
 import com.dsms.ui.event.model.NavigateEvent;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.EventObject;
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
@@ -24,6 +28,9 @@ import org.springframework.util.ResourceUtils;
 public class MainFrame extends javax.swing.JFrame {
 
     private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
+    
+    @Autowired
+    private EventPublisherService eventPublisherService;
 
     
     /**
@@ -37,8 +44,8 @@ public class MainFrame extends javax.swing.JFrame {
     public void init() {
         initComponents();
         NavigateEventListner navigateEventListner = new NavigateEventListnerImpl();
-        this.sidePane.addEventListner(navigateEventListner);
-        this.topPane.addEventListner(navigateEventListner);
+        eventPublisherService.addEventListner(navigateEventListner);
+        mainPane1.switchPanel(new LoginPage());
     }
 
     /**
@@ -104,7 +111,11 @@ public class MainFrame extends javax.swing.JFrame {
     private class NavigateEventListnerImpl implements NavigateEventListner {
 
         @Override
-        public void navigateTo(NavigateEvent navigateEvent) {
+        public void onEvent(EventObject eventObject) {
+            if(!(eventObject instanceof NavigateEvent)){
+                log.info("unknown event");
+            }
+            NavigateEvent navigateEvent = (NavigateEvent) eventObject;
             log.info("navigateEvent : {}", navigateEvent.getNavigateTo());
             switch (navigateEvent.getNavigateTo()) {
                 case CONTACT_US_PAGE:
@@ -124,8 +135,7 @@ public class MainFrame extends javax.swing.JFrame {
                     mainPane1.switchPanel(homePage);
                     break;
                 case LOGIN_PAGE:
-                    LoginPage loginPage = new LoginPage();
-                    loginPage.addEventListner(this);
+                    LoginPage loginPage = new LoginPage(navigateEvent.getForwordTo());
                     mainPane1.switchPanel(loginPage);
                     break;
                 case MY_ORDERS_PAGE:

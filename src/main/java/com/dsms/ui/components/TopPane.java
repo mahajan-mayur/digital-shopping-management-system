@@ -5,23 +5,24 @@
  */
 package com.dsms.ui.components;
 
-import com.dsms.ui.event.EventPublisher;
-import com.dsms.ui.event.NavigateEventListner;
+import com.dsms.beans.ContextProvider;
+import com.dsms.beans.EventPublisherService;
 import com.dsms.ui.event.model.NavigateEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author Mahaj
  */
-public class TopPane extends javax.swing.JPanel  implements EventPublisher<NavigateEventListner, NavigateEvent> {
+public class TopPane extends javax.swing.JPanel  {
+
+    private final EventPublisherService eventPublisherService;
 
     /**
      * Creates new form TopPane
      */
     public TopPane() {
         initComponents();
+        this.eventPublisherService = ContextProvider.getBean(EventPublisherService.class);
     }
 
     /**
@@ -143,7 +144,7 @@ public class TopPane extends javax.swing.JPanel  implements EventPublisher<Navig
 
     private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
         // TODO add your handling code here:
-          publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.WISHLIST_PAGE));
+          eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.WISHLIST_PAGE));
     }//GEN-LAST:event_jLabel20MouseClicked
 
 
@@ -159,15 +160,4 @@ public class TopPane extends javax.swing.JPanel  implements EventPublisher<Navig
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
- private final List<NavigateEventListner> navigateEventListners = new ArrayList<>();
-
-    @Override
-    public void addEventListner(NavigateEventListner eventListner) {
-        navigateEventListners.add(eventListner);
-    }
-
-    @Override
-    public void publishEvent(NavigateEvent eventObject) {
-        navigateEventListners.forEach(eventListner -> eventListner.navigateTo(eventObject));
-    }
 }

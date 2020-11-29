@@ -5,24 +5,37 @@
  */
 package com.dsms.ui.components;
 
+import com.dsms.beans.ContextProvider;
+import com.dsms.beans.EventPublisherService;
+import com.dsms.controller.UserController;
+import com.dsms.dto.ControllerResponse;
+import com.dsms.ui.event.UserEventListner;
 import com.dsms.ui.event.model.NavigateEvent;
-import java.util.ArrayList;
-import java.util.List;
-import com.dsms.ui.event.EventPublisher;
+import com.dsms.ui.event.model.NavigateEvent.NavigateTo;
+import com.dsms.ui.event.model.UserEvent;
+import java.util.EventObject;
+import lombok.extern.slf4j.Slf4j;
 import org.kordamp.ikonli.materialdesign.MaterialDesign;
-import com.dsms.ui.event.NavigateEventListner;
 
 /**
  *
  * @author Mahaj
  */
-public class SidePane extends javax.swing.JPanel implements EventPublisher<NavigateEventListner, NavigateEvent> {
+@Slf4j
+public class SidePane extends javax.swing.JPanel {
+
+    private final EventPublisherService eventPublisherService;
+    private final UserController userController;
 
     /**
      * Creates new form SidePane
      */
     public SidePane() {
         initComponents();
+        this.eventPublisherService = ContextProvider.getBean(EventPublisherService.class);
+        this.eventPublisherService.addEventListner(new UserEventListnerImpl());
+        this.userController = ContextProvider.getBean(UserController.class);
+
     }
 
     /**
@@ -37,7 +50,7 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<Navig
         imagePanel1 = new com.dsms.ui.components.ImagePanel();
         jSeparator1 = new javax.swing.JSeparator();
         homeBtn = new com.dsms.ui.components.SidePaneJbutton();
-        Login = new com.dsms.ui.components.SidePaneJbutton();
+        loginBtn = new com.dsms.ui.components.SidePaneJbutton();
         myAccountBtn = new com.dsms.ui.components.SidePaneJbutton();
         wishlistBtn = new com.dsms.ui.components.SidePaneJbutton();
         ordersBtn = new com.dsms.ui.components.SidePaneJbutton();
@@ -80,19 +93,19 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<Navig
         });
         add(homeBtn);
 
-        Login.setText("Login");
-        Login.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        Login.setIconBackgroundColor(new java.awt.Color(0, 204, 102));
-        Login.setIconColor(new java.awt.Color(255, 255, 255));
-        Login.setIconTextGap(5);
-        Login.setIkon(MaterialDesign.MDI_LOGIN);
-        Login.setPreferredSize(new java.awt.Dimension(150, 30));
-        Login.addMouseListener(new java.awt.event.MouseAdapter() {
+        loginBtn.setText("Login");
+        loginBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        loginBtn.setIconBackgroundColor(new java.awt.Color(0, 204, 102));
+        loginBtn.setIconColor(new java.awt.Color(255, 255, 255));
+        loginBtn.setIconTextGap(5);
+        loginBtn.setIkon(MaterialDesign.MDI_LOGIN);
+        loginBtn.setPreferredSize(new java.awt.Dimension(150, 30));
+        loginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                LoginMouseClicked(evt);
+                loginBtnMouseClicked(evt);
             }
         });
-        add(Login);
+        add(loginBtn);
 
         myAccountBtn.setText("My Account");
         myAccountBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -166,34 +179,57 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<Navig
     }// </editor-fold>//GEN-END:initComponents
 
     private void homeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseClicked
-        // TODO add your handling code here:
-        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.HOME_PAGE));
+        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.HOME_PAGE));
+
     }//GEN-LAST:event_homeBtnMouseClicked
 
-    private void LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginMouseClicked
+    private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseClicked
         // TODO add your handling code here:
-        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE));
-    }//GEN-LAST:event_LoginMouseClicked
+        if (this.userController.isUserLoggedIn()) {
+            log.info("logging oout user");
+            ControllerResponse response = userController.logout();
+            if (response.isSuccess()) {
+                log.info("user Logout success !!");
+                eventPublisherService.publishEvent(new UserEvent(evt.getSource(), UserEvent.EventType.LOGOUT));
+            }
+
+        }
+        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE));
+    }//GEN-LAST:event_loginBtnMouseClicked
 
     private void myAccountBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myAccountBtnMouseClicked
-        // TODO add your handling code here:
-        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.MY_ACCOUNT_PAGE));
+        if (userController.isUserLoggedIn()) {
+            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.MY_ACCOUNT_PAGE));
+        } else {
+            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.LOGIN_PAGE, NavigateTo.MY_ACCOUNT_PAGE));
+        }
+
     }//GEN-LAST:event_myAccountBtnMouseClicked
 
     private void wishlistBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wishlistBtnMouseClicked
-        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.WISHLIST_PAGE));
+
+        if (userController.isUserLoggedIn()) {
+            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.WISHLIST_PAGE));
+        } else {
+            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.LOGIN_PAGE, NavigateTo.WISHLIST_PAGE));
+        }
     }//GEN-LAST:event_wishlistBtnMouseClicked
 
     private void ordersBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersBtnMouseClicked
-        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.MY_ORDERS_PAGE));
+
+        if (userController.isUserLoggedIn()) {
+            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.MY_ORDERS_PAGE));
+        } else {
+            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.LOGIN_PAGE, NavigateTo.MY_ORDERS_PAGE));
+        }
     }//GEN-LAST:event_ordersBtnMouseClicked
 
     private void contactUsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactUsBtnMouseClicked
-        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.CONTACT_US_PAGE));
+        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.CONTACT_US_PAGE));
     }//GEN-LAST:event_contactUsBtnMouseClicked
 
     private void aboutUsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutUsBtnMouseClicked
-        publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.ABOUT_US_PAGE));
+        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.ABOUT_US_PAGE));
     }//GEN-LAST:event_aboutUsBtnMouseClicked
 
     private void homeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeBtnActionPerformed
@@ -202,26 +238,34 @@ public class SidePane extends javax.swing.JPanel implements EventPublisher<Navig
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.dsms.ui.components.SidePaneJbutton Login;
     private com.dsms.ui.components.SidePaneJbutton aboutUsBtn;
     private com.dsms.ui.components.SidePaneJbutton contactUsBtn;
     private com.dsms.ui.components.SidePaneJbutton homeBtn;
     private com.dsms.ui.components.ImagePanel imagePanel1;
     private javax.swing.JSeparator jSeparator1;
+    private com.dsms.ui.components.SidePaneJbutton loginBtn;
     private com.dsms.ui.components.SidePaneJbutton myAccountBtn;
     private com.dsms.ui.components.SidePaneJbutton ordersBtn;
     private com.dsms.ui.components.SidePaneJbutton wishlistBtn;
     // End of variables declaration//GEN-END:variables
 
-    private final List<NavigateEventListner> navigateEventListners = new ArrayList<>();
+    private class UserEventListnerImpl implements UserEventListner {
 
-    @Override
-    public void addEventListner(NavigateEventListner eventListner) {
-        navigateEventListners.add(eventListner);
-    }
+        @Override
+        public void onEvent(EventObject eventObject) {
+            if (!(eventObject instanceof UserEvent)) {
+                log.info("unknown event, {}", eventObject);
+            }
+            UserEvent userEvent = (UserEvent) eventObject;
+            switch (userEvent.getEventType()) {
+                case LOGIN:
+                    loginBtn.setText("Logout");
+                    break;
+                case LOGOUT:
+                    loginBtn.setText("Login");
+                    break;
+            }
+        }
 
-    @Override
-    public void publishEvent(NavigateEvent eventObject) {
-        navigateEventListners.forEach(eventListner -> eventListner.navigateTo(eventObject));
     }
 }
