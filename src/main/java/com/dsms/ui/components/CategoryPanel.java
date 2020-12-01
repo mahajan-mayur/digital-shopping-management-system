@@ -58,10 +58,12 @@ public class CategoryPanel extends javax.swing.JPanel {
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setBackground(new java.awt.Color(110, 89, 222));
+        jPanel1.setMaximumSize(new java.awt.Dimension(131068, 117));
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
         clothesCategoryPanel.setBackground(new java.awt.Color(48, 63, 159));
+        clothesCategoryPanel.setMaximumSize(new java.awt.Dimension(32767, 117));
         clothesCategoryPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 clothesCategoryPanelMouseClicked(evt);
@@ -104,6 +106,8 @@ public class CategoryPanel extends javax.swing.JPanel {
         jPanel1.add(clothesCategoryPanel);
 
         shoesCategoryPanel.setBackground(new java.awt.Color(48, 63, 159));
+        shoesCategoryPanel.setMaximumSize(new java.awt.Dimension(32767, 117));
+        shoesCategoryPanel.setPreferredSize(new java.awt.Dimension(205, 93));
         shoesCategoryPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 shoesCategoryPanelMouseClicked(evt);
@@ -143,6 +147,8 @@ public class CategoryPanel extends javax.swing.JPanel {
         jPanel1.add(shoesCategoryPanel);
 
         groceryCategoryPanel.setBackground(new java.awt.Color(48, 63, 159));
+        groceryCategoryPanel.setMaximumSize(new java.awt.Dimension(32767, 117));
+        groceryCategoryPanel.setPreferredSize(new java.awt.Dimension(205, 93));
         groceryCategoryPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 groceryCategoryPanelMouseClicked(evt);
@@ -186,6 +192,8 @@ public class CategoryPanel extends javax.swing.JPanel {
         jPanel1.add(groceryCategoryPanel);
 
         electronicsCategoryPanel.setBackground(new java.awt.Color(48, 63, 159));
+        electronicsCategoryPanel.setMaximumSize(new java.awt.Dimension(32767, 117));
+        electronicsCategoryPanel.setPreferredSize(new java.awt.Dimension(205, 93));
         electronicsCategoryPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 electronicsCategoryPanelMouseClicked(evt);
@@ -220,7 +228,7 @@ public class CategoryPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
