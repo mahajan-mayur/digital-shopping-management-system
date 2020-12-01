@@ -5,6 +5,7 @@ import com.dsms.dto.ControllerResponse;
 import com.dsms.beans.UserSession;
 import com.dsms.db.dao.UserRepository;
 import com.dsms.db.entity.UserEntity;
+import com.dsms.enums.UserType;
 import com.dsms.ui.event.model.LoginEvent;
 import com.dsms.ui.event.model.SignUpEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +21,6 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UserSession userSession;
-    
-    
 
     public UserController() {
         this.userRepository = ContextProvider.getBean(UserRepository.class);
@@ -48,7 +47,7 @@ public class UserController {
         if (userEntity.getPassword().compareTo(loginEvent.getPassword()) != 0) {
             return ControllerResponse.builder().message("invalid password").statusCode(ControllerResponse.StatusCode.PASSWORD_MISMATCH).build();
         }
-        
+
         this.userSession.setUserEntity(userEntity);
 
         log.info("Login Success !!");
@@ -61,8 +60,12 @@ public class UserController {
         log.info("Logout Success !!");
         return ControllerResponse.builder().message("Logout Success !!").statusCode(ControllerResponse.StatusCode.SUCCESS).build();
     }
-    
-    public Boolean isUserLoggedIn(){
+
+    public Boolean isUserLoggedIn() {
         return userSession.getUserEntity() != null;
+    }
+
+    public UserType getLoggedInUserType() {
+        return userSession.getUserEntity() == null ? null : userSession.getUserEntity().getUserType();
     }
 }

@@ -11,15 +11,15 @@ import java.util.EventObject;
  *
  * @author Mahaj
  */
-public class UserEvent extends EventObject {
+public class UserActionEvent extends EventObject {
     
     private EventType eventType;
     
-    public UserEvent(Object o) {
+    public UserActionEvent(Object o) {
         super(o);
     }
 
-    public UserEvent(Object o, EventType eventType) {
+    public UserActionEvent(Object o, EventType eventType) {
         super(o);
         this.eventType = eventType;
     }

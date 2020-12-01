@@ -9,10 +9,11 @@ import com.dsms.beans.ContextProvider;
 import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.UserController;
 import com.dsms.dto.ControllerResponse;
+import com.dsms.enums.UserType;
 import com.dsms.ui.event.UserEventListner;
 import com.dsms.ui.event.model.NavigateEvent;
 import com.dsms.ui.event.model.NavigateEvent.NavigateTo;
-import com.dsms.ui.event.model.UserEvent;
+import com.dsms.ui.event.model.UserActionEvent;
 import java.util.EventObject;
 import lombok.extern.slf4j.Slf4j;
 import org.kordamp.ikonli.materialdesign.MaterialDesign;
@@ -24,19 +25,15 @@ import org.kordamp.ikonli.materialdesign.MaterialDesign;
 @Slf4j
 public class SidePane extends javax.swing.JPanel {
 
-    private final EventPublisherService eventPublisherService;
-    private final UserController userController;
+   
 
     /**
      * Creates new form SidePane
      */
     public SidePane() {
         initComponents();
-        this.eventPublisherService = ContextProvider.getBean(EventPublisherService.class);
-        this.eventPublisherService.addEventListner(new UserEventListnerImpl());
-        this.userController = ContextProvider.getBean(UserController.class);
-
-    }
+        EventPublisherService.addEventListner(new UserEventListnerImpl());
+   }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -179,57 +176,59 @@ public class SidePane extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void homeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseClicked
-        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.HOME_PAGE));
+        EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.HOME_PAGE));
 
     }//GEN-LAST:event_homeBtnMouseClicked
 
     private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseClicked
         // TODO add your handling code here:
-        if (this.userController.isUserLoggedIn()) {
+        UserController userController = ContextProvider.getBean(UserController.class);
+        if (userController.isUserLoggedIn()) {
             log.info("logging oout user");
             ControllerResponse response = userController.logout();
             if (response.isSuccess()) {
                 log.info("user Logout success !!");
-                eventPublisherService.publishEvent(new UserEvent(evt.getSource(), UserEvent.EventType.LOGOUT));
+                EventPublisherService.publishEvent(new UserActionEvent(evt.getSource(), UserActionEvent.EventType.LOGOUT));
             }
 
         }
-        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE));
+        EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE));
     }//GEN-LAST:event_loginBtnMouseClicked
 
     private void myAccountBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myAccountBtnMouseClicked
+         UserController userController = ContextProvider.getBean(UserController.class);
         if (userController.isUserLoggedIn()) {
-            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.MY_ACCOUNT_PAGE));
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.MY_ACCOUNT_PAGE));
         } else {
-            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.LOGIN_PAGE, NavigateTo.MY_ACCOUNT_PAGE));
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.LOGIN_PAGE, NavigateTo.MY_ACCOUNT_PAGE));
         }
 
     }//GEN-LAST:event_myAccountBtnMouseClicked
 
     private void wishlistBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wishlistBtnMouseClicked
-
+ UserController userController = ContextProvider.getBean(UserController.class);
         if (userController.isUserLoggedIn()) {
-            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.WISHLIST_PAGE));
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.WISHLIST_PAGE));
         } else {
-            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.LOGIN_PAGE, NavigateTo.WISHLIST_PAGE));
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.LOGIN_PAGE, NavigateTo.WISHLIST_PAGE));
         }
     }//GEN-LAST:event_wishlistBtnMouseClicked
 
     private void ordersBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersBtnMouseClicked
-
+ UserController userController = ContextProvider.getBean(UserController.class);
         if (userController.isUserLoggedIn()) {
-            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.MY_ORDERS_PAGE));
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.MY_ORDERS_PAGE));
         } else {
-            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.LOGIN_PAGE, NavigateTo.MY_ORDERS_PAGE));
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateTo.LOGIN_PAGE, NavigateTo.MY_ORDERS_PAGE));
         }
     }//GEN-LAST:event_ordersBtnMouseClicked
 
     private void contactUsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactUsBtnMouseClicked
-        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.CONTACT_US_PAGE));
+        EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.CONTACT_US_PAGE));
     }//GEN-LAST:event_contactUsBtnMouseClicked
 
     private void aboutUsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutUsBtnMouseClicked
-        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.ABOUT_US_PAGE));
+        EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.ABOUT_US_PAGE));
     }//GEN-LAST:event_aboutUsBtnMouseClicked
 
     private void homeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeBtnActionPerformed
@@ -253,19 +252,73 @@ public class SidePane extends javax.swing.JPanel {
 
         @Override
         public void onEvent(EventObject eventObject) {
-            if (!(eventObject instanceof UserEvent)) {
+            if (!(eventObject instanceof UserActionEvent)) {
                 log.info("unknown event, {}", eventObject);
             }
-            UserEvent userEvent = (UserEvent) eventObject;
-            switch (userEvent.getEventType()) {
+            UserActionEvent userActionEvent = (UserActionEvent) eventObject;
+            switch (userActionEvent.getEventType()) {
                 case LOGIN:
-                    loginBtn.setText("Logout");
+                    handleUserLoginEvent();
                     break;
                 case LOGOUT:
-                    loginBtn.setText("Login");
+                    handleUserLogoutEvent();
                     break;
             }
         }
+    }
 
+    private void handleUserLoginEvent() {
+        loginBtn.setText("Logout");
+        setButtons();
+    }
+
+    private void handleUserLogoutEvent() {
+        loginBtn.setText("Login");
+        setButtons();
+    }
+
+    private void setButtons() {
+         UserController userController = ContextProvider.getBean(UserController.class);
+        UserType userType = userController.getLoggedInUserType();
+
+        remove(homeBtn);
+        remove(loginBtn);
+        remove(myAccountBtn);
+        remove(wishlistBtn);
+        remove(ordersBtn);
+        remove(contactUsBtn);
+        remove(aboutUsBtn);
+        if (userController.isUserLoggedIn()) {
+
+            switch (userType) {
+
+                case ADMIN:
+                    add(homeBtn);
+                    add(loginBtn);
+                    add(myAccountBtn);
+                    add(contactUsBtn);
+                    add(aboutUsBtn);
+                    break;
+                case CUSTOMER:
+                default:
+                    add(homeBtn);
+                    add(loginBtn);
+                    add(myAccountBtn);
+                    add(wishlistBtn);
+                    add(ordersBtn);
+                    add(contactUsBtn);
+                    add(aboutUsBtn);
+                    break;
+
+            }
+        } else {
+            add(homeBtn);
+            add(loginBtn);
+            add(myAccountBtn);
+            add(wishlistBtn);
+            add(ordersBtn);
+            add(contactUsBtn);
+            add(aboutUsBtn);
+        }
     }
 }

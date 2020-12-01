@@ -9,7 +9,6 @@ package com.dsms.ui.event;
  *
  * @author Mahaj
  */
-public interface UserEventListner extends CustomEventListner {
-    //void userEventOccoured(UserEvent userEvent);
-    
+public interface CategoryEventListner extends CustomEventListner {
+
 }

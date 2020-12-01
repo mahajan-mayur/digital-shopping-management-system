@@ -13,7 +13,7 @@ import com.dsms.enums.UserType;
 import com.dsms.ui.event.model.NavigateEvent;
 import com.dsms.ui.event.model.LoginEvent;
 import com.dsms.ui.event.model.NavigateEvent.NavigateTo;
-import com.dsms.ui.event.model.UserEvent;
+import com.dsms.ui.event.model.UserActionEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginPage extends javax.swing.JPanel {
 
-    private final EventPublisherService eventPublisherService;
+    
     
     private NavigateTo navigateTo;
 
@@ -36,7 +36,7 @@ public class LoginPage extends javax.swing.JPanel {
 
     public LoginPage(NavigateTo navigateTo) {
         initComponents();
-        this.eventPublisherService = ContextProvider.getBean(EventPublisherService.class);
+   
         this.navigateTo = navigateTo == null ? NavigateTo.HOME_PAGE : navigateTo;
     }
 
@@ -113,9 +113,9 @@ public class LoginPage extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
@@ -128,7 +128,7 @@ public class LoginPage extends javax.swing.JPanel {
                 .addComponent(jLabel4)
                 .addGap(70, 70, 70)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(267, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         add(jPanel5);
@@ -296,19 +296,19 @@ public class LoginPage extends javax.swing.JPanel {
         log.info(response.getMessage());
 
         if (response.isSuccess()) {
-            eventPublisherService.publishEvent(new UserEvent(evt.getSource(), UserEvent.EventType.LOGIN));
-            eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), navigateTo));
+            EventPublisherService.publishEvent(new UserActionEvent(evt.getSource(), UserActionEvent.EventType.LOGIN));
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), navigateTo));
         }
     }//GEN-LAST:event_loginBtnMouseClicked
 
     private void signUpBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpBtnMouseClicked
         // TODO add your handling code here:
-        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.SIGN_UP_PAGE));
+        EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.SIGN_UP_PAGE));
     }//GEN-LAST:event_signUpBtnMouseClicked
 
     private void forgotPassBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPassBtnMouseClicked
         // TODO add your handling code here:
-        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.FORGOT_PASS_PAGE));
+        EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.FORGOT_PASS_PAGE));
     }//GEN-LAST:event_forgotPassBtnMouseClicked
 
 

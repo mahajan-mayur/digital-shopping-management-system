@@ -15,14 +15,13 @@ import com.dsms.ui.event.model.NavigateEvent;
  */
 public class TopPane extends javax.swing.JPanel  {
 
-    private final EventPublisherService eventPublisherService;
+    
 
     /**
      * Creates new form TopPane
      */
     public TopPane() {
         initComponents();
-        this.eventPublisherService = ContextProvider.getBean(EventPublisherService.class);
     }
 
     /**
@@ -144,7 +143,7 @@ public class TopPane extends javax.swing.JPanel  {
 
     private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
         // TODO add your handling code here:
-          eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.WISHLIST_PAGE));
+          EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.WISHLIST_PAGE));
     }//GEN-LAST:event_jLabel20MouseClicked
 
 

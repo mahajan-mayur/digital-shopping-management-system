@@ -5,6 +5,7 @@
  */
 package com.dsms.beans;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -15,17 +16,20 @@ import org.springframework.stereotype.Service;
  * @author Mahaj
  */
 @Service
+@Slf4j
 public class ContextProvider implements ApplicationContextAware {
-    
+
     private static ApplicationContext ctx;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         ContextProvider.ctx = applicationContext;
     }
-    
+
     public static <T> T getBean(Class<T> beanClass) {
+
         return ctx.getBean(beanClass);
+
     }
-    
+
 }

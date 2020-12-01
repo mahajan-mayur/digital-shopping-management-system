@@ -7,6 +7,10 @@ package com.dsms.ui;
 
 import com.dsms.beans.ContextProvider;
 import com.dsms.beans.EventPublisherService;
+import com.dsms.controller.UserController;
+import com.dsms.enums.UserType;
+import com.dsms.ui.admin.AddItemPage;
+import com.dsms.ui.admin.AdminHome;
 import com.dsms.ui.event.NavigateEventListner;
 import com.dsms.ui.event.model.NavigateEvent;
 import java.awt.Image;
@@ -14,9 +18,9 @@ import java.io.IOException;
 import java.util.EventObject;
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
@@ -28,11 +32,8 @@ import org.springframework.util.ResourceUtils;
 public class MainFrame extends javax.swing.JFrame {
 
     private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
-    
-    @Autowired
-    private EventPublisherService eventPublisherService;
 
-    
+
     /**
      * Creates new form MainFrame
      */
@@ -44,7 +45,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void init() {
         initComponents();
         NavigateEventListner navigateEventListner = new NavigateEventListnerImpl();
-        eventPublisherService.addEventListner(navigateEventListner);
+        EventPublisherService.addEventListner(navigateEventListner);
         mainPane1.switchPanel(new LoginPage());
     }
 
@@ -107,12 +108,11 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
-
     private class NavigateEventListnerImpl implements NavigateEventListner {
 
         @Override
         public void onEvent(EventObject eventObject) {
-            if(!(eventObject instanceof NavigateEvent)){
+            if (!(eventObject instanceof NavigateEvent)) {
                 log.info("unknown event");
             }
             NavigateEvent navigateEvent = (NavigateEvent) eventObject;
@@ -131,9 +131,12 @@ public class MainFrame extends javax.swing.JFrame {
                     mainPane1.switchPanel(aboutUs);
                     break;
                 case HOME_PAGE:
-                    HomePage homePage = new HomePage();
+                    UserController userController = ContextProvider.getBean(UserController.class);
+
+                    JPanel homePage = userController.getLoggedInUserType() == UserType.ADMIN ? new AdminHome() : new HomePage();
                     mainPane1.switchPanel(homePage);
                     break;
+
                 case LOGIN_PAGE:
                     LoginPage loginPage = new LoginPage(navigateEvent.getForwordTo());
                     mainPane1.switchPanel(loginPage);
@@ -156,6 +159,10 @@ public class MainFrame extends javax.swing.JFrame {
                 case FORGOT_PASS_PAGE:
                     ForgotPass forgotPass = new ForgotPass();
                     mainPane1.switchPanel(forgotPass);
+                    break;
+                case ADD_ITEM_PAGE:
+                    AddItemPage addItem =new AddItemPage();
+                    mainPane1.switchPanel(addItem);
                     break;
 
             }

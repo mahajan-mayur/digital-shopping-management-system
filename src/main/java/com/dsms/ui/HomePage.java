@@ -8,12 +8,18 @@ package com.dsms.ui;
 import org.springframework.data.domain.Page;
 
 import com.dsms.beans.ContextProvider;
+import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.ItemController;
 import com.dsms.db.entity.ItemEntity;
 import com.dsms.enums.ItemCategory;
 import com.dsms.ui.components.WishlistItem;
+import com.dsms.ui.event.CategoryEventListner;
+import com.dsms.ui.event.model.CategoryEvent;
+import java.awt.Dimension;
 
-import java.awt.LayoutManager;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,17 +33,22 @@ import javax.swing.JScrollPane;
  *
  * @author Mahaj
  */
+@Slf4j
 public class HomePage extends javax.swing.JPanel {
 	
-	private ItemController itemController;
-
+	private ItemCategory selectedItemCategory;
+	
     /**
      * Creates new form HomePage
      */
-    public HomePage() {
-    	itemController = new ItemController();
+    public HomePage() {   	
         initComponents();
+        CategoryEventListner categoryEventListner = new CategoryEventListnerImpl();
+        EventPublisherService.addEventListner(categoryEventListner);
+        
+        selectedItemCategory = ItemCategory.GARMENTS;
         initContent();
+
     }
 
 
@@ -50,14 +61,19 @@ public class HomePage extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        categoryPanel1 = new com.dsms.ui.components.CategoryPanel();
+        categoryPanel = new com.dsms.ui.components.CategoryPanel();
         jPanel1 = new javax.swing.JPanel();
         contentPanel = new javax.swing.JPanel();
         pageBtnPane = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setMinimumSize(new java.awt.Dimension(420, 322));
+        setPreferredSize(new java.awt.Dimension(420, 322));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
-        add(categoryPanel1);
+
+        categoryPanel.setMinimumSize(new java.awt.Dimension(287, 83));
+        categoryPanel.setPreferredSize(new java.awt.Dimension(287, 83));
+        add(categoryPanel);
 
         contentPanel.setLayout(new javax.swing.BoxLayout(contentPanel, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -65,11 +81,11 @@ public class HomePage extends javax.swing.JPanel {
         pageBtnPane.setLayout(pageBtnPaneLayout);
         pageBtnPaneLayout.setHorizontalGroup(
             pageBtnPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 824, Short.MAX_VALUE)
+            .addGap(0, 597, Short.MAX_VALUE)
         );
         pageBtnPaneLayout.setVerticalGroup(
             pageBtnPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
+            .addGap(0, 29, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -77,14 +93,15 @@ public class HomePage extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pageBtnPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(contentPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pageBtnPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pageBtnPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         add(jPanel1);
@@ -92,17 +109,21 @@ public class HomePage extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.dsms.ui.components.CategoryPanel categoryPanel1;
+    private com.dsms.ui.components.CategoryPanel categoryPanel;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pageBtnPane;
     // End of variables declaration//GEN-END:variables
     
     private void initContent() {
-    	Page<ItemEntity> page = itemController.getCategoryItems(ItemCategory.GARMENTS, 0, 10);
+    	contentPanel.removeAll();
+        ItemController itemController = ContextProvider.getBean(ItemController.class);
+    	Page<ItemEntity> page = itemController.getCategoryItems(selectedItemCategory, 0, 200);
     	
         JPanel content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
+        content.setMaximumSize(contentPanel.getSize());
+        content.setSize(contentPanel.getSize());
         
 		 List<WishlistItem> itemList = page.getContent().stream().map(
 				item -> new WishlistItem(item.getImageUrl(), item.getItemCategory(), item.getName(), item.getPrice()))
@@ -111,16 +132,38 @@ public class HomePage extends javax.swing.JPanel {
 		// itemList.stream().forEach(i -> content.add(i));
 		 Iterator<WishlistItem> itr = itemList.iterator();
 		 while(itr.hasNext()) {
+			 WishlistItem wishListItem = itr.next();
+			 wishListItem.setSize(409, 126);
+                         wishListItem.setMaximumSize(new Dimension(500, 200));
 			 Box box = new Box(BoxLayout.LINE_AXIS);
-			 box.add(itr.next());
-			 if(itr.hasNext()) {
-				 box.add(itr.next());
-			 }
-			 
+			 box.setAlignmentX(CENTER_ALIGNMENT);
+                         box.add(Box.createHorizontalGlue());
+			 box.add(wishListItem);
+                         box.add(Box.createHorizontalGlue());
 			 content.add(box);
 		 }
     	
-		 contentPanel.add(new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+		 contentPanel.add(new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 		
+	}
+    
+	private class CategoryEventListnerImpl implements CategoryEventListner {
+
+		@Override
+		public void onEvent(EventObject eventObject) {
+			if (!(eventObject instanceof CategoryEvent)) {
+				log.info("invalid event {}",eventObject);
+				return;
+			}
+			CategoryEvent categoryEvent = (CategoryEvent) eventObject;
+			
+			selectedItemCategory = categoryEvent.getSelectedItemCategory();
+			log.info("Category Event selected category : {}", selectedItemCategory);
+			initContent();
+			repaint();
+			revalidate();
+
+		}
+
 	}
 }

@@ -32,7 +32,7 @@ import com.dsms.enums.UserType;
  *
  * @author Mahaj
  */
-@Component
+//@Component
 public class Test {
 
 	@Autowired
@@ -41,10 +41,10 @@ public class Test {
 	@Autowired
 	ItemRepository itemRepository;
 
-	// @PostConstruct
+	//@PostConstruct
 	public void user() {
-		userRepository.save(UserEntity.builder().email("yogesh").address("test").password("test").firstName("yogesh")
-				.lastName("mahajan").userType(UserType.CUSTOMER).build());
+		userRepository.save(UserEntity.builder().email("admin").address("test").password("test").firstName("yogesh")
+				.lastName("mahajan").userType(UserType.ADMIN).build());
 
 		UserEntity mayur = userRepository.getUserByUserName("mayur");
 		userRepository.delete(mayur);

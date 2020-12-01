@@ -58,6 +58,7 @@ public class NavigateEvent extends EventObject {
         MY_ORDERS_PAGE,
         CONTACT_US_PAGE,
         ABOUT_US_PAGE,
+        ADD_ITEM_PAGE,
     };
 
 }
