@@ -5,7 +5,6 @@
  */
 package com.dsms.ui.components;
 
-import com.dsms.beans.ContextProvider;
 import com.dsms.beans.EventPublisherService;
 import com.dsms.ui.event.model.NavigateEvent;
 
@@ -40,7 +39,7 @@ public class TopPane extends javax.swing.JPanel  {
         jPanel9 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
+        wishlistbtn = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
 
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
@@ -98,10 +97,10 @@ public class TopPane extends javax.swing.JPanel  {
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-30.png"))); // NOI18N
 
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-bookmark-30.png"))); // NOI18N
-        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+        wishlistbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-bookmark-30.png"))); // NOI18N
+        wishlistbtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel20MouseClicked(evt);
+                wishlistbtnMouseClicked(evt);
             }
         });
 
@@ -117,7 +116,7 @@ public class TopPane extends javax.swing.JPanel  {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel24)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel20)
+                .addComponent(wishlistbtn)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel29)
                 .addContainerGap())
@@ -128,7 +127,7 @@ public class TopPane extends javax.swing.JPanel  {
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel29)
-                    .addComponent(jLabel20)
+                    .addComponent(wishlistbtn)
                     .addComponent(jLabel24)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
@@ -141,14 +140,13 @@ public class TopPane extends javax.swing.JPanel  {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+    private void wishlistbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wishlistbtnMouseClicked
         // TODO add your handling code here:
           EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.WISHLIST_PAGE));
-    }//GEN-LAST:event_jLabel20MouseClicked
+    }//GEN-LAST:event_wishlistbtnMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel53;
@@ -157,6 +155,7 @@ public class TopPane extends javax.swing.JPanel  {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel wishlistbtn;
     // End of variables declaration//GEN-END:variables
 
 }

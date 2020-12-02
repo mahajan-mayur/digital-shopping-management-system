@@ -76,9 +76,9 @@ public class HomePage extends javax.swing.JPanel {
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
 
-        contentPanel.setMaximumSize(new java.awt.Dimension(90000, 90000));
-        contentPanel.setMinimumSize(new java.awt.Dimension(500, 304));
-        contentPanel.setPreferredSize(new java.awt.Dimension(500, 304));
+        contentPanel.setMaximumSize(new java.awt.Dimension(65534, 32767));
+        contentPanel.setMinimumSize(new java.awt.Dimension(0, 0));
+        contentPanel.setPreferredSize(new java.awt.Dimension(761, 98));
         contentPanel.setLayout(new javax.swing.BoxLayout(contentPanel, javax.swing.BoxLayout.LINE_AXIS));
         jPanel1.add(contentPanel);
 
@@ -127,13 +127,13 @@ public class HomePage extends javax.swing.JPanel {
         Iterator<WishlistItem> itr = itemList.iterator();
         while (itr.hasNext()) {
             WishlistItem wishListItem = itr.next();
-            wishListItem.setSize(409, 126);
-            wishListItem.setMaximumSize(new Dimension(500, 200));
+            wishListItem.setSize(2048, 350);
+            wishListItem.setMaximumSize(new Dimension(4058, 450));
             Box box = new Box(BoxLayout.LINE_AXIS);
-            //box.setAlignmentX(CENTER_ALIGNMENT);
-            //box.add(Box.createHorizontalGlue());
+           box.setAlignmentX(CENTER_ALIGNMENT);
+          box.add(Box.createHorizontalGlue());
             box.add(wishListItem);
-            //box.add(Box.createHorizontalGlue());
+            box.add(Box.createHorizontalGlue());
             content.add(box);
         }
         JScrollPane scrollPanel = new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

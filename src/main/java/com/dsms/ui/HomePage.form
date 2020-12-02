@@ -48,13 +48,13 @@
         <Container class="javax.swing.JPanel" name="contentPanel">
           <Properties>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[90000, 90000]"/>
+              <Dimension value="[65534, 32767]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[500, 304]"/>
+              <Dimension value="[0, 0]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[500, 304]"/>
+              <Dimension value="[761, 98]"/>
             </Property>
           </Properties>
 
