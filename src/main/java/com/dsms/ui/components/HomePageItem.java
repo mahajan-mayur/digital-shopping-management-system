@@ -5,28 +5,44 @@
  */
 package com.dsms.ui.components;
 
+import com.dsms.db.entity.ItemEntity;
 import javax.swing.ImageIcon;
 
-import com.dsms.enums.ItemCategory;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import lombok.extern.slf4j.Slf4j;
 import org.kordamp.ikonli.materialdesign.MaterialDesign;
 
 /**
  *
  * @author Mahaj
  */
+@Slf4j
 public class HomePageItem extends javax.swing.JPanel {
-
-
     
-    public HomePageItem(String imageUrl, ItemCategory itemCategory, String itemName, Double itemPrice) {
+    public HomePageItem(ItemEntity item) {
         initComponents();
-        this.imageLbl.setIcon(new ImageIcon(imageUrl));
-        this.itemCategory.setText(itemCategory.toString()); 
-        this.itemName.setText(itemName);
-        this.itemPrice.setText(itemPrice.toString());
+        
+        try {
+            BufferedImage img = ImageIO.read(new File(item.getImageUrl()));
+            Dimension dimension = getScaledDimension(new Dimension(img.getWidth(), img.getHeight()), imagePanel.getPreferredSize());
+            Image dimg = img.getScaledInstance((int) dimension.getWidth(), (int) dimension.getHeight(),
+                    Image.SCALE_SMOOTH);
+            this.imageLbl.setIcon(new ImageIcon(dimg));
+        } catch (IOException e) {
+            log.error("error in reading image : {}", item.getImageUrl());
+        }
+        this.itemCategory.setText(item.getItemCategory().toString());
+        this.itemDescription.setText(item.getDesciption());
+        this.itemName.setText(item.getName());
+        this.itemPrice.setText(item.getPrice().toString());
         
     }
-
+    
     public HomePageItem() {
         initComponents();
     }
@@ -40,85 +56,101 @@ public class HomePageItem extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel11 = new javax.swing.JPanel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
+        jPanel5 = new javax.swing.JPanel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        imagePanel = new javax.swing.JPanel();
+        imageLbl = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         itemName = new javax.swing.JLabel();
-        itemPrice = new javax.swing.JLabel();
-        itemlabel = new javax.swing.JLabel();
         itemCategory = new javax.swing.JLabel();
+        itemDescription = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        itemlabel = new javax.swing.JLabel();
+        itemPrice = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         addToBagBtn = new com.dsms.ui.components.SidePaneJbutton();
         addToBagBtn1 = new com.dsms.ui.components.SidePaneJbutton();
-        jPanel5 = new javax.swing.JPanel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        jPanel1 = new javax.swing.JPanel();
-        imageLbl = new javax.swing.JLabel();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
 
         setMaximumSize(new java.awt.Dimension(65534, 32767));
         setMinimumSize(new java.awt.Dimension(0, 0));
-        setPreferredSize(new java.awt.Dimension(1024, 246));
-
-        jDesktopPane1.setMaximumSize(new java.awt.Dimension(65534, 32767));
-        jDesktopPane1.setPreferredSize(new java.awt.Dimension(1024, 450));
+        setPreferredSize(new java.awt.Dimension(786, 246));
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel11.setBackground(new java.awt.Color(36, 37, 42));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel11.setMaximumSize(new java.awt.Dimension(65534, 32767));
         jPanel11.setPreferredSize(new java.awt.Dimension(1024, 224));
+        jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel11.add(filler3);
+
+        jPanel5.setOpaque(false);
+        jPanel5.setPreferredSize(new java.awt.Dimension(240, 135));
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel5.add(filler1);
+
+        imagePanel.setBackground(new java.awt.Color(255, 255, 255));
+        imagePanel.setMaximumSize(new java.awt.Dimension(240, 135));
+        imagePanel.setMinimumSize(new java.awt.Dimension(240, 135));
+        imagePanel.setPreferredSize(new java.awt.Dimension(240, 135));
+        imagePanel.setLayout(new java.awt.BorderLayout());
+
+        imageLbl.setBackground(new java.awt.Color(255, 255, 255));
+        imageLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imageLbl.setText(" ");
+        imageLbl.setAlignmentX(0.5F);
+        imageLbl.setMaximumSize(new java.awt.Dimension(240, 135));
+        imageLbl.setMinimumSize(new java.awt.Dimension(240, 135));
+        imageLbl.setPreferredSize(new java.awt.Dimension(240, 135));
+        imagePanel.add(imageLbl, java.awt.BorderLayout.CENTER);
+
+        jPanel5.add(imagePanel);
+        jPanel5.add(filler2);
+
+        jPanel11.add(jPanel5);
+        jPanel11.add(filler4);
 
         jPanel2.setAlignmentX(0.0F);
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel3.setOpaque(false);
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
 
-        itemName.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        itemName.setForeground(new java.awt.Color(228, 241, 254));
-        itemName.setText("ITEM 1");
+        itemName.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 36)); // NOI18N
+        itemName.setForeground(new java.awt.Color(255, 255, 255));
+        itemName.setText("ITEM Name");
+        jPanel3.add(itemName);
 
+        itemCategory.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 12)); // NOI18N
+        itemCategory.setForeground(new java.awt.Color(189, 189, 189));
+        itemCategory.setText("ITEM Category");
+        jPanel3.add(itemCategory);
+
+        itemDescription.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 12)); // NOI18N
+        itemDescription.setForeground(new java.awt.Color(228, 241, 254));
+        itemDescription.setText("ITEM Description");
+        jPanel3.add(itemDescription);
+
+        jPanel1.setAlignmentX(0.0F);
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
+
+        itemlabel.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 12)); // NOI18N
+        itemlabel.setForeground(new java.awt.Color(228, 241, 254));
+        itemlabel.setText("Price:  ");
+        jPanel1.add(itemlabel);
+
+        itemPrice.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 12)); // NOI18N
         itemPrice.setForeground(new java.awt.Color(228, 241, 254));
         itemPrice.setText("200");
+        jPanel1.add(itemPrice);
 
-        itemlabel.setForeground(new java.awt.Color(228, 241, 254));
-        itemlabel.setText("PRICE:");
-
-        itemCategory.setForeground(new java.awt.Color(228, 241, 254));
-        itemCategory.setText("ITEM Category");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(itemName, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                        .addGap(76, 76, 76))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(itemlabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(itemPrice)
-                        .addGap(120, 120, 120))
-                    .addComponent(itemCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(itemName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(itemCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(7, 7, 7)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(itemlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(itemPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        jPanel3.add(jPanel1);
 
         jPanel2.add(jPanel3);
 
@@ -162,92 +194,27 @@ public class HomePageItem extends javax.swing.JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(144, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(addToBagBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addToBagBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(421, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addToBagBtn1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addToBagBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 36, Short.MAX_VALUE)
+                .addGap(0, 146, Short.MAX_VALUE)
                 .addComponent(addToBagBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(addToBagBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(addToBagBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel2.add(jPanel4);
 
-        jPanel5.setOpaque(false);
-        jPanel5.setPreferredSize(new java.awt.Dimension(240, 135));
-        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.PAGE_AXIS));
-        jPanel5.add(filler1);
+        jPanel11.add(jPanel2);
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(240, 135));
-        jPanel1.setMinimumSize(new java.awt.Dimension(240, 135));
-        jPanel1.setPreferredSize(new java.awt.Dimension(240, 135));
-
-        imageLbl.setText(" ");
-        imageLbl.setMaximumSize(new java.awt.Dimension(240, 135));
-        imageLbl.setMinimumSize(new java.awt.Dimension(240, 135));
-        imageLbl.setPreferredSize(new java.awt.Dimension(240, 135));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imageLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imageLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel5.add(jPanel1);
-        jPanel5.add(filler2);
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE))
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(44, 44, 44))
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jDesktopPane1.setLayer(jPanel11, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-        );
+        add(jPanel11);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addToBagBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToBagBtnActionPerformed
@@ -264,12 +231,15 @@ public class HomePageItem extends javax.swing.JPanel {
     private com.dsms.ui.components.SidePaneJbutton addToBagBtn1;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
     private javax.swing.JLabel imageLbl;
+    private javax.swing.JPanel imagePanel;
     private javax.swing.JLabel itemCategory;
+    private javax.swing.JLabel itemDescription;
     private javax.swing.JLabel itemName;
     private javax.swing.JLabel itemPrice;
     private javax.swing.JLabel itemlabel;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
@@ -277,4 +247,32 @@ public class HomePageItem extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     // End of variables declaration//GEN-END:variables
+
+    private static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
+        
+        int original_width = imgSize.width;
+        int original_height = imgSize.height;
+        int bound_width = boundary.width;
+        int bound_height = boundary.height;
+        int new_width = original_width;
+        int new_height = original_height;
+
+        // first check if we need to scale width
+        if (original_width > bound_width) {
+            //scale width to fit
+            new_width = bound_width;
+            //scale height to maintain aspect ratio
+            new_height = (new_width * original_height) / original_width;
+        }
+
+        // then check if we need to scale even with the new height
+        if (new_height > bound_height) {
+            //scale height to fit instead
+            new_height = bound_height;
+            //scale width to maintain aspect ratio
+            new_width = (new_height * original_width) / original_height;
+        }
+        
+        return new Dimension(new_width, new_height);
+    }
 }

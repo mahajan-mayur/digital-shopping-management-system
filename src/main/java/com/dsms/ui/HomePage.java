@@ -35,20 +35,20 @@ import javax.swing.JScrollPane;
  */
 @Slf4j
 public class HomePage extends javax.swing.JPanel {
-    
+
     private ItemCategory selectedItemCategory;
 
     /**
      * Creates new form HomePage
      */
-    public HomePage() {        
+    public HomePage() {
         initComponents();
         CategoryEventListner categoryEventListner = new CategoryEventListnerImpl();
         EventPublisherService.addEventListner(categoryEventListner);
-        
+
         selectedItemCategory = ItemCategory.GARMENTS;
         initContent();
-        
+
     }
 
     /**
@@ -108,18 +108,18 @@ public class HomePage extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pageBtnPane;
     // End of variables declaration//GEN-END:variables
-    
+
     private void initContent() {
         contentPanel.removeAll();
         ItemController itemController = ContextProvider.getBean(ItemController.class);
         Page<ItemEntity> page = itemController.getCategoryItems(selectedItemCategory, 0, 200);
-        
+
         JPanel content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
         content.setMaximumSize(contentPanel.getSize());
         content.setSize(contentPanel.getSize());
-        
-        List<HomePageItem> itemList = page.getContent().stream().map(item -> new HomePageItem(item.getImageUrl(), item.getItemCategory(), item.getName(), item.getPrice()))
+
+        List<HomePageItem> itemList = page.getContent().stream().map(item -> new HomePageItem(item))
                 .collect(Collectors.toList());
 
         // itemList.stream().forEach(i -> content.add(i));
@@ -129,8 +129,8 @@ public class HomePage extends javax.swing.JPanel {
             wishListItem.setSize(2048, 350);
             wishListItem.setMaximumSize(new Dimension(4058, 450));
             Box box = new Box(BoxLayout.LINE_AXIS);
-           box.setAlignmentX(CENTER_ALIGNMENT);
-          box.add(Box.createHorizontalGlue());
+            box.setAlignmentX(CENTER_ALIGNMENT);
+            box.add(Box.createHorizontalGlue());
             box.add(wishListItem);
             box.add(Box.createHorizontalGlue());
             content.add(box);
@@ -138,11 +138,11 @@ public class HomePage extends javax.swing.JPanel {
         JScrollPane scrollPanel = new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPanel.getViewport().setSize(contentPanel.getSize());
         contentPanel.add(scrollPanel);
-        
+
     }
-    
+
     private class CategoryEventListnerImpl implements CategoryEventListner {
-        
+
         @Override
         public void onEvent(EventObject eventObject) {
             if (!(eventObject instanceof CategoryEvent)) {
@@ -150,14 +150,14 @@ public class HomePage extends javax.swing.JPanel {
                 return;
             }
             CategoryEvent categoryEvent = (CategoryEvent) eventObject;
-            
+
             selectedItemCategory = categoryEvent.getSelectedItemCategory();
             log.info("Category Event selected category : {}", selectedItemCategory);
             initContent();
             repaint();
             revalidate();
-            
+
         }
-        
+
     }
 }
