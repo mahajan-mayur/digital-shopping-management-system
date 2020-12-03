@@ -12,7 +12,7 @@ import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.ItemController;
 import com.dsms.db.entity.ItemEntity;
 import com.dsms.enums.ItemCategory;
-import com.dsms.ui.components.WishlistItem;
+import com.dsms.ui.components.HomePageItem;
 import com.dsms.ui.event.CategoryEventListner;
 import com.dsms.ui.event.model.CategoryEvent;
 import java.awt.Dimension;
@@ -119,14 +119,13 @@ public class HomePage extends javax.swing.JPanel {
         content.setMaximumSize(contentPanel.getSize());
         content.setSize(contentPanel.getSize());
         
-        List<WishlistItem> itemList = page.getContent().stream().map(
-                item -> new WishlistItem(item.getImageUrl(), item.getItemCategory(), item.getName(), item.getPrice()))
+        List<HomePageItem> itemList = page.getContent().stream().map(item -> new HomePageItem(item.getImageUrl(), item.getItemCategory(), item.getName(), item.getPrice()))
                 .collect(Collectors.toList());
 
         // itemList.stream().forEach(i -> content.add(i));
-        Iterator<WishlistItem> itr = itemList.iterator();
+        Iterator<HomePageItem> itr = itemList.iterator();
         while (itr.hasNext()) {
-            WishlistItem wishListItem = itr.next();
+            HomePageItem wishListItem = itr.next();
             wishListItem.setSize(2048, 350);
             wishListItem.setMaximumSize(new Dimension(4058, 450));
             Box box = new Box(BoxLayout.LINE_AXIS);

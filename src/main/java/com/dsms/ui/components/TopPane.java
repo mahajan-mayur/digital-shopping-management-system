@@ -5,22 +5,33 @@
  */
 package com.dsms.ui.components;
 
+import com.dsms.beans.ContextProvider;
 import com.dsms.beans.EventPublisherService;
+import com.dsms.controller.UserController;
+import com.dsms.enums.UserType;
+import com.dsms.ui.event.UserEventListner;
 import com.dsms.ui.event.model.NavigateEvent;
+import com.dsms.ui.event.model.UserActionEvent;
+import java.awt.Dimension;
+import java.util.EventObject;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author Mahaj
  */
-public class TopPane extends javax.swing.JPanel  {
-
-    
+@Slf4j
+public class TopPane extends javax.swing.JPanel {
 
     /**
      * Creates new form TopPane
      */
     public TopPane() {
         initComponents();
+        EventPublisherService.addEventListner(new UserEventListnerImpl());
+
     }
 
     /**
@@ -37,11 +48,16 @@ public class TopPane extends javax.swing.JPanel  {
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel9 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel24 = new javax.swing.JLabel();
-        wishlistbtn = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        searchField = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 10), new java.awt.Dimension(10, 10), new java.awt.Dimension(10, 10));
+        wishlistBtn = new javax.swing.JLabel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 10), new java.awt.Dimension(10, 10), new java.awt.Dimension(10, 10));
+        cartBtn = new javax.swing.JLabel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 10), new java.awt.Dimension(10, 10), new java.awt.Dimension(10, 10));
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -83,79 +99,140 @@ public class TopPane extends javax.swing.JPanel  {
         add(jPanel1);
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel9.add(filler1);
 
-        jTextField1.setBackground(new java.awt.Color(233, 219, 232));
-        jTextField1.setForeground(new java.awt.Color(102, 102, 102));
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("Search");
-        jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        searchField.setForeground(new java.awt.Color(102, 102, 102));
+        searchField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchField.setToolTipText("search");
+        searchField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        searchField.setMaximumSize(new java.awt.Dimension(200, 25));
+        searchField.setMinimumSize(new java.awt.Dimension(200, 25));
+        searchField.setPreferredSize(new java.awt.Dimension(200, 25));
+        searchField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                searchFieldActionPerformed(evt);
             }
         });
+        jPanel9.add(searchField);
 
-        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-30.png"))); // NOI18N
+        searchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-30.png"))); // NOI18N
+        jPanel9.add(searchBtn);
+        jPanel9.add(filler2);
 
-        wishlistbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-bookmark-30.png"))); // NOI18N
-        wishlistbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        wishlistBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-bookmark-30.png"))); // NOI18N
+        wishlistBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                wishlistbtnMouseClicked(evt);
+                wishlistBtnMouseClicked(evt);
             }
         });
+        jPanel9.add(wishlistBtn);
+        jPanel9.add(filler4);
 
-        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-add-shopping-cart-30.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel24)
-                .addGap(18, 18, 18)
-                .addComponent(wishlistbtn)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel29)
-                .addContainerGap())
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel29)
-                    .addComponent(wishlistbtn)
-                    .addComponent(jLabel24)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
-        );
+        cartBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-add-shopping-cart-30.png"))); // NOI18N
+        cartBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cartBtnMouseClicked(evt);
+            }
+        });
+        jPanel9.add(cartBtn);
+        jPanel9.add(filler3);
 
         add(jPanel9);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_searchFieldActionPerformed
 
-    private void wishlistbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wishlistbtnMouseClicked
+    private void wishlistBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wishlistBtnMouseClicked
         // TODO add your handling code here:
-          EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.WISHLIST_PAGE));
-    }//GEN-LAST:event_wishlistbtnMouseClicked
+        UserController userController = ContextProvider.getBean(UserController.class);
+        if (userController.isUserLoggedIn()) {
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.WISHLIST_PAGE));
+        } else {
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE, NavigateEvent.NavigateTo.WISHLIST_PAGE));
+        }
+
+    }//GEN-LAST:event_wishlistBtnMouseClicked
+
+    private void cartBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cartBtnMouseClicked
+        // TODO add your handling code here:
+        UserController userController = ContextProvider.getBean(UserController.class);
+        if (userController.isUserLoggedIn()) {
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.CART_PAGE));
+        } else {
+            EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE, NavigateEvent.NavigateTo.WISHLIST_PAGE));
+        }
+
+    }//GEN-LAST:event_cartBtnMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel cartBtn;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel wishlistbtn;
+    private javax.swing.JLabel searchBtn;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JLabel wishlistBtn;
     // End of variables declaration//GEN-END:variables
+ private class UserEventListnerImpl implements UserEventListner {
 
+        @Override
+        public void onEvent(EventObject eventObject) {
+            if (!(eventObject instanceof UserActionEvent)) {
+                log.info("unknown event, {}", eventObject);
+            }
+            UserActionEvent userActionEvent = (UserActionEvent) eventObject;
+            switch (userActionEvent.getEventType()) {
+                case LOGIN:
+                    handleUserLoginEvent();
+                    break;
+                case LOGOUT:
+                    handleUserLogoutEvent();
+                    break;
+            }
+        }
+
+        private void handleUserLogoutEvent() {
+            setButtons();
+        }
+
+        private void handleUserLoginEvent() {
+            setButtons();
+        }
+    }
+
+    private void setButtons() {
+        UserController userController = ContextProvider.getBean(UserController.class);
+        UserType userType = userController.getLoggedInUserType();
+        userType = userType == null ? UserType.CUSTOMER : userType;
+
+        jPanel9.removeAll();
+
+        switch (userType) {
+            case ADMIN:
+                break;
+            case CUSTOMER:
+            default:
+                jPanel9.add(Box.createHorizontalGlue());
+                jPanel9.add(searchField);
+                jPanel9.add(Box.createRigidArea(new Dimension(10, 10)));
+                jPanel9.add(searchBtn);
+                jPanel9.add(Box.createRigidArea(new Dimension(10, 10)));
+                jPanel9.add(wishlistBtn);
+                jPanel9.add(Box.createRigidArea(new Dimension(10, 10)));
+                jPanel9.add(cartBtn);
+                jPanel9.add(Box.createRigidArea(new Dimension(10, 10)));
+                break;
+        }
+
+    }
 }

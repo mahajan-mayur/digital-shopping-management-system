@@ -55,6 +55,7 @@ public class NavigateEvent extends EventObject {
         FORGOT_PASS_PAGE,
         MY_ACCOUNT_PAGE,
         WISHLIST_PAGE,
+        CART_PAGE,
         MY_ORDERS_PAGE,
         CONTACT_US_PAGE,
         ABOUT_US_PAGE,

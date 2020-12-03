@@ -33,7 +33,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
 
-
     /**
      * Creates new form MainFrame
      */
@@ -149,6 +148,10 @@ public class MainFrame extends javax.swing.JFrame {
                     WishListPage wishListPage = new WishListPage();
                     mainPane1.switchPanel(wishListPage);
                     break;
+                case CART_PAGE:
+                    CartPage cartPage = new CartPage();
+                    mainPane1.switchPanel(cartPage);
+                    break;
 
                 case SIGN_UP_PAGE:
                     SignUpPage signUpPage = new SignUpPage();
@@ -161,7 +164,7 @@ public class MainFrame extends javax.swing.JFrame {
                     mainPane1.switchPanel(forgotPass);
                     break;
                 case ADD_ITEM_PAGE:
-                    AddItemPage addItem =new AddItemPage();
+                    AddItemPage addItem = new AddItemPage();
                     mainPane1.switchPanel(addItem);
                     break;
 

@@ -14,11 +14,11 @@ import org.kordamp.ikonli.materialdesign.MaterialDesign;
  *
  * @author Mahaj
  */
-public class WishlistItem extends javax.swing.JPanel {
+public class HomePageItem extends javax.swing.JPanel {
 
 
     
-    public WishlistItem(String imageUrl, ItemCategory itemCategory, String itemName, Double itemPrice) {
+    public HomePageItem(String imageUrl, ItemCategory itemCategory, String itemName, Double itemPrice) {
         initComponents();
         this.imageLbl.setIcon(new ImageIcon(imageUrl));
         this.itemCategory.setText(itemCategory.toString()); 
@@ -27,7 +27,7 @@ public class WishlistItem extends javax.swing.JPanel {
         
     }
 
-    public WishlistItem() {
+    public HomePageItem() {
         initComponents();
     }
 
