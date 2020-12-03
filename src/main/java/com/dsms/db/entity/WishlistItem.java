@@ -7,6 +7,7 @@ package com.dsms.db.entity;
 
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,7 +35,7 @@ public class WishlistItem extends TimestampedEntity{
     @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_wishlist_user_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
     private UserEntity userEntity;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "itemId", foreignKey = @ForeignKey(name = "fk_wishlist_item_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
     private ItemEntity itemEntity;
 }

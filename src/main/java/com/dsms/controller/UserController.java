@@ -1,15 +1,17 @@
 package com.dsms.controller;
 
-import com.dsms.beans.ContextProvider;
-import com.dsms.dto.ControllerResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.dsms.beans.UserSession;
 import com.dsms.db.dao.UserRepository;
 import com.dsms.db.entity.UserEntity;
+import com.dsms.dto.ControllerResponse;
 import com.dsms.enums.UserType;
 import com.dsms.ui.event.model.LoginEvent;
 import com.dsms.ui.event.model.SignUpEvent;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 /**
  *
@@ -19,13 +21,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final UserSession userSession;
+	@Autowired
+    private  UserRepository userRepository;
+	
+	@Autowired
+    private  UserSession userSession;
 
-    public UserController() {
-        this.userRepository = ContextProvider.getBean(UserRepository.class);
-        this.userSession = ContextProvider.getBean(UserSession.class);
-    }
 
     public Boolean signUp(SignUpEvent signUpEvent) {
         UserEntity user = UserEntity.builder().address(signUpEvent.getAddress())
@@ -67,5 +68,9 @@ public class UserController {
 
     public UserType getLoggedInUserType() {
         return userSession.getUserEntity() == null ? null : userSession.getUserEntity().getUserType();
+    }
+    
+    public UserEntity getLoggedInUser() {
+        return userSession.getUserEntity();
     }
 }
