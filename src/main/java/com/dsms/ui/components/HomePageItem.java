@@ -25,7 +25,7 @@ import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
 import com.dsms.dto.ControllerResponse;
 import com.dsms.ui.event.model.NavigateEvent;
-import java.awt.Color;
+import com.dsms.util.ImageUtils;
 import javax.swing.SwingUtilities;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,7 @@ public class HomePageItem extends javax.swing.JPanel {
 
         try {
             BufferedImage img = ImageIO.read(new File(item.getImageUrl()));
-            Dimension dimension = getScaledDimension(new Dimension(img.getWidth(), img.getHeight()), imagePanel.getPreferredSize());
+            Dimension dimension = ImageUtils.getScaledDimension(new Dimension(img.getWidth(), img.getHeight()), imagePanel.getPreferredSize());
             Image dimg = img.getScaledInstance((int) dimension.getWidth(), (int) dimension.getHeight(),
                     Image.SCALE_SMOOTH);
             this.imageLbl.setIcon(new ImageIcon(dimg));
@@ -320,33 +320,7 @@ public class HomePageItem extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     // End of variables declaration//GEN-END:variables
 
-    private static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
 
-        int original_width = imgSize.width;
-        int original_height = imgSize.height;
-        int bound_width = boundary.width;
-        int bound_height = boundary.height;
-        int new_width = original_width;
-        int new_height = original_height;
-
-        // first check if we need to scale width
-        if (original_width > bound_width) {
-            //scale width to fit
-            new_width = bound_width;
-            //scale height to maintain aspect ratio
-            new_height = (new_width * original_height) / original_width;
-        }
-
-        // then check if we need to scale even with the new height
-        if (new_height > bound_height) {
-            //scale height to fit instead
-            new_height = bound_height;
-            //scale width to maintain aspect ratio
-            new_width = (new_height * original_width) / original_height;
-        }
-
-        return new Dimension(new_width, new_height);
-    }
 
     private void handleAddedToBag(Boolean isAddedToBag) {
         if (isAddedToBag) {

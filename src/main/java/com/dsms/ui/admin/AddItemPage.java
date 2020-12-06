@@ -9,6 +9,10 @@ import com.dsms.beans.ContextProvider;
 import com.dsms.controller.ItemController;
 import com.dsms.enums.ItemCategory;
 import com.dsms.ui.event.model.AddItemEvent;
+import com.dsms.util.ImageUtils;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,12 +58,13 @@ public class AddItemPage extends javax.swing.JPanel {
         categoryTypeComboBox = new javax.swing.JComboBox<>();
         chooseFileBtn = new javax.swing.JButton();
         imageFileNameLbl = new javax.swing.JLabel();
-        imageLbl = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         priceField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         descriptionField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        imageLblPanel = new javax.swing.JPanel();
+        imageLbl = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -106,10 +111,6 @@ public class AddItemPage extends javax.swing.JPanel {
             }
         });
 
-        imageLbl.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
-        imageLbl.setForeground(new java.awt.Color(51, 51, 51));
-        imageLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
         jButton6.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(102, 102, 102));
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-add-50.png"))); // NOI18N
@@ -139,6 +140,16 @@ public class AddItemPage extends javax.swing.JPanel {
         jLabel7.setText("Description:");
         jLabel7.setFocusable(false);
 
+        imageLblPanel.setMaximumSize(new java.awt.Dimension(240, 135));
+        imageLblPanel.setMinimumSize(new java.awt.Dimension(240, 135));
+        imageLblPanel.setPreferredSize(new java.awt.Dimension(240, 135));
+        imageLblPanel.setLayout(new java.awt.BorderLayout());
+
+        imageLbl.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
+        imageLbl.setForeground(new java.awt.Color(51, 51, 51));
+        imageLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imageLblPanel.add(imageLbl, java.awt.BorderLayout.CENTER);
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -152,7 +163,7 @@ public class AddItemPage extends javax.swing.JPanel {
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(40, 40, 40))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
                         .addGap(48, 48, 48))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -161,23 +172,23 @@ public class AddItemPage extends javax.swing.JPanel {
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(itemNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(88, 88, 88))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(imageLbl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(imageFileNameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(chooseFileBtn)
-                        .addGap(98, 98, 98))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(descriptionField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(categoryTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(imageLblPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(imageFileNameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(chooseFileBtn)
+                        .addGap(98, 98, 98))))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,10 +217,10 @@ public class AddItemPage extends javax.swing.JPanel {
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(imageFileNameLbl))))
                 .addGap(18, 18, 18)
-                .addComponent(imageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(imageLblPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jButton6)
+                .addGap(39, 39, 39))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -220,10 +231,10 @@ public class AddItemPage extends javax.swing.JPanel {
                 .addGap(164, 164, 164)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(132, 132, 132))
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                         .addGap(647, 647, 647))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -265,7 +276,12 @@ public class AddItemPage extends javax.swing.JPanel {
                 this.itemImageFile = chooser.getSelectedFile();
                 String fileName = itemImageFile.getName();
                 imageFileNameLbl.setText(fileName);
-                imageLbl.setIcon(new ImageIcon(ImageIO.read(this.itemImageFile)));
+
+                BufferedImage img = ImageIO.read(this.itemImageFile);
+                Dimension dimension = ImageUtils.getScaledDimension(new Dimension(img.getWidth(), img.getHeight()), imageLblPanel.getPreferredSize());
+                Image dimg = img.getScaledInstance((int) dimension.getWidth(), (int) dimension.getHeight(),
+                        Image.SCALE_SMOOTH);
+                this.imageLbl.setIcon(new ImageIcon(dimg));
             } catch (IOException ex) {
                 log.error("Error in image read");
             }
@@ -298,6 +314,7 @@ public class AddItemPage extends javax.swing.JPanel {
     private javax.swing.JTextField descriptionField;
     private javax.swing.JLabel imageFileNameLbl;
     private javax.swing.JLabel imageLbl;
+    private javax.swing.JPanel imageLblPanel;
     private javax.swing.JTextField itemNameField;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel2;
