@@ -21,32 +21,41 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CartController {
 
-	@Autowired
-	private CartItemRepository cartItemRepository;
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
-	public List<CartItem> findAllCartItems(UserEntity userEntity) {
-		log.info("finding cart Items for userId : {} ", userEntity.getId());
-		List<CartItem> cartItemList = cartItemRepository.findAllByUserEntity(userEntity);
-		return cartItemList;
-	}
+    public List<CartItem> findAllCartItems(UserEntity userEntity) {
+        log.info("finding cart Items for userId : {} ", userEntity.getId());
+        List<CartItem> cartItemList = cartItemRepository.findAllByUserEntity(userEntity);
+        return cartItemList;
+    }
 
-	public ControllerResponse addToCart(UserEntity userEntity, ItemEntity itemEntity) {
-		return this.addToCart(userEntity, itemEntity, 1);
-	}
+    public ControllerResponse addToCart(UserEntity userEntity, ItemEntity itemEntity) {
+        return this.addToCart(userEntity, itemEntity, 1);
+    }
 
-	public ControllerResponse addToCart(UserEntity userEntity, ItemEntity itemEntity, int itemCount) {
-		log.info("adding {} to wishlist", itemEntity.getId());
-		CartItem cartItem;
-		cartItem = cartItemRepository.findByUserEntityAndItemEntity(userEntity, itemEntity);
-		if (cartItem == null) {
-			cartItem = CartItem.builder().itemCount(itemCount).itemEntity(itemEntity).userEntity(userEntity).build();
-		}
-		cartItem.setItemCount(itemCount);
-		CartItem savedEntity = cartItemRepository.save(cartItem);
-		log.info("itemId : {} is added in cartItem for userId : {} savedEntuty id : {} ", itemEntity.getId(),
-				userEntity.getId(), savedEntity.getId());
-		return ControllerResponse.builder().message("added to cart").statusCode(StatusCode.SUCCESS).build();
+    public ControllerResponse addToCart(UserEntity userEntity, ItemEntity itemEntity, int itemCount) {
+        log.info("adding {} to wishlist", itemEntity.getId());
+        CartItem cartItem = getByUserAndItem(userEntity, itemEntity);
+        if (cartItem == null) {
+            cartItem = CartItem.builder().itemCount(itemCount).itemEntity(itemEntity).userEntity(userEntity).build();
+        }
+        cartItem.setItemCount(itemCount);
+        CartItem savedEntity = cartItemRepository.save(cartItem);
+        log.info("itemId : {} is added in cartItem for userId : {} savedEntuty id : {} ", itemEntity.getId(),
+                userEntity.getId(), savedEntity.getId());
+        return ControllerResponse.builder().message("added to cart").statusCode(StatusCode.SUCCESS).build();
 
-	}
+    }
+    
+    public Boolean isAddedToCart(UserEntity userEntity, ItemEntity itemEntity) {
+        CartItem cartItem = getByUserAndItem(userEntity, itemEntity);
+        return cartItem != null;
+    }
+
+    private CartItem getByUserAndItem(UserEntity userEntity, ItemEntity itemEntity) {
+        log.info("checking if Item: {} is added to cart for user: {}", itemEntity.getId(), userEntity.getId());
+        return cartItemRepository.findByUserEntityAndItemEntity(userEntity, itemEntity);
+    }
 
 }
