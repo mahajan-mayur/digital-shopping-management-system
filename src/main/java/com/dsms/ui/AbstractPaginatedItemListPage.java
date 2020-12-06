@@ -31,13 +31,13 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
     protected JPanel pageBtnPane;
 
     protected Page<ItemEntity> currentItemsPage;
-    
+
     protected abstract void initPageContent(int pageNo);
-    
-    protected void goToPage(int pageNo) {
-		initPageContent(pageNo);
-		showContent();
-	}
+
+    protected final void goToPage(int pageNo) {
+        initPageContent(pageNo);
+        showContent();
+    }
 
     protected void nextPage() {
         if (currentItemsPage.hasNext()) {

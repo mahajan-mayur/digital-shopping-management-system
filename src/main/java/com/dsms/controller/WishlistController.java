@@ -64,9 +64,9 @@ public class WishlistController {
         Page<WishlistItem> wishlistItemPage = wishlistItemRepository.findAllByUserEntity(userEntity, pageRequest);
         log.info("Got wishlisted items for user : {} ", userEntity.getId());
         List<WishlistItem> wishlistItemList = wishlistItemPage.getContent();
-        List<ItemEntity> wishlistedItems = wishlistItemList.stream().map(wishlistItem -> wishlistItem.getItemEntity()).collect(Collectors.toList());
+        List<ItemEntity> items = wishlistItemList.stream().map(wishlistItem -> wishlistItem.getItemEntity()).collect(Collectors.toList());
         
-        Page<ItemEntity> p = new PageImpl<>(wishlistedItems, PageRequest.of(pageNumber, size),wishlistItemPage.getTotalElements());
+        Page<ItemEntity> p = new PageImpl<>(items, PageRequest.of(pageNumber, size),wishlistItemPage.getTotalElements());
         return p;
 
     }

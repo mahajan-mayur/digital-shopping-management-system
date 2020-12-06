@@ -18,7 +18,9 @@ import org.springframework.data.domain.Pageable;
 @Repository
 public interface WishlistItemRepository extends PagingAndSortingRepository<WishlistItem, String> {
 
-	List<WishlistItem> findAllByUserEntity(UserEntity userEntity);	
-	WishlistItem findByUserEntityAndItemEntity(UserEntity userEntity, ItemEntity itemEntity);
-        Page<WishlistItem> findAllByUserEntity(UserEntity userEntity, Pageable pageable);
+    List<WishlistItem> findAllByUserEntity(UserEntity userEntity);
+
+    WishlistItem findByUserEntityAndItemEntity(UserEntity userEntity, ItemEntity itemEntity);
+
+    Page<WishlistItem> findAllByUserEntity(UserEntity userEntity, Pageable pageable);
 }

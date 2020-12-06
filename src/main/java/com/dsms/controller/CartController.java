@@ -9,10 +9,16 @@ import com.dsms.db.dao.CartItemRepository;
 import com.dsms.db.entity.CartItem;
 import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
+import com.dsms.db.entity.WishlistItem;
 import com.dsms.dto.ControllerResponse;
 import com.dsms.dto.ControllerResponse.StatusCode;
+import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Service
 @Slf4j
@@ -53,6 +59,19 @@ public class CartController {
     private CartItem getByUserAndItem(UserEntity userEntity, ItemEntity itemEntity) {
         log.info("checking if Item: {} is added to cart for user: {}", itemEntity.getId(), userEntity.getId());
         return cartItemRepository.findByUserEntityAndItemEntity(userEntity, itemEntity);
+    }
+    
+        public Page<ItemEntity> getCartItems(UserEntity userEntity, Integer pageNumber, Integer size) {
+        log.info("getting cart items for user : {} ", userEntity.getId());
+        PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<CartItem> cartItemPage = cartItemRepository.findAllByUserEntity(userEntity, pageRequest);
+        log.info("Got cart items for user : {} ", userEntity.getId());
+        List<CartItem> cartItemList = cartItemPage.getContent();
+        List<ItemEntity> items = cartItemList.stream().map(wishlistItem -> wishlistItem.getItemEntity()).collect(Collectors.toList());
+        
+        Page<ItemEntity> p = new PageImpl<>(items, PageRequest.of(pageNumber, size),cartItemPage.getTotalElements());
+        return p;
+
     }
 
 }

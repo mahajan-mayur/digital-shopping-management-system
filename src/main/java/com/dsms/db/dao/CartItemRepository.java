@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.dsms.db.entity.CartItem;
 import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -16,8 +18,10 @@ import com.dsms.db.entity.UserEntity;
 @Repository
 public interface CartItemRepository extends PagingAndSortingRepository<CartItem, String> {
 
-	List<CartItem> findAllByUserEntity(UserEntity userEntity);
+    List<CartItem> findAllByUserEntity(UserEntity userEntity);
 
-	CartItem findByUserEntityAndItemEntity(UserEntity userEntity, ItemEntity itemEntity);
+    CartItem findByUserEntityAndItemEntity(UserEntity userEntity, ItemEntity itemEntity);
+
+    Page<CartItem> findAllByUserEntity(UserEntity userEntity, Pageable pageable);
 
 }
