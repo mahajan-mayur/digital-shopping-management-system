@@ -21,12 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserController {
 
-	@Autowired
-    private  UserRepository userRepository;
-	
-	@Autowired
-    private  UserSession userSession;
+    @Autowired
+    private UserRepository userRepository;
 
+    @Autowired
+    private UserSession userSession;
 
     public Boolean signUp(SignUpEvent signUpEvent) {
         UserEntity user = UserEntity.builder().address(signUpEvent.getAddress())
@@ -48,16 +47,13 @@ public class UserController {
         if (userEntity.getPassword().compareTo(loginEvent.getPassword()) != 0) {
             return ControllerResponse.builder().message("invalid password").statusCode(ControllerResponse.StatusCode.PASSWORD_MISMATCH).build();
         }
-
         this.userSession.setUserEntity(userEntity);
-
         log.info("Login Success !!");
         return ControllerResponse.builder().message("Login Success !!").statusCode(ControllerResponse.StatusCode.SUCCESS).build();
     }
 
     public ControllerResponse logout() {
         this.userSession.clearUserSession();
-
         log.info("Logout Success !!");
         return ControllerResponse.builder().message("Logout Success !!").statusCode(ControllerResponse.StatusCode.SUCCESS).build();
     }
@@ -69,7 +65,7 @@ public class UserController {
     public UserType getLoggedInUserType() {
         return userSession.getUserEntity() == null ? null : userSession.getUserEntity().getUserType();
     }
-    
+
     public UserEntity getLoggedInUser() {
         return userSession.getUserEntity();
     }

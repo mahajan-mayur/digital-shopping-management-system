@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
 import com.dsms.db.entity.WishlistItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -16,8 +18,7 @@ import com.dsms.db.entity.WishlistItem;
 @Repository
 public interface WishlistItemRepository extends PagingAndSortingRepository<WishlistItem, String> {
 
-
-	List<WishlistItem> findAllByUserEntity(UserEntity userEntity);
-	
+	List<WishlistItem> findAllByUserEntity(UserEntity userEntity);	
 	WishlistItem findByUserEntityAndItemEntity(UserEntity userEntity, ItemEntity itemEntity);
+        Page<WishlistItem> findAllByUserEntity(UserEntity userEntity, Pageable pageable);
 }

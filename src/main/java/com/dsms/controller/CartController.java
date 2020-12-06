@@ -1,17 +1,14 @@
 package com.dsms.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dsms.db.dao.CartItemRepository;
-import com.dsms.db.dao.WishlistItemRepository;
 import com.dsms.db.entity.CartItem;
 import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
-import com.dsms.db.entity.WishlistItem;
 import com.dsms.dto.ControllerResponse;
 import com.dsms.dto.ControllerResponse.StatusCode;
 

@@ -60,6 +60,7 @@ public class HomePage extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
         categoryPanel = new com.dsms.ui.components.CategoryPanel();
         jPanel1 = new javax.swing.JPanel();
         contentPanel = new javax.swing.JPanel();
@@ -70,9 +71,13 @@ public class HomePage extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(420, 322));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
+
         categoryPanel.setMinimumSize(new java.awt.Dimension(287, 83));
         categoryPanel.setPreferredSize(new java.awt.Dimension(287, 83));
-        add(categoryPanel);
+        jPanel2.add(categoryPanel);
+
+        add(jPanel2);
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -106,6 +111,7 @@ public class HomePage extends javax.swing.JPanel {
     private com.dsms.ui.components.CategoryPanel categoryPanel;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel pageBtnPane;
     // End of variables declaration//GEN-END:variables
 
