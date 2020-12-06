@@ -9,10 +9,10 @@ import com.dsms.db.dao.CartItemRepository;
 import com.dsms.db.entity.CartItem;
 import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
-import com.dsms.db.entity.WishlistItem;
 import com.dsms.dto.ControllerResponse;
 import com.dsms.dto.ControllerResponse.StatusCode;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -50,7 +50,7 @@ public class CartController {
         return ControllerResponse.builder().message("added to cart").statusCode(StatusCode.SUCCESS).build();
 
     }
-    
+
     public Boolean isAddedToCart(UserEntity userEntity, ItemEntity itemEntity) {
         CartItem cartItem = getByUserAndItem(userEntity, itemEntity);
         return cartItem != null;
@@ -60,18 +60,24 @@ public class CartController {
         log.info("checking if Item: {} is added to cart for user: {}", itemEntity.getId(), userEntity.getId());
         return cartItemRepository.findByUserEntityAndItemEntity(userEntity, itemEntity);
     }
-    
-        public Page<ItemEntity> getCartItems(UserEntity userEntity, Integer pageNumber, Integer size) {
+
+    public Page<ItemEntity> getCartItems(UserEntity userEntity, Integer pageNumber, Integer size) {
         log.info("getting cart items for user : {} ", userEntity.getId());
         PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<CartItem> cartItemPage = cartItemRepository.findAllByUserEntity(userEntity, pageRequest);
         log.info("Got cart items for user : {} ", userEntity.getId());
         List<CartItem> cartItemList = cartItemPage.getContent();
         List<ItemEntity> items = cartItemList.stream().map(wishlistItem -> wishlistItem.getItemEntity()).collect(Collectors.toList());
-        
-        Page<ItemEntity> p = new PageImpl<>(items, PageRequest.of(pageNumber, size),cartItemPage.getTotalElements());
+
+        Page<ItemEntity> p = new PageImpl<>(items, PageRequest.of(pageNumber, size), cartItemPage.getTotalElements());
         return p;
 
+    }
+
+    
+    public void remove(UserEntity userEntity, ItemEntity itemEntity) {
+        log.info("deleting cartItem for user : {} item : {} ", userEntity.getId(), itemEntity.getId());
+        cartItemRepository.deleteByUserEntityAndItemEntity(userEntity, itemEntity);
     }
 
 }

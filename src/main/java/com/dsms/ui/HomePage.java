@@ -5,36 +5,24 @@
  */
 package com.dsms.ui;
 
-import org.springframework.data.domain.Page;
 
 import com.dsms.beans.ContextProvider;
 import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.ItemController;
-import com.dsms.db.entity.ItemEntity;
 import com.dsms.enums.ItemCategory;
-import com.dsms.ui.components.HomePageItem;
 import com.dsms.ui.event.CategoryEventListner;
 import com.dsms.ui.event.model.CategoryEvent;
-import java.awt.Dimension;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.EventObject;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 /**
  *
  * @author Mahaj
  */
 @Slf4j
-public class HomePage extends javax.swing.JPanel {
+public class HomePage extends AbstractPaginatedItemListPage {
 
     private ItemCategory selectedItemCategory;
 
@@ -46,8 +34,9 @@ public class HomePage extends javax.swing.JPanel {
         CategoryEventListner categoryEventListner = new CategoryEventListnerImpl();
         EventPublisherService.addEventListner(categoryEventListner);
 
-        selectedItemCategory = ItemCategory.GARMENTS;
-        initContent();
+        this.selectedItemCategory = ItemCategory.GARMENTS;
+        this.itemListPageType = ItemListPageType.HOME_PAGE;
+        goToPage(0);
 
     }
 
@@ -109,42 +98,12 @@ public class HomePage extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.dsms.ui.components.CategoryPanel categoryPanel;
-    private javax.swing.JPanel contentPanel;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel pageBtnPane;
     // End of variables declaration//GEN-END:variables
 
-    private void initContent() {
-        contentPanel.removeAll();
+    @Override
+    protected void initPageContent(int pageNo) {
         ItemController itemController = ContextProvider.getBean(ItemController.class);
-        Page<ItemEntity> page = itemController.getCategoryItems(selectedItemCategory, 0, 200);
-
-        JPanel content = new JPanel();
-        content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
-        content.setMaximumSize(contentPanel.getSize());
-        content.setSize(contentPanel.getSize());
-
-        List<HomePageItem> itemList = page.getContent().stream().map(item -> new HomePageItem(item))
-                .collect(Collectors.toList());
-
-        // itemList.stream().forEach(i -> content.add(i));
-        Iterator<HomePageItem> itr = itemList.iterator();
-        while (itr.hasNext()) {
-            HomePageItem wishListItem = itr.next();
-            wishListItem.setSize(2048, 350);
-            wishListItem.setMaximumSize(new Dimension(4058, 450));
-            Box box = new Box(BoxLayout.LINE_AXIS);
-            box.setAlignmentX(CENTER_ALIGNMENT);
-            box.add(Box.createHorizontalGlue());
-            box.add(wishListItem);
-            box.add(Box.createHorizontalGlue());
-            content.add(box);
-        }
-        JScrollPane scrollPanel = new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPanel.getViewport().setSize(contentPanel.getSize());
-        contentPanel.add(scrollPanel);
-
+        this.currentItemsPage = itemController.getCategoryItems(selectedItemCategory, pageNo, 10);
     }
 
     private class CategoryEventListnerImpl implements CategoryEventListner {
@@ -159,10 +118,9 @@ public class HomePage extends javax.swing.JPanel {
 
             selectedItemCategory = categoryEvent.getSelectedItemCategory();
             log.info("Category Event selected category : {}", selectedItemCategory);
-            initContent();
-            repaint();
-            revalidate();
-
+            goToPage(0);
+            //repaint();
+            //revalidate();
         }
 
     }

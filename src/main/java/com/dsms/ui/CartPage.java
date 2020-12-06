@@ -6,6 +6,7 @@
 package com.dsms.ui;
 
 import com.dsms.beans.ContextProvider;
+import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.CartController;
 import com.dsms.controller.UserController;
 import com.dsms.db.entity.UserEntity;
@@ -23,6 +24,8 @@ public class CartPage extends AbstractPaginatedItemListPage {
      */
     public CartPage() {
         initComponents();
+        this.itemListPageType = ItemListPageType.CART_PAGE;
+        EventPublisherService.addEventListner(new ItemListPageRefreshEventListnerImpl());
         goToPage(0);
     }
 

@@ -6,8 +6,10 @@
 package com.dsms.ui;
 
 import com.dsms.db.entity.ItemEntity;
-import com.dsms.ui.components.HomePageItem;
+import com.dsms.ui.components.ItemPane;
+import com.dsms.ui.event.ItemListPageRefreshEventListner;
 import java.awt.Dimension;
+import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +32,7 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
     protected JPanel jPanel2;
     protected JPanel pageBtnPane;
 
+    protected ItemListPageType itemListPageType;
     protected Page<ItemEntity> currentItemsPage;
 
     protected abstract void initPageContent(int pageNo);
@@ -61,17 +64,17 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
         content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
         content.setMaximumSize(contentPanel.getSize());
         content.setSize(contentPanel.getSize());
-        List<HomePageItem> itemList = currentItemsPage.stream().map(item -> new HomePageItem(item)).collect(Collectors.toList());
+        List<ItemPane> itemList = currentItemsPage.stream().map(item -> new ItemPane(item, itemListPageType)).collect(Collectors.toList());
         // itemList.stream().forEach(i -> content.add(i));
-        Iterator<HomePageItem> itr = itemList.iterator();
+        Iterator<ItemPane> itr = itemList.iterator();
         while (itr.hasNext()) {
-            HomePageItem wishListItem = itr.next();
-            wishListItem.setSize(2048, 350);
-            wishListItem.setMaximumSize(new Dimension(4058, 450));
+            ItemPane itemPane = itr.next();
+            itemPane.setSize(2048, 350);
+            itemPane.setMaximumSize(new Dimension(4058, 450));
             Box box = new Box(BoxLayout.LINE_AXIS);
             box.setAlignmentX(CENTER_ALIGNMENT);
             box.add(Box.createHorizontalGlue());
-            box.add(wishListItem);
+            box.add(itemPane);
             box.add(Box.createHorizontalGlue());
             content.add(box);
         }
@@ -79,5 +82,18 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
         scrollPanel.getViewport().setSize(contentPanel.getSize());
         contentPanel.add(scrollPanel);
     }
+    
+    protected final class ItemListPageRefreshEventListnerImpl implements ItemListPageRefreshEventListner{
 
+        @Override
+        public void onEvent(EventObject eventObject) {
+            goToPage(currentItemsPage.getNumber());
+        }
+    }
+
+    public static enum ItemListPageType {
+        HOME_PAGE,
+        WISHLIST_PAGE,
+        CART_PAGE
+    }
 }

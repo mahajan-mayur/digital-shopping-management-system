@@ -24,8 +24,11 @@ import com.dsms.controller.WishlistController;
 import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
 import com.dsms.dto.ControllerResponse;
+import com.dsms.ui.AbstractPaginatedItemListPage.ItemListPageType;
+import com.dsms.ui.event.model.ItemListPageRefreshEvent;
 import com.dsms.ui.event.model.NavigateEvent;
 import com.dsms.util.ImageUtils;
+import javax.swing.Box;
 import javax.swing.SwingUtilities;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,44 +38,79 @@ import lombok.extern.slf4j.Slf4j;
  * @author Mahaj
  */
 @Slf4j
-public class HomePageItem extends javax.swing.JPanel {
+public class ItemPane extends javax.swing.JPanel {
 
     private ItemEntity itemEntity;
     private Boolean isWishlisted;
     private Boolean isAddedToCart;
+    private ItemListPageType itemListPageType;
 
-    public HomePageItem(ItemEntity item) {
+    public ItemPane(ItemEntity item, ItemListPageType itemListPageType) {
         this.itemEntity = item;
         this.isWishlisted = false;
         this.isAddedToCart = false;
+        this.itemListPageType = itemListPageType;
         initComponents();
 
-        try {
-            BufferedImage img = ImageIO.read(new File(item.getImageUrl()));
-            Dimension dimension = ImageUtils.getScaledDimension(new Dimension(img.getWidth(), img.getHeight()), imagePanel.getPreferredSize());
-            Image dimg = img.getScaledInstance((int) dimension.getWidth(), (int) dimension.getHeight(),
-                    Image.SCALE_SMOOTH);
-            this.imageLbl.setIcon(new ImageIcon(dimg));
-        } catch (IOException e) {
-            log.error("error in reading image : {}", item.getImageUrl());
-        }
         this.itemCategory.setText(item.getItemCategory().toString());
         this.itemDescription.setText(item.getDesciption());
         this.itemName.setText(item.getName());
         this.itemPrice.setText(item.getPrice().toString());
 
         SwingUtilities.invokeLater(() -> {
-            UserController userController = ContextProvider.getBean(UserController.class);
-            UserEntity userEntity = userController.getLoggedInUser();
-            if (userEntity != null) {
-                handleWishlisted(ContextProvider.getBean(WishlistController.class).isWishlisted(userEntity, itemEntity));
-                handleAddedToBag(ContextProvider.getBean(CartController.class).isAddedToCart(userEntity, itemEntity));
+            try {
+                BufferedImage img = ImageIO.read(new File(item.getImageUrl()));
+                Dimension dimension = ImageUtils.getScaledDimension(new Dimension(img.getWidth(), img.getHeight()), imagePanel.getPreferredSize());
+                Image dimg = img.getScaledInstance((int) dimension.getWidth(), (int) dimension.getHeight(),
+                        Image.SCALE_SMOOTH);
+                this.imageLbl.setIcon(new ImageIcon(dimg));
+            } catch (IOException e) {
+                log.error("error in reading image : {}", item.getImageUrl());
             }
         });
 
+        this.btnPanel.removeAll();
+        this.btnPanel.add(Box.createVerticalGlue());
+        switch (this.itemListPageType) {
+            case HOME_PAGE:
+                this.btnPanel.add(this.addToWishlistBtn);
+                this.btnPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                this.btnPanel.add(this.addToBagBtn);
+                this.btnPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                SwingUtilities.invokeLater(() -> {
+                    UserController userController = ContextProvider.getBean(UserController.class);
+                    UserEntity userEntity = userController.getLoggedInUser();
+                    if (userEntity != null) {
+                        handleWishlisted(ContextProvider.getBean(WishlistController.class).isWishlisted(userEntity, itemEntity));
+                        handleAddedToBag(ContextProvider.getBean(CartController.class).isAddedToCart(userEntity, itemEntity));
+                    }
+                });
+                break;
+            case WISHLIST_PAGE:
+                this.removeBtn.setIkon(MaterialDesign.MDI_BOOKMARK_REMOVE);
+                this.btnPanel.add(this.removeBtn);
+                this.btnPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                this.moveBtn.setText("Move to Bag");
+                this.moveBtn.setIkon(MaterialDesign.MDI_CART_PLUS);
+                this.btnPanel.add(this.moveBtn);
+                this.btnPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                break;
+            case CART_PAGE:
+                this.removeBtn.setIkon(MaterialDesign.MDI_CART_OFF);
+                this.btnPanel.add(this.removeBtn);
+                this.btnPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                this.moveBtn.setText("Move to Wishlist");
+                this.moveBtn.setIkon(MaterialDesign.MDI_BOOKMARK_PLUS);
+                this.btnPanel.add(this.moveBtn);
+                this.btnPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                break;
+            default:
+                break;
+        }
+
     }
 
-    public HomePageItem() {
+    public ItemPane() {
         initComponents();
     }
 
@@ -95,19 +133,25 @@ public class HomePageItem extends javax.swing.JPanel {
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         itemName = new javax.swing.JLabel();
         itemCategory = new javax.swing.JLabel();
         itemDescription = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         itemlabel = new javax.swing.JLabel();
         itemPrice = new javax.swing.JLabel();
+        filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jPanel4 = new javax.swing.JPanel();
+        btnPanel = new javax.swing.JPanel();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        addToWishlistBtn = new com.dsms.ui.components.SidePaneJbutton();
+        removeBtn = new com.dsms.ui.components.SidePaneJbutton();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10));
-        addToBagBtn = new com.dsms.ui.components.SidePaneJbutton();
+        moveBtn = new com.dsms.ui.components.SidePaneJbutton();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10));
+        addToWishlistBtn = new com.dsms.ui.components.SidePaneJbutton();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10));
+        addToBagBtn = new com.dsms.ui.components.SidePaneJbutton();
+        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10));
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
 
         setMaximumSize(new java.awt.Dimension(65534, 32767));
@@ -154,6 +198,7 @@ public class HomePageItem extends javax.swing.JPanel {
 
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel3.add(filler12);
 
         itemName.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 36)); // NOI18N
         itemName.setForeground(new java.awt.Color(255, 255, 255));
@@ -185,13 +230,60 @@ public class HomePageItem extends javax.swing.JPanel {
         jPanel1.add(itemPrice);
 
         jPanel3.add(jPanel1);
+        jPanel3.add(filler13);
 
         jPanel2.add(jPanel3);
         jPanel2.add(filler8);
 
-        jPanel4.setOpaque(false);
-        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.PAGE_AXIS));
-        jPanel4.add(filler5);
+        btnPanel.setOpaque(false);
+        btnPanel.setLayout(new javax.swing.BoxLayout(btnPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        btnPanel.add(filler5);
+
+        removeBtn.setBackground(new java.awt.Color(255, 255, 255));
+        removeBtn.setText("Remove");
+        removeBtn.setToolTipText("Add to Bag");
+        removeBtn.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        removeBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        removeBtn.setIconBackgroundColor(new java.awt.Color(255, 255, 255));
+        removeBtn.setIconColor(new java.awt.Color(68, 138, 255));
+        removeBtn.setIconTextGap(5);
+        removeBtn.setIkon(MaterialDesign.MDI_CART);
+        removeBtn.setOpaque(false);
+        removeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                removeBtnMouseClicked(evt);
+            }
+        });
+        removeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeBtnActionPerformed(evt);
+            }
+        });
+        btnPanel.add(removeBtn);
+        btnPanel.add(filler6);
+
+        moveBtn.setBackground(new java.awt.Color(255, 255, 255));
+        moveBtn.setText("Move To Bag");
+        moveBtn.setToolTipText("Add to Bag");
+        moveBtn.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        moveBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        moveBtn.setIconBackgroundColor(new java.awt.Color(255, 255, 255));
+        moveBtn.setIconColor(new java.awt.Color(68, 138, 255));
+        moveBtn.setIconTextGap(5);
+        moveBtn.setIkon(MaterialDesign.MDI_CART_PLUS);
+        moveBtn.setOpaque(false);
+        moveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                moveBtnMouseClicked(evt);
+            }
+        });
+        moveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moveBtnActionPerformed(evt);
+            }
+        });
+        btnPanel.add(moveBtn);
+        btnPanel.add(filler7);
 
         addToWishlistBtn.setBackground(new java.awt.Color(255, 255, 255));
         addToWishlistBtn.setText("Add to Wishlist");
@@ -213,8 +305,8 @@ public class HomePageItem extends javax.swing.JPanel {
                 addToWishlistBtnActionPerformed(evt);
             }
         });
-        jPanel4.add(addToWishlistBtn);
-        jPanel4.add(filler6);
+        btnPanel.add(addToWishlistBtn);
+        btnPanel.add(filler10);
 
         addToBagBtn.setBackground(new java.awt.Color(255, 255, 255));
         addToBagBtn.setText("Add to Bag");
@@ -236,10 +328,10 @@ public class HomePageItem extends javax.swing.JPanel {
                 addToBagBtnActionPerformed(evt);
             }
         });
-        jPanel4.add(addToBagBtn);
-        jPanel4.add(filler7);
+        btnPanel.add(addToBagBtn);
+        btnPanel.add(filler11);
 
-        jPanel2.add(jPanel4);
+        jPanel2.add(btnPanel);
 
         jPanel11.add(jPanel2);
         jPanel11.add(filler9);
@@ -292,11 +384,52 @@ public class HomePageItem extends javax.swing.JPanel {
 
     }//GEN-LAST:event_addToWishlistBtnMouseClicked
 
+    private void removeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeBtnMouseClicked
+        UserController userController = ContextProvider.getBean(UserController.class);
+        UserEntity userEntity = userController.getLoggedInUser();
+        if (this.itemListPageType.equals(ItemListPageType.WISHLIST_PAGE)) {
+            WishlistController wishlistController = ContextProvider.getBean(WishlistController.class);
+            wishlistController.remove(userEntity, this.itemEntity);
+        } else if (this.itemListPageType.equals(ItemListPageType.CART_PAGE)) {
+            CartController cartController = ContextProvider.getBean(CartController.class);
+            cartController.remove(userEntity, this.itemEntity);
+        }
+        EventPublisherService.publishEvent(new ItemListPageRefreshEvent(this));
+    }//GEN-LAST:event_removeBtnMouseClicked
+
+    private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeBtnActionPerformed
+
+    private void moveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_moveBtnMouseClicked
+        UserController userController = ContextProvider.getBean(UserController.class);
+        WishlistController wishlistController = ContextProvider.getBean(WishlistController.class);
+        CartController cartController = ContextProvider.getBean(CartController.class);
+        UserEntity userEntity = userController.getLoggedInUser();
+        if (this.itemListPageType.equals(ItemListPageType.WISHLIST_PAGE)) {
+            wishlistController.remove(userEntity, this.itemEntity);
+            cartController.addToCart(userEntity, this.itemEntity);
+        } else if (this.itemListPageType.equals(ItemListPageType.CART_PAGE)) {
+            cartController.remove(userEntity, this.itemEntity);
+            wishlistController.addToWishlist(userEntity, this.itemEntity);            
+        }
+        EventPublisherService.publishEvent(new ItemListPageRefreshEvent(this));
+    }//GEN-LAST:event_moveBtnMouseClicked
+
+    private void moveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_moveBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.dsms.ui.components.SidePaneJbutton addToBagBtn;
     private com.dsms.ui.components.SidePaneJbutton addToWishlistBtn;
+    private javax.swing.JPanel btnPanel;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
+    private javax.swing.Box.Filler filler11;
+    private javax.swing.Box.Filler filler12;
+    private javax.swing.Box.Filler filler13;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
@@ -316,18 +449,17 @@ public class HomePageItem extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private com.dsms.ui.components.SidePaneJbutton moveBtn;
+    private com.dsms.ui.components.SidePaneJbutton removeBtn;
     // End of variables declaration//GEN-END:variables
-
-
 
     private void handleAddedToBag(Boolean isAddedToBag) {
         if (isAddedToBag) {
             this.isAddedToCart = true;
             addToBagBtn.setText("Added to Bag");
             addToBagBtn.setEnabled(false);
-            
+
         } else {
             this.isAddedToCart = false;
             addToBagBtn.setText("Add to Bag");
@@ -340,12 +472,12 @@ public class HomePageItem extends javax.swing.JPanel {
             this.isWishlisted = true;
             addToWishlistBtn.setText("Added to WishList");
             addToWishlistBtn.setEnabled(false);
-            
+
         } else {
             this.isWishlisted = false;
             addToWishlistBtn.setText("Add to WishList");
             addToWishlistBtn.setEnabled(true);
         }
-
     }
+
 }

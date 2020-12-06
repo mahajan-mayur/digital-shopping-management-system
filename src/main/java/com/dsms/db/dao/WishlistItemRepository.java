@@ -23,4 +23,7 @@ public interface WishlistItemRepository extends PagingAndSortingRepository<Wishl
     WishlistItem findByUserEntityAndItemEntity(UserEntity userEntity, ItemEntity itemEntity);
 
     Page<WishlistItem> findAllByUserEntity(UserEntity userEntity, Pageable pageable);
+
+    void deleteByUserEntityAndItemEntity(UserEntity userEntity, ItemEntity itemEntity);
+
 }

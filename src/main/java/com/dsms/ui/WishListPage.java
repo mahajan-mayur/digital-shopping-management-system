@@ -8,6 +8,7 @@ package com.dsms.ui;
 
 
 import com.dsms.beans.ContextProvider;
+import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.UserController;
 import com.dsms.controller.WishlistController;
 import com.dsms.db.entity.UserEntity;
@@ -26,6 +27,8 @@ public class WishListPage extends AbstractPaginatedItemListPage {
      */
     public WishListPage() {
         initComponents();
+        this.itemListPageType = ItemListPageType.WISHLIST_PAGE;
+        EventPublisherService.addEventListner(new ItemListPageRefreshEventListnerImpl());
         goToPage(0);
     }
 
