@@ -5,6 +5,8 @@
  */
 package com.dsms.ui.components;
 
+import com.dsms.beans.ContextProvider;
+import com.dsms.controller.CartController;
 import com.dsms.db.entity.CartItem;
 import javax.swing.JSpinner;
 
@@ -16,6 +18,7 @@ public class CartReviewItemPane extends javax.swing.JPanel {
 
     private CartItem cartItem;
     private int serialNo;
+    private CartDetails cartDetails;
 
     /**
      * Creates new form CartReviewItem
@@ -24,7 +27,8 @@ public class CartReviewItemPane extends javax.swing.JPanel {
         initComponents();
     }
 
-    public CartReviewItemPane(int serialNo, CartItem cartItem) {
+    public CartReviewItemPane(CartDetails cartDetails,int serialNo, CartItem cartItem) {
+        this.cartDetails = cartDetails;
         this.serialNo= serialNo;
         this.cartItem = cartItem;
         initComponents();
@@ -115,7 +119,12 @@ public class CartReviewItemPane extends javax.swing.JPanel {
     private void itemCountSpnrStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_itemCountSpnrStateChanged
         JSpinner spinner = (JSpinner) evt.getSource();
         int value = (int) spinner.getValue();
+        this.cartItem.setItemCount(value);
+        CartController cartController = ContextProvider.getBean(CartController.class);
+        cartController.save(this.cartItem);
         itemCountLbl.setText(String.valueOf(value));
+        this.totalPriceLbl.setText(String.format("%.2f", this.cartItem.getItemEntity().getPrice() * this.cartItem.getItemCount()));
+        this.cartDetails.itemCountRefreshEvent();
     }//GEN-LAST:event_itemCountSpnrStateChanged
 
 
@@ -139,10 +148,10 @@ public class CartReviewItemPane extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void showContent() {
-        this.srNoLbl.setText(String.valueOf(this.serialNo));
+        this.srNoLbl.setText(String.valueOf(this.serialNo)+".");
         this.itemNameLbl.setText(this.cartItem.getItemEntity().getName());
         this.itemCountSpnr.getModel().setValue(this.cartItem.getItemCount());
-        this.priceLbl.setText(String.valueOf(this.cartItem.getItemEntity().getPrice()));
-        this.totalPriceLbl.setText(String.valueOf(this.cartItem.getItemCount() * this.cartItem.getItemEntity().getPrice()));
+        this.priceLbl.setText(String.format("%.2f", this.cartItem.getItemEntity().getPrice()));
+        this.totalPriceLbl.setText(String.format("%.2f", this.cartItem.getItemCount() * this.cartItem.getItemEntity().getPrice()));
     }
 }

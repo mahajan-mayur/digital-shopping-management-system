@@ -11,14 +11,8 @@ import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
 import com.dsms.dto.ControllerResponse;
 import com.dsms.dto.ControllerResponse.StatusCode;
-import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 @Service
 @Slf4j
@@ -27,6 +21,10 @@ public class CartController {
     @Autowired
     private CartItemRepository cartItemRepository;
 
+    public CartItem save(CartItem cartItem){
+        log.info("saving cartItem : {}", cartItem.getId());
+        return this.cartItemRepository.save(cartItem);
+    }
     public List<CartItem> findAllCartItems(UserEntity userEntity) {
         log.info("finding cart Items for userId : {} ", userEntity.getId());
         List<CartItem> cartItemList = cartItemRepository.findAllByUserEntity(userEntity);

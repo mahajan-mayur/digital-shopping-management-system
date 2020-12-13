@@ -7,10 +7,8 @@ package com.dsms.ui.components;
 
 import com.dsms.db.entity.CartItem;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
@@ -23,13 +21,15 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class CartDetails extends javax.swing.JPanel {
-    
+
     private List<CartItem> cartItemList;
-    
+    private JLabel totalPriceLbl;
+    private Box totalBox;
+
     public CartDetails() {
         initComponents();
     }
-    
+
     public CartDetails(List<CartItem> cartItemList) {
         this.cartItemList = cartItemList;
         initComponents();
@@ -89,30 +89,33 @@ public class CartDetails extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void showContent() {
-        List<CartReviewItemPane> cartReviewItemPanes = new ArrayList<>();
+        buildTotalBox();
         for (int i = 0; i < this.cartItemList.size(); i++) {
-            cartReviewItemPanes.add(new CartReviewItemPane(i+1, cartItemList.get(i)));
+            this.cartReviewPanel.add(new CartReviewItemPane(this, i + 1, cartItemList.get(i)));
         }
-        
-        Iterator<CartReviewItemPane> itr = cartReviewItemPanes.iterator();
-        while (itr.hasNext()) {
-            this.cartReviewPanel.add(itr.next());
-        }
-        
+
         JSeparator jSeparator = new JSeparator();
         cartReviewPanel.add(jSeparator);
-        Box totalBox = Box.createHorizontalBox();
+        cartReviewPanel.add(totalBox);
+    }
+
+    private void buildTotalBox() {
+        Double totalPrice = this.cartItemList.stream().map(cartItem -> cartItem.getItemCount() * cartItem.getItemEntity().getPrice()).reduce(Double::sum).orElse(Double.NaN);
+        totalBox = Box.createHorizontalBox();
         totalBox.add(Box.createHorizontalGlue());
         totalBox.add(new JLabel("Total = "));
-        
-        JLabel totalPriceLbl = new JLabel();
+        totalPriceLbl = new JLabel();
         totalPriceLbl.setHorizontalAlignment(SwingConstants.TRAILING);
-        totalPriceLbl.setText("90.05");
+        totalPriceLbl.setText(totalPrice.toString());
         totalPriceLbl.setMaximumSize(new Dimension(80, 14));
         totalPriceLbl.setMinimumSize(new Dimension(80, 14));
         totalPriceLbl.setPreferredSize(new Dimension(80, 14));
         totalBox.add(totalPriceLbl);
         totalBox.add(Box.createRigidArea(new Dimension(10, 0)));
-        cartReviewPanel.add(totalBox);
+    }
+
+    void itemCountRefreshEvent() {
+       Double totalPrice = this.cartItemList.stream().map(cartItem -> cartItem.getItemCount() * cartItem.getItemEntity().getPrice()).reduce(Double::sum).orElse(Double.NaN); 
+       totalPriceLbl.setText(String.format("%.2f", totalPrice));
     }
 }
