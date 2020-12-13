@@ -5,11 +5,20 @@
  */
 package com.dsms.ui;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+
 import com.dsms.beans.ContextProvider;
 import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.CartController;
 import com.dsms.controller.UserController;
+import com.dsms.db.entity.CartItem;
+import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -43,12 +52,11 @@ public class CartPage extends AbstractPaginatedItemListPage {
         jLabel13 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         contentPanel = new javax.swing.JPanel();
-        pageBtnPane = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(420, 322));
         setPreferredSize(new java.awt.Dimension(420, 322));
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel2.setMaximumSize(new java.awt.Dimension(32767, 83));
         jPanel2.setMinimumSize(new java.awt.Dimension(287, 83));
@@ -68,27 +76,8 @@ public class CartPage extends AbstractPaginatedItemListPage {
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
 
-        contentPanel.setMaximumSize(new java.awt.Dimension(65534, 32767));
-        contentPanel.setMinimumSize(new java.awt.Dimension(0, 0));
-        contentPanel.setPreferredSize(new java.awt.Dimension(761, 98));
         contentPanel.setLayout(new javax.swing.BoxLayout(contentPanel, javax.swing.BoxLayout.LINE_AXIS));
         jPanel1.add(contentPanel);
-
-        pageBtnPane.setMaximumSize(new java.awt.Dimension(32767, 29));
-        pageBtnPane.setMinimumSize(new java.awt.Dimension(597, 29));
-
-        javax.swing.GroupLayout pageBtnPaneLayout = new javax.swing.GroupLayout(pageBtnPane);
-        pageBtnPane.setLayout(pageBtnPaneLayout);
-        pageBtnPaneLayout.setHorizontalGroup(
-            pageBtnPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 624, Short.MAX_VALUE)
-        );
-        pageBtnPaneLayout.setVerticalGroup(
-            pageBtnPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 29, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(pageBtnPane);
 
         add(jPanel1);
     }// </editor-fold>//GEN-END:initComponents
@@ -97,6 +86,8 @@ public class CartPage extends AbstractPaginatedItemListPage {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -104,6 +95,17 @@ public class CartPage extends AbstractPaginatedItemListPage {
         CartController cartController = ContextProvider.getBean(CartController.class);
         UserController userController = ContextProvider.getBean(UserController.class);
         UserEntity userEntity = userController.getLoggedInUser();
-        this.currentItemsPage = cartController.getCartItems(userEntity, pageNo, 10);
+        List<CartItem> cartItemList = cartController.getCartItems(userEntity, pageNo, 10);
+        List<ItemEntity> items = cartItemList.stream().map(wishlistItem -> wishlistItem.getItemEntity()).collect(Collectors.toList());
+
+        this.currentItemsPage = new PageImpl<>(items, PageRequest.of(0, items.size()), items.size());
     }
+
+    @Override
+    protected void showContent() {
+        super.showContent();
+        
+    }
+    
+    
 }

@@ -23,6 +23,8 @@ public interface CartItemRepository extends PagingAndSortingRepository<CartItem,
     CartItem findByUserEntityAndItemEntity(UserEntity userEntity, ItemEntity itemEntity);
 
     Page<CartItem> findAllByUserEntity(UserEntity userEntity, Pageable pageable);
+    
+    List<CartItem> findAllByUserEntityOrderByCreatedAt(UserEntity userEntity);
 
     void deleteByUserEntityAndItemEntity(UserEntity userEntity, ItemEntity itemEntity);
 }

@@ -37,6 +37,7 @@ public class HomePage extends AbstractPaginatedItemListPage {
         this.selectedItemCategory = ItemCategory.GARMENTS;
         this.itemListPageType = ItemListPageType.HOME_PAGE;
         goToPage(0);
+        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
 
     }
 
@@ -54,6 +55,13 @@ public class HomePage extends AbstractPaginatedItemListPage {
         jPanel1 = new javax.swing.JPanel();
         contentPanel = new javax.swing.JPanel();
         pageBtnPane = new javax.swing.JPanel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        previousPageBtn = new javax.swing.JButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
+        pageNoLbl = new javax.swing.JLabel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
+        nextPageBtn = new javax.swing.JButton();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(420, 322));
@@ -78,26 +86,59 @@ public class HomePage extends AbstractPaginatedItemListPage {
 
         pageBtnPane.setMaximumSize(new java.awt.Dimension(32767, 29));
         pageBtnPane.setMinimumSize(new java.awt.Dimension(597, 29));
+        pageBtnPane.setLayout(new javax.swing.BoxLayout(pageBtnPane, javax.swing.BoxLayout.LINE_AXIS));
+        pageBtnPane.add(filler1);
 
-        javax.swing.GroupLayout pageBtnPaneLayout = new javax.swing.GroupLayout(pageBtnPane);
-        pageBtnPane.setLayout(pageBtnPaneLayout);
-        pageBtnPaneLayout.setHorizontalGroup(
-            pageBtnPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 624, Short.MAX_VALUE)
-        );
-        pageBtnPaneLayout.setVerticalGroup(
-            pageBtnPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 29, Short.MAX_VALUE)
-        );
+        previousPageBtn.setText("<");
+        previousPageBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                previousPageBtnMouseClicked(evt);
+            }
+        });
+        pageBtnPane.add(previousPageBtn);
+        pageBtnPane.add(filler4);
+
+        pageNoLbl.setText("1");
+        pageBtnPane.add(pageNoLbl);
+        pageBtnPane.add(filler3);
+
+        nextPageBtn.setText(">");
+        nextPageBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nextPageBtnMouseClicked(evt);
+            }
+        });
+        pageBtnPane.add(nextPageBtn);
+        pageBtnPane.add(filler2);
 
         jPanel1.add(pageBtnPane);
 
         add(jPanel1);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void previousPageBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousPageBtnMouseClicked
+        previousPage();
+        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
+    }//GEN-LAST:event_previousPageBtnMouseClicked
+
+    private void nextPageBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextPageBtnMouseClicked
+        nextPage();
+        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
+    }//GEN-LAST:event_nextPageBtnMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.dsms.ui.components.CategoryPanel categoryPanel;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton nextPageBtn;
+    private javax.swing.JPanel pageBtnPane;
+    private javax.swing.JLabel pageNoLbl;
+    private javax.swing.JButton previousPageBtn;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -119,8 +160,7 @@ public class HomePage extends AbstractPaginatedItemListPage {
             selectedItemCategory = categoryEvent.getSelectedItemCategory();
             log.info("Category Event selected category : {}", selectedItemCategory);
             goToPage(0);
-            //repaint();
-            //revalidate();
+            setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
         }
 
     }

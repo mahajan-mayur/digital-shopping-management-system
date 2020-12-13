@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import lombok.extern.slf4j.Slf4j;
@@ -26,22 +28,23 @@ import org.springframework.data.domain.Page;
  */
 @Slf4j
 public abstract class AbstractPaginatedItemListPage extends JPanel {
-
+    
     protected JPanel contentPanel;
-    protected JPanel jPanel1;
-    protected JPanel jPanel2;
-    protected JPanel pageBtnPane;
-
+    
     protected ItemListPageType itemListPageType;
     protected Page<ItemEntity> currentItemsPage;
-
+    protected  JPanel content;
+    protected JScrollPane scrollPanel;
+    
     protected abstract void initPageContent(int pageNo);
-
+    
     protected final void goToPage(int pageNo) {
         initPageContent(pageNo);
         showContent();
+        repaint();
+        revalidate();
     }
-
+    
     protected void nextPage() {
         if (currentItemsPage.hasNext()) {
             goToPage(currentItemsPage.getNumber() + 1);
@@ -49,7 +52,7 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
         }
         log.error("No Next Page, currentPageNo : {}", currentItemsPage.getNumber());
     }
-
+    
     protected void previousPage() {
         if (currentItemsPage.hasPrevious()) {
             goToPage(currentItemsPage.getNumber() - 1);
@@ -57,10 +60,24 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
         }
         log.error("No Prevoius Page, currentPageNo : {}", currentItemsPage.getNumber());
     }
-
+    
+    protected final void setPageButtons(JButton previousBtn, JLabel pageNoLbl, JButton nextBtn) {
+        if (currentItemsPage.hasPrevious()) {
+            previousBtn.setEnabled(true);
+        } else {
+            previousBtn.setEnabled(false);
+        }
+        if (currentItemsPage.hasNext()) {
+            nextBtn.setEnabled(true);
+        } else {
+            nextBtn.setEnabled(false);
+        }
+        pageNoLbl.setText(String.valueOf(currentItemsPage.getNumber() + 1));
+    }
+    
     protected void showContent() {
         contentPanel.removeAll();
-        JPanel content = new JPanel();
+        content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
         content.setMaximumSize(contentPanel.getSize());
         content.setSize(contentPanel.getSize());
@@ -78,22 +95,23 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
             box.add(Box.createHorizontalGlue());
             content.add(box);
         }
-        JScrollPane scrollPanel = new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPanel = new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPanel.getViewport().setSize(contentPanel.getSize());
         contentPanel.add(scrollPanel);
     }
     
-    protected final class ItemListPageRefreshEventListnerImpl implements ItemListPageRefreshEventListner{
-
+    protected final class ItemListPageRefreshEventListnerImpl implements ItemListPageRefreshEventListner {
+        
         @Override
         public void onEvent(EventObject eventObject) {
             goToPage(currentItemsPage.getNumber());
         }
     }
-
+    
     public static enum ItemListPageType {
         HOME_PAGE,
         WISHLIST_PAGE,
-        CART_PAGE
+        CART_PAGE,
+        MY_ORDERS_PAGE
     }
 }

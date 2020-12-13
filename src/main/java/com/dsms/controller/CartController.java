@@ -61,17 +61,22 @@ public class CartController {
         return cartItemRepository.findByUserEntityAndItemEntity(userEntity, itemEntity);
     }
 
-    public Page<ItemEntity> getCartItems(UserEntity userEntity, Integer pageNumber, Integer size) {
+//    public Page<ItemEntity> getCartItems(UserEntity userEntity, Integer pageNumber, Integer size) {
+//        log.info("getting cart items for user : {} ", userEntity.getId());
+//        PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+//        Page<CartItem> cartItemPage = cartItemRepository.findAllByUserEntity(userEntity, pageRequest);
+//        log.info("Got cart items for user : {} ", userEntity.getId());
+//        List<CartItem> cartItemList = cartItemPage.getContent();
+//        List<ItemEntity> items = cartItemList.stream().map(wishlistItem -> wishlistItem.getItemEntity()).collect(Collectors.toList());
+//
+//        Page<ItemEntity> p = new PageImpl<>(items, PageRequest.of(pageNumber, size), cartItemPage.getTotalElements());
+//        return p;
+//
+//    }
+    
+    public List<CartItem> getCartItems(UserEntity userEntity, Integer pageNumber, Integer size) {
         log.info("getting cart items for user : {} ", userEntity.getId());
-        PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<CartItem> cartItemPage = cartItemRepository.findAllByUserEntity(userEntity, pageRequest);
-        log.info("Got cart items for user : {} ", userEntity.getId());
-        List<CartItem> cartItemList = cartItemPage.getContent();
-        List<ItemEntity> items = cartItemList.stream().map(wishlistItem -> wishlistItem.getItemEntity()).collect(Collectors.toList());
-
-        Page<ItemEntity> p = new PageImpl<>(items, PageRequest.of(pageNumber, size), cartItemPage.getTotalElements());
-        return p;
-
+        return cartItemRepository.findAllByUserEntityOrderByCreatedAt(userEntity);
     }
 
     

@@ -8,6 +8,7 @@ package com.dsms.db.entity;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,14 +33,14 @@ import lombok.Setter;
 public class CartItem extends TimestampedEntity {
 
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "itemId", foreignKey = @ForeignKey(name = "fk_cartItem_item_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
     private ItemEntity itemEntity;
 
-    @Column(name = "itemCount", nullable = false)
+    @Column(name = "itemCount", nullable = false)  
     private Integer itemCount;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_cartItem_user_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
     private UserEntity userEntity;
 }
