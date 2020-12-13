@@ -8,16 +8,22 @@ package com.dsms.ui;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import com.dsms.beans.ContextProvider;
-import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.CartController;
 import com.dsms.controller.UserController;
 import com.dsms.db.entity.CartItem;
 import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
+import com.dsms.ui.components.CartDetails;
+import com.dsms.ui.components.ItemPane;
+import static java.awt.Component.CENTER_ALIGNMENT;
+import java.awt.Dimension;
+import java.util.Iterator;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,16 +32,21 @@ import lombok.extern.slf4j.Slf4j;
  * @author Mahaj
  */
 @Slf4j
-public class CartPage extends AbstractPaginatedItemListPage {
+public class CartPage extends JPanel {
+    
+    private final AbstractPaginatedItemListPage.ItemListPageType itemListPageType;
+    private JPanel content;
+    private JScrollPane scrollPanel;
+    private List<CartItem> cartItemList;
+    private List<ItemEntity> itemList;
 
     /**
      * Creates new form HomePage
      */
     public CartPage() {
         initComponents();
-        this.itemListPageType = ItemListPageType.CART_PAGE;
-        EventPublisherService.addEventListner(new ItemListPageRefreshEventListnerImpl());
-        goToPage(0);
+        itemListPageType = AbstractPaginatedItemListPage.ItemListPageType.CART_PAGE;
+        showContent();
     }
 
     /**
@@ -84,28 +95,59 @@ public class CartPage extends AbstractPaginatedItemListPage {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel contentPanel;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    protected final void initPageContent(int pageNo) {
+
+
+    private final void initPageContent() {
         CartController cartController = ContextProvider.getBean(CartController.class);
         UserController userController = ContextProvider.getBean(UserController.class);
         UserEntity userEntity = userController.getLoggedInUser();
-        List<CartItem> cartItemList = cartController.getCartItems(userEntity, pageNo, 10);
-        List<ItemEntity> items = cartItemList.stream().map(wishlistItem -> wishlistItem.getItemEntity()).collect(Collectors.toList());
-
-        this.currentItemsPage = new PageImpl<>(items, PageRequest.of(0, items.size()), items.size());
+        cartItemList = cartController.getCartItems(userEntity);
+        itemList = cartItemList.stream().map(wishlistItem -> wishlistItem.getItemEntity()).collect(Collectors.toList());
     }
 
-    @Override
-    protected void showContent() {
-        super.showContent();
+    private void showContent() {
+        initPageContent();
+        contentPanel.removeAll();
+        content = new JPanel();
+        content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
+        content.setMaximumSize(contentPanel.getSize());
+        content.setSize(contentPanel.getSize());
+        List<ItemPane> itemPaneList = itemList.stream().map(item -> new ItemPane(item, itemListPageType)).collect(Collectors.toList());
+        // itemList.stream().forEach(i -> content.add(i));
+        Iterator<ItemPane> itr = itemPaneList.iterator();
+        while (itr.hasNext()) {
+            ItemPane itemPane = itr.next();
+            itemPane.setSize(2048, 350);
+            itemPane.setMaximumSize(new Dimension(4058, 450));
+            Box box = new Box(BoxLayout.LINE_AXIS);
+            box.setAlignmentX(CENTER_ALIGNMENT);
+            box.add(Box.createHorizontalGlue());
+            box.add(itemPane);
+            box.add(Box.createHorizontalGlue());
+            content.add(box);
+        }
+
+
+        CartDetails cartDetails = new CartDetails(cartItemList);
+        //cartDetails.setSize(2048, 350);
+        //cartDetails.setMaximumSize(new Dimension(4058, 450));
+        Box box = new Box(BoxLayout.LINE_AXIS);
+        box.setAlignmentX(CENTER_ALIGNMENT);
+        box.add(Box.createHorizontalGlue());
+        box.add(cartDetails);
+        box.add(Box.createHorizontalGlue());
+        content.add(box);
         
+        scrollPanel = new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPanel.getViewport().setSize(contentPanel.getSize());
+        contentPanel.add(scrollPanel);
     }
-    
-    
+
 }

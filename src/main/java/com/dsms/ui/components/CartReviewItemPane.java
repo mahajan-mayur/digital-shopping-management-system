@@ -5,19 +5,30 @@
  */
 package com.dsms.ui.components;
 
+import com.dsms.db.entity.CartItem;
 import javax.swing.JSpinner;
 
 /**
  *
  * @author Mahaj
  */
-public class CartReviewItem extends javax.swing.JPanel {
+public class CartReviewItemPane extends javax.swing.JPanel {
+
+    private CartItem cartItem;
+    private int serialNo;
 
     /**
      * Creates new form CartReviewItem
      */
-    public CartReviewItem() {
+    public CartReviewItemPane() {
         initComponents();
+    }
+
+    public CartReviewItemPane(int serialNo, CartItem cartItem) {
+        this.serialNo= serialNo;
+        this.cartItem = cartItem;
+        initComponents();
+        showContent();
     }
 
     /**
@@ -32,7 +43,7 @@ public class CartReviewItem extends javax.swing.JPanel {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
         srNoLbl = new javax.swing.JLabel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
-        jLabel1 = new javax.swing.JLabel();
+        itemNameLbl = new javax.swing.JLabel();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         itemCountSpnr = new javax.swing.JSpinner();
@@ -54,8 +65,8 @@ public class CartReviewItem extends javax.swing.JPanel {
         add(srNoLbl);
         add(filler2);
 
-        jLabel1.setText("jLabel1");
-        add(jLabel1);
+        itemNameLbl.setText("jLabel1");
+        add(itemNameLbl);
         add(filler3);
         add(filler8);
 
@@ -120,10 +131,18 @@ public class CartReviewItem extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel itemCountLbl;
     private javax.swing.JSpinner itemCountSpnr;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel itemNameLbl;
     private javax.swing.JLabel priceLbl;
     private javax.swing.JLabel srNoLbl;
     private javax.swing.JLabel totalPriceLbl;
     private javax.swing.JLabel xLbl;
     // End of variables declaration//GEN-END:variables
+
+    private void showContent() {
+        this.srNoLbl.setText(String.valueOf(this.serialNo));
+        this.itemNameLbl.setText(this.cartItem.getItemEntity().getName());
+        this.itemCountSpnr.getModel().setValue(this.cartItem.getItemCount());
+        this.priceLbl.setText(String.valueOf(this.cartItem.getItemEntity().getPrice()));
+        this.totalPriceLbl.setText(String.valueOf(this.cartItem.getItemCount() * this.cartItem.getItemEntity().getPrice()));
+    }
 }

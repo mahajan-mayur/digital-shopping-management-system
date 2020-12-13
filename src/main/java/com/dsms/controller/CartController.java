@@ -74,7 +74,7 @@ public class CartController {
 //
 //    }
     
-    public List<CartItem> getCartItems(UserEntity userEntity, Integer pageNumber, Integer size) {
+    public List<CartItem> getCartItems(UserEntity userEntity) {
         log.info("getting cart items for user : {} ", userEntity.getId());
         return cartItemRepository.findAllByUserEntityOrderByCreatedAt(userEntity);
     }
