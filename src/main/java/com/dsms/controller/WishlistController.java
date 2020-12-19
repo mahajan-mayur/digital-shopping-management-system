@@ -70,7 +70,7 @@ public class WishlistController {
         return p;
     }
     
-    
+    @Transactional
     public void remove(UserEntity userEntity, ItemEntity itemEntity) {
         log.info("deleting wishlistItem for user : {} item : {} ", userEntity.getId(), itemEntity.getId());
         wishlistItemRepository.deleteByUserEntityAndItemEntity(userEntity, itemEntity);

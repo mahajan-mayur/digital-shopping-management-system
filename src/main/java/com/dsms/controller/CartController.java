@@ -11,6 +11,7 @@ import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
 import com.dsms.dto.ControllerResponse;
 import com.dsms.dto.ControllerResponse.StatusCode;
+import javax.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -77,7 +78,7 @@ public class CartController {
         return cartItemRepository.findAllByUserEntityOrderByCreatedAt(userEntity);
     }
 
-    
+    @Transactional
     public void remove(UserEntity userEntity, ItemEntity itemEntity) {
         log.info("deleting cartItem for user : {} item : {} ", userEntity.getId(), itemEntity.getId());
         cartItemRepository.deleteByUserEntityAndItemEntity(userEntity, itemEntity);

@@ -33,23 +33,23 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public abstract class AbstractPaginatedItemListPage extends JPanel {
-    
+
     protected JPanel contentPanel;
-    
+
     protected ItemListPageType itemListPageType;
     protected Page<? extends TimestampedEntity> currentItemsPage;
-    protected  JPanel content;
+    protected JPanel content;
     protected JScrollPane scrollPanel;
-    
+
     protected abstract void initPageContent(int pageNo);
-    
+
     protected final void goToPage(int pageNo) {
         initPageContent(pageNo);
         showContent();
         repaint();
         revalidate();
     }
-    
+
     protected void nextPage() {
         if (currentItemsPage.hasNext()) {
             goToPage(currentItemsPage.getNumber() + 1);
@@ -57,7 +57,7 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
         }
         log.error("No Next Page, currentPageNo : {}", currentItemsPage.getNumber());
     }
-    
+
     protected void previousPage() {
         if (currentItemsPage.hasPrevious()) {
             goToPage(currentItemsPage.getNumber() - 1);
@@ -65,7 +65,9 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
         }
         log.error("No Prevoius Page, currentPageNo : {}", currentItemsPage.getNumber());
     }
-    
+
+    abstract protected void setPageButtons();
+
     protected final void setPageButtons(JButton previousBtn, JLabel pageNoLbl, JButton nextBtn) {
         if (currentItemsPage.hasPrevious()) {
             previousBtn.setEnabled(true);
@@ -79,14 +81,14 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
         }
         pageNoLbl.setText(String.valueOf(currentItemsPage.getNumber() + 1));
     }
-    
+
     protected void showContent() {
         contentPanel.removeAll();
         content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
         content.setMaximumSize(contentPanel.getSize());
         content.setSize(contentPanel.getSize());
-        List<ItemPane> itemList = currentItemsPage.stream().map(item -> new ItemPane((ItemEntity)item, itemListPageType)).collect(Collectors.toList());
+        List<ItemPane> itemList = currentItemsPage.stream().map(item -> new ItemPane((ItemEntity) item, itemListPageType)).collect(Collectors.toList());
         // itemList.stream().forEach(i -> content.add(i));
         Iterator<ItemPane> itr = itemList.iterator();
         while (itr.hasNext()) {
@@ -104,15 +106,16 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
         scrollPanel.getViewport().setSize(contentPanel.getSize());
         contentPanel.add(scrollPanel);
     }
-    
+
     protected final class ItemListPageRefreshEventListnerImpl implements ItemListPageRefreshEventListner {
-        
+
         @Override
         public void onEvent(EventObject eventObject) {
             goToPage(currentItemsPage.getNumber());
+            setPageButtons();
         }
     }
-    
+
     public static enum ItemListPageType {
         HOME_PAGE,
         WISHLIST_PAGE,

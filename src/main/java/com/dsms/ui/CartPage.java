@@ -8,8 +8,8 @@ package com.dsms.ui;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 import com.dsms.beans.ContextProvider;
+import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.CartController;
 import com.dsms.controller.UserController;
 import com.dsms.db.entity.CartItem;
@@ -17,8 +17,11 @@ import com.dsms.db.entity.ItemEntity;
 import com.dsms.db.entity.UserEntity;
 import com.dsms.ui.components.CartDetails;
 import com.dsms.ui.components.ItemPane;
+import com.dsms.ui.event.ItemListPageRefreshEventListner;
+import com.dsms.ui.event.model.NavigateEvent;
 import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
+import java.util.EventObject;
 import java.util.Iterator;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -33,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class CartPage extends JPanel {
-    
+
     private final AbstractPaginatedItemListPage.ItemListPageType itemListPageType;
     private JPanel content;
     private JScrollPane scrollPanel;
@@ -46,6 +49,7 @@ public class CartPage extends JPanel {
     public CartPage() {
         initComponents();
         itemListPageType = AbstractPaginatedItemListPage.ItemListPageType.CART_PAGE;
+        EventPublisherService.addEventListner(new ItemListPageRefreshEventListnerImpl());
         showContent();
     }
 
@@ -102,8 +106,6 @@ public class CartPage extends JPanel {
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 
-
-
     private final void initPageContent() {
         CartController cartController = ContextProvider.getBean(CartController.class);
         UserController userController = ContextProvider.getBean(UserController.class);
@@ -134,7 +136,6 @@ public class CartPage extends JPanel {
             content.add(box);
         }
 
-
         CartDetails cartDetails = new CartDetails(cartItemList);
         //cartDetails.setSize(2048, 350);
         //cartDetails.setMaximumSize(new Dimension(4058, 450));
@@ -144,10 +145,22 @@ public class CartPage extends JPanel {
         box.add(cartDetails);
         box.add(Box.createHorizontalGlue());
         content.add(box);
-        
+
         scrollPanel = new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPanel.getViewport().setSize(contentPanel.getSize());
         contentPanel.add(scrollPanel);
+        revalidate();
+        repaint();
     }
 
+    protected final class ItemListPageRefreshEventListnerImpl implements ItemListPageRefreshEventListner {
+
+        @Override
+        public void onEvent(EventObject eventObject) {
+            //EventPublisherService.publishEvent(new NavigateEvent(eventObject, NavigateEvent.NavigateTo.CART_PAGE));
+            showContent();
+        }
+    }
+    
+    
 }

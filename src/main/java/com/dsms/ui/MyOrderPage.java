@@ -38,7 +38,7 @@ public class MyOrderPage extends AbstractPaginatedItemListPage {
         initComponents();
         initPageContent(0);
         showContent();
-        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
+        setPageButtons();
 
     }
 
@@ -188,6 +188,9 @@ public class MyOrderPage extends AbstractPaginatedItemListPage {
         contentPanel.add(scrollPanel);
     }
     
-    
+    @Override
+    protected void setPageButtons() {
+        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
+    }
 
 }

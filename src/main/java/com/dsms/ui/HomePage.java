@@ -37,7 +37,7 @@ public class HomePage extends AbstractPaginatedItemListPage {
         this.selectedItemCategory = ItemCategory.GARMENTS;
         this.itemListPageType = ItemListPageType.HOME_PAGE;
         goToPage(0);
-        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
+        setPageButtons();
 
     }
 
@@ -163,5 +163,10 @@ public class HomePage extends AbstractPaginatedItemListPage {
             setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
         }
 
+    }
+    
+    @Override
+    protected void setPageButtons() {
+        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
     }
 }

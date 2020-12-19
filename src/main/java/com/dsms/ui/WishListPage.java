@@ -30,7 +30,7 @@ public class WishListPage extends AbstractPaginatedItemListPage {
         this.itemListPageType = ItemListPageType.WISHLIST_PAGE;
         EventPublisherService.addEventListner(new ItemListPageRefreshEventListnerImpl());
         goToPage(0);
-        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
+        setPageButtons();
     }
 
     /**
@@ -151,5 +151,10 @@ public class WishListPage extends AbstractPaginatedItemListPage {
         this.currentItemsPage = wishlistController.getWishlistedItems(userEntity, pageNo, 10);
 		
 	}
+
+    @Override
+    protected void setPageButtons() {
+        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
+    }
 
 }
