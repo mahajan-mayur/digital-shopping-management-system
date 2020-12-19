@@ -23,6 +23,7 @@ import com.dsms.enums.ItemCategory;
 import com.dsms.enums.OrderState;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -39,20 +40,22 @@ public class OrderController {
     @Autowired
     private CartItemRepository cartItemRepository;
 
+    @Transactional
     public OrderEntity createOrder(UserEntity userEntity, String shippingAddress, List<CartItem> cartItems) {
         log.info("creating new Order");
-        Set<OrderItem> orderItemSet = cartItems.stream().map(cartItem -> buildOrderItem(cartItem)).collect(Collectors.toSet());
-        Double totalPrice = orderItemSet.stream()
-                .map(orderItem -> orderItem.getItemCount() * orderItem.getPrice())
-                .reduce(Double::sum)
-                .orElseThrow(() -> new RuntimeException("InvalidToatlIemPrice"));
+
         OrderEntity orderEntity = OrderEntity.builder()
                 .userEntity(userEntity)
                 .shippingAddress(shippingAddress)
                 .orderState(OrderState.CREATED)
-                .orderItemSet(orderItemSet)
-                .price(totalPrice)
                 .build();
+        Set<OrderItem> orderItemSet = cartItems.stream().map(cartItem -> buildOrderItem(orderEntity, cartItem)).collect(Collectors.toSet());
+        Double totalPrice = orderItemSet.stream()
+                .map(orderItem -> orderItem.getItemCount() * orderItem.getPrice())
+                .reduce(Double::sum)
+                .orElseThrow(() -> new RuntimeException("InvalidToatlIemPrice"));
+        orderEntity.setOrderItemSet(orderItemSet);
+        orderEntity.setPrice(totalPrice);
         OrderEntity savedOrder = orderRepository.save(orderEntity);
         if(savedOrder == null){
             log.info("Error while creating order ");
@@ -62,17 +65,17 @@ public class OrderController {
         return savedOrder;
     }
 
-    private OrderItem buildOrderItem(CartItem cartItem) {
+    private OrderItem buildOrderItem(OrderEntity orderEntity, CartItem cartItem) {
         return OrderItem.builder()
                 .item(cartItem.getItemEntity())
                 .itemCount(cartItem.getItemCount())
                 .price(cartItem.getItemEntity().getPrice())
-                //.orderEntity(orderEntity)
+                .orderEntity(orderEntity)
                 .build();
     }
     
     public Page<OrderEntity> getOrders(UserEntity userEntity, Integer pageNumber, Integer size) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("createdAt"));
+        PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         return orderRepository.findAllByUserEntity(userEntity, pageRequest);
     }
 

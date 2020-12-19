@@ -6,8 +6,13 @@
 package com.dsms.ui.components;
 
 import com.dsms.db.entity.OrderEntity;
+import com.dsms.db.entity.OrderItem;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.time.DateTime;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,19 +22,25 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class OrderDetailsPane extends javax.swing.JPanel {
+
     private OrderEntity orderEntity;
 
     public OrderDetailsPane() {
         initComponents();
     }
-    
+
     public OrderDetailsPane(OrderEntity orderEntity) {
         this.orderEntity = orderEntity;
         initComponents();
         this.orderNoLbl.setText(orderEntity.getId());
-        this.orderDateLbl.setText(Instant.ofEpochMilli((orderEntity.getCreatedAt()*1000)).toString());
+        this.orderDateLbl.setText(new DateTime((orderEntity.getCreatedAt() * 1000)).toString("dd MMM YYYY HH:mm"));
         this.orderStatusLbl.setText(orderEntity.getOrderState().toString());
-        this.orderTotalPriceLbl.setText(orderEntity.getPrice().toString());
+        this.orderTotalPriceLbl.setText(String.format("%.2f",orderEntity.getPrice()));
+        List<OrderItem> orderItems = new ArrayList<>(this.orderEntity.getOrderItemSet());
+        for (int i = 0; i < orderItems.size(); i++) {
+            orderItemsSummeryPanel.add(new MyOrderReviewItemPane(i, orderItems.get(i)));
+            
+        }
     }
 
     /**
@@ -59,8 +70,7 @@ public class OrderDetailsPane extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jPanel5 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        orderItemsSummeryPanel = new javax.swing.JPanel();
 
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -135,13 +145,9 @@ public class OrderDetailsPane extends javax.swing.JPanel {
 
         jPanel11.add(jPanel2);
 
-        jPanel5.setOpaque(false);
-        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.PAGE_AXIS));
-
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jPanel5.add(jScrollPane1);
-
-        jPanel11.add(jPanel5);
+        orderItemsSummeryPanel.setOpaque(false);
+        orderItemsSummeryPanel.setLayout(new javax.swing.BoxLayout(orderItemsSummeryPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel11.add(orderItemsSummeryPanel);
 
         add(jPanel11);
     }// </editor-fold>//GEN-END:initComponents
@@ -162,9 +168,8 @@ public class OrderDetailsPane extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel orderDateLbl;
+    private javax.swing.JPanel orderItemsSummeryPanel;
     private javax.swing.JLabel orderNoLbl;
     private javax.swing.JLabel orderStatusLbl;
     private javax.swing.JLabel orderTotalPriceLbl;

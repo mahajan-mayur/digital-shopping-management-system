@@ -5,21 +5,23 @@
  */
 package com.dsms.ui;
 
-import com.dsms.beans.ContextProvider;
-import com.dsms.controller.OrderController;
-import com.dsms.controller.UserController;
-import com.dsms.db.entity.UserEntity;
-import com.dsms.ui.components.ItemPane;
-import com.dsms.ui.components.OrderDetailsPane;
-import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import com.dsms.beans.ContextProvider;
+import com.dsms.controller.OrderController;
+import com.dsms.controller.UserController;
+import com.dsms.db.entity.OrderEntity;
+import com.dsms.db.entity.UserEntity;
+import com.dsms.ui.components.OrderDetailsPane;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -36,6 +38,7 @@ public class MyOrderPage extends AbstractPaginatedItemListPage {
         initComponents();
         initPageContent(0);
         showContent();
+        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
 
     }
 
@@ -54,6 +57,13 @@ public class MyOrderPage extends AbstractPaginatedItemListPage {
         jPanel1 = new javax.swing.JPanel();
         contentPanel = new javax.swing.JPanel();
         pageBtnPane = new javax.swing.JPanel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        previousPageBtn = new javax.swing.JButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
+        pageNoLbl = new javax.swing.JLabel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0));
+        nextPageBtn = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(420, 322));
@@ -85,39 +95,69 @@ public class MyOrderPage extends AbstractPaginatedItemListPage {
 
         pageBtnPane.setMaximumSize(new java.awt.Dimension(32767, 29));
         pageBtnPane.setMinimumSize(new java.awt.Dimension(597, 29));
+        pageBtnPane.setLayout(new javax.swing.BoxLayout(pageBtnPane, javax.swing.BoxLayout.LINE_AXIS));
+        pageBtnPane.add(filler2);
 
-        javax.swing.GroupLayout pageBtnPaneLayout = new javax.swing.GroupLayout(pageBtnPane);
-        pageBtnPane.setLayout(pageBtnPaneLayout);
-        pageBtnPaneLayout.setHorizontalGroup(
-            pageBtnPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 624, Short.MAX_VALUE)
-        );
-        pageBtnPaneLayout.setVerticalGroup(
-            pageBtnPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 29, Short.MAX_VALUE)
-        );
+        previousPageBtn.setText("<");
+        previousPageBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                previousPageBtnMouseClicked(evt);
+            }
+        });
+        pageBtnPane.add(previousPageBtn);
+        pageBtnPane.add(filler4);
+
+        pageNoLbl.setText("1");
+        pageBtnPane.add(pageNoLbl);
+        pageBtnPane.add(filler3);
+
+        nextPageBtn.setText(">");
+        nextPageBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nextPageBtnMouseClicked(evt);
+            }
+        });
+        pageBtnPane.add(nextPageBtn);
+        pageBtnPane.add(filler5);
 
         jPanel1.add(pageBtnPane);
 
         add(jPanel1);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void previousPageBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousPageBtnMouseClicked
+        previousPage();
+        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
+    }//GEN-LAST:event_previousPageBtnMouseClicked
+
+    private void nextPageBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextPageBtnMouseClicked
+        nextPage();
+        setPageButtons(previousPageBtn,pageNoLbl,nextPageBtn);
+    }//GEN-LAST:event_nextPageBtnMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton nextPageBtn;
     private javax.swing.JPanel pageBtnPane;
+    private javax.swing.JLabel pageNoLbl;
+    private javax.swing.JButton previousPageBtn;
     // End of variables declaration//GEN-END:variables
 
     @Override
-    protected void initPageContent(int pageNo) {
+    protected final void initPageContent(int pageNo) {
         OrderController orderController = ContextProvider.getBean(OrderController.class);
         UserController userController = ContextProvider.getBean(UserController.class);
         UserEntity userEntity = userController.getLoggedInUser();
-        this.currentOrderItemsPage = orderController.getOrders(userEntity, pageNo, 10);
+        this.currentItemsPage = orderController.getOrders(userEntity, pageNo, 10);
     }
 
     @Override
@@ -127,7 +167,7 @@ public class MyOrderPage extends AbstractPaginatedItemListPage {
         content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
         content.setMaximumSize(contentPanel.getSize());
         content.setSize(contentPanel.getSize());
-        List<OrderDetailsPane> itemList = currentOrderItemsPage.stream().map(item -> new OrderDetailsPane(item)).collect(Collectors.toList());
+        List<OrderDetailsPane> itemList = currentItemsPage.stream().map(item -> new OrderDetailsPane((OrderEntity)item)).collect(Collectors.toList());
         // itemList.stream().forEach(i -> content.add(i));
         Iterator<OrderDetailsPane> itr = itemList.iterator();
         while (itr.hasNext()) {
@@ -140,7 +180,9 @@ public class MyOrderPage extends AbstractPaginatedItemListPage {
             box.add(orderDetailsPane);
             box.add(Box.createHorizontalGlue());
             content.add(box);
+            content.add(Box.createRigidArea(new Dimension(0, 20)));
         }
+        content.add(Box.createVerticalGlue());
         scrollPanel = new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPanel.getViewport().setSize(contentPanel.getSize());
         contentPanel.add(scrollPanel);

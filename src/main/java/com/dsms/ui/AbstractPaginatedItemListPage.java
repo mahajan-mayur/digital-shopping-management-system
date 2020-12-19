@@ -20,8 +20,8 @@ import javax.swing.JScrollPane;
 
 import org.springframework.data.domain.Page;
 
+import com.dsms.db.entity.TimestampedEntity;
 import com.dsms.db.entity.ItemEntity;
-import com.dsms.db.entity.OrderEntity;
 import com.dsms.ui.components.ItemPane;
 import com.dsms.ui.event.ItemListPageRefreshEventListner;
 
@@ -37,8 +37,7 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
     protected JPanel contentPanel;
     
     protected ItemListPageType itemListPageType;
-    protected Page<ItemEntity> currentItemsPage;
-    protected Page<OrderEntity> currentOrderItemsPage;
+    protected Page<? extends TimestampedEntity> currentItemsPage;
     protected  JPanel content;
     protected JScrollPane scrollPanel;
     
@@ -87,7 +86,7 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
         content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
         content.setMaximumSize(contentPanel.getSize());
         content.setSize(contentPanel.getSize());
-        List<ItemPane> itemList = currentItemsPage.stream().map(item -> new ItemPane(item, itemListPageType)).collect(Collectors.toList());
+        List<ItemPane> itemList = currentItemsPage.stream().map(item -> new ItemPane((ItemEntity)item, itemListPageType)).collect(Collectors.toList());
         // itemList.stream().forEach(i -> content.add(i));
         Iterator<ItemPane> itr = itemList.iterator();
         while (itr.hasNext()) {

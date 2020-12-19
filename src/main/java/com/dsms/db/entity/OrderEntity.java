@@ -8,6 +8,7 @@ package com.dsms.db.entity;
 import com.dsms.enums.OrderState;
 import java.io.Serializable;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
@@ -40,7 +41,7 @@ public class OrderEntity extends TimestampedEntity implements Serializable {
     @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_order_user_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
     private UserEntity userEntity;
     
-    @OneToMany(mappedBy = "orderEntity", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "orderEntity", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.REFRESH})
     private Set<OrderItem> orderItemSet;
     
     @Column(name = "price", nullable = false)

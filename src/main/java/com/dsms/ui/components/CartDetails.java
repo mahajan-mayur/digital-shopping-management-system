@@ -6,10 +6,12 @@
 package com.dsms.ui.components;
 
 import com.dsms.beans.ContextProvider;
+import com.dsms.beans.EventPublisherService;
 import com.dsms.controller.OrderController;
 import com.dsms.controller.UserController;
 import com.dsms.db.entity.CartItem;
 import com.dsms.db.entity.UserEntity;
+import com.dsms.ui.event.model.NavigateEvent;
 import java.awt.Dimension;
 import java.util.List;
 import javax.swing.Box;
@@ -83,6 +85,7 @@ public class CartDetails extends javax.swing.JPanel {
         UserController userController = ContextProvider.getBean(UserController.class);
         UserEntity userEntity = userController.getLoggedInUser();
         orderController.createOrder(userEntity, "", cartItemList);
+        EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.MY_ORDERS_PAGE));
     }//GEN-LAST:event_orderNowBtnActionPerformed
 
 
