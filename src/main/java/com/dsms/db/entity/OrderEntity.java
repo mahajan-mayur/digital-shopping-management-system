@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -39,7 +40,7 @@ public class OrderEntity extends TimestampedEntity implements Serializable {
     @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_order_user_id", value = ConstraintMode.CONSTRAINT), nullable = false, referencedColumnName = "id")
     private UserEntity userEntity;
     
-    @OneToMany(mappedBy = "orderEntity")
+    @OneToMany(mappedBy = "orderEntity", fetch = FetchType.EAGER)
     private Set<OrderItem> orderItemSet;
     
     @Column(name = "price", nullable = false)

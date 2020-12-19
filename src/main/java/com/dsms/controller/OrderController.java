@@ -9,6 +9,9 @@ import com.dsms.db.dao.CartItemRepository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.dsms.db.dao.OrderRepository;
@@ -16,6 +19,7 @@ import com.dsms.db.entity.CartItem;
 import com.dsms.db.entity.OrderEntity;
 import com.dsms.db.entity.OrderItem;
 import com.dsms.db.entity.UserEntity;
+import com.dsms.enums.ItemCategory;
 import com.dsms.enums.OrderState;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,4 +70,10 @@ public class OrderController {
                 //.orderEntity(orderEntity)
                 .build();
     }
+    
+    public Page<OrderEntity> getOrders(UserEntity userEntity, Integer pageNumber, Integer size) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("createdAt"));
+        return orderRepository.findAllByUserEntity(userEntity, pageRequest);
+    }
+
 }

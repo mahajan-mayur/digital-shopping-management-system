@@ -5,22 +5,27 @@
  */
 package com.dsms.ui;
 
-import com.dsms.db.entity.ItemEntity;
-import com.dsms.ui.components.ItemPane;
-import com.dsms.ui.event.ItemListPageRefreshEventListner;
 import java.awt.Dimension;
 import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.Page;
+
+import com.dsms.db.entity.ItemEntity;
+import com.dsms.db.entity.OrderEntity;
+import com.dsms.ui.components.ItemPane;
+import com.dsms.ui.event.ItemListPageRefreshEventListner;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
@@ -33,6 +38,7 @@ public abstract class AbstractPaginatedItemListPage extends JPanel {
     
     protected ItemListPageType itemListPageType;
     protected Page<ItemEntity> currentItemsPage;
+    protected Page<OrderEntity> currentOrderItemsPage;
     protected  JPanel content;
     protected JScrollPane scrollPanel;
     
