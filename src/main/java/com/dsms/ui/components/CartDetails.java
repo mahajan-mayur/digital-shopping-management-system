@@ -5,10 +5,13 @@
  */
 package com.dsms.ui.components;
 
+import com.dsms.beans.ContextProvider;
+import com.dsms.controller.OrderController;
+import com.dsms.controller.UserController;
 import com.dsms.db.entity.CartItem;
+import com.dsms.db.entity.UserEntity;
 import java.awt.Dimension;
 import java.util.List;
-import java.util.Optional;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
@@ -76,7 +79,10 @@ public class CartDetails extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void orderNowBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderNowBtnActionPerformed
-        // TODO add your handling code here:
+        OrderController orderController = ContextProvider.getBean(OrderController.class);
+        UserController userController = ContextProvider.getBean(UserController.class);
+        UserEntity userEntity = userController.getLoggedInUser();
+        orderController.createOrder(userEntity, "", cartItemList);
     }//GEN-LAST:event_orderNowBtnActionPerformed
 
 
@@ -115,7 +121,7 @@ public class CartDetails extends javax.swing.JPanel {
     }
 
     void itemCountRefreshEvent() {
-       Double totalPrice = this.cartItemList.stream().map(cartItem -> cartItem.getItemCount() * cartItem.getItemEntity().getPrice()).reduce(Double::sum).orElse(Double.NaN); 
-       totalPriceLbl.setText(String.format("%.2f", totalPrice));
+        Double totalPrice = this.cartItemList.stream().map(cartItem -> cartItem.getItemCount() * cartItem.getItemEntity().getPrice()).reduce(Double::sum).orElse(Double.NaN);
+        totalPriceLbl.setText(String.format("%.2f", totalPrice));
     }
 }
