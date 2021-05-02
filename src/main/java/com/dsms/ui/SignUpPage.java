@@ -20,14 +20,14 @@ import com.dsms.ui.event.model.SignUpEvent;
  */
 public class SignUpPage extends javax.swing.JPanel {
 
-    private final EventPublisherService eventPublisherService;
+    //private final EventPublisherService eventPublisherService;
 
     /**
      * Creates new form FORGOTPASS
      */
     public SignUpPage() {
         initComponents();
-        this.eventPublisherService = ContextProvider.getBean(EventPublisherService.class);
+        //this.eventPublisherService = ContextProvider.getBean(EventPublisherService.class);
     }
 
     /**
@@ -366,7 +366,7 @@ public class SignUpPage extends javax.swing.JPanel {
 
     private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_loginBtnMouseClicked
         // TODO add your handling code here:
-        eventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE));
+        EventPublisherService.publishEvent(new NavigateEvent(evt.getSource(), NavigateEvent.NavigateTo.LOGIN_PAGE));
     }// GEN-LAST:event_loginBtnMouseClicked
 
     private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_emailFieldActionPerformed
@@ -417,7 +417,7 @@ public class SignUpPage extends javax.swing.JPanel {
 
      public void addEventListner(CustomEventListner eventListner) {
         if(eventListner instanceof NavigateEventListner) {
-            eventPublisherService.addEventListner((NavigateEventListner) eventListner);
+            EventPublisherService.addEventListner((NavigateEventListner) eventListner);
         }
     }
 
